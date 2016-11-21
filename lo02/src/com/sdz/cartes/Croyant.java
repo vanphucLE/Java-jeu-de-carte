@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Croyant extends CarteAction {
 	private int value;
 	private Boolean estGuidee;
-	private int id;
 	private String type = "Croyant";
 
 	private static final String[] nomCroyants = { "Moines", "Moines", "Moines", "Moines", "Moines", "Travailleurs",

@@ -25,7 +25,7 @@ public class GuideSpirituels extends CarteAction {
 		this.dogme=dogmeGuideSpirituels[id-38];
 	}
 	public void effectuerCapaciteSpecial() {
-
+		
 	}
 
 }

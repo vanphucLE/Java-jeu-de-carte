@@ -40,4 +40,13 @@ public class Joueur {
 		return this.estElimine;
 	}
 	
+	public String toString(){
+		StringBuffer sb=new StringBuffer();
+		sb.append("Joueur :" +this.nom+" \n");
+		sb.append("Age :" +this.age+"\n" );
+		sb.append("\n");
+		sb.append("\n");
+		return sb.toString();
+	}
+	
 }
