@@ -8,6 +8,10 @@ public abstract class Carte {
 	protected Boolean estCapaciteSpecialUtilise = false;
 	protected String type = "";
 
+	public String getType() {
+		return type;
+	}
+
 	protected int id;
 	/*
 	 * Carte Croyant: id :1 -->37 Carte Guide Spirituel: 38-->57 Carte Deus Ex :
@@ -38,11 +42,17 @@ public abstract class Carte {
 	}
 
 	public String toString() {
+		//on conserve les dogme dans un chain
+		String dogmeString="";
+		for(String dogmeElem : this.dogme ){
+			dogmeString +=dogmeElem+", ";
+		}
+		dogmeString=dogmeString.substring(0, dogmeString.length()-2);
+		
 		StringBuffer sb = new StringBuffer();
-		sb.append("Carte " + this.type + " : ");
-		sb.append(this.nom + " \n");
-		sb.append("Dogme " + this.dogme + "\n");
-		sb.append("Origine " + this.origine + " \n");
+		sb.append("Carte " + this.type + " : "+this.nom + " \n");
+		sb.append("Dogme: " + dogmeString + "\n");
+		sb.append("Origine: " + this.origine + " \n");
 		return sb.toString();
 	}
 

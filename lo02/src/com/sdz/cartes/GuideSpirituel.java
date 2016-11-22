@@ -1,7 +1,7 @@
 package com.sdz.cartes;
 
-public class GuideSpirituels extends CarteAction {
-	private String type = "GuideSpirituel";
+public class GuideSpirituel extends CarteAction {
+	
 
 	private static final String[] nomGuideSpirituels = { "Martyr", "Martyr", "Martyr", "Clerc", "Clerc", "Clerc",
 			"Clerc", "Clerc", "Clerc", "Clerc", "Clerc", "Shaman", "Anarchiste", "Paladin", "Ascète", "Devin",
@@ -18,11 +18,12 @@ public class GuideSpirituels extends CarteAction {
 			{ "Humain", "Symboles" }, { "Nature", "Mystique" }, { "Mystique", "Chaos" }, { "Symboles", "Mystique" },
 			{ "Symboles", "Chaos" }, { "Mystique", "Humain" } };
 
-	public GuideSpirituels(int id){
+	public GuideSpirituel(int id){
 		this.id=id;
 		this.nom=nomGuideSpirituels[id-38];
 		this.origine=origineGuideSpirituels[id-38];
 		this.dogme=dogmeGuideSpirituels[id-38];
+		this.type = "GuideSpirituel";
 	}
 	public void effectuerCapaciteSpecial() {
 		

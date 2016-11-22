@@ -2,7 +2,7 @@ package com.sdz.cartes;
 
 public class DeusEx extends CarteAction {
 
-	private String type="DeusEx";
+	
 	
 	private static final String[] nomDeusEx = { "Colère Divinie", "Colère Divinie", "Stase", "Ordre Céleste",
 			"Fourberie", "Diversion", "Concentration", "Trou Noir", "Phoenix", "Influence Jour", "Influence Nuit",
@@ -15,6 +15,7 @@ public class DeusEx extends CarteAction {
 		this.id=id;
 		this.nom=nomDeusEx[id-58];
 		this.origine=origineDeusEx[id-58];
+		this.type="DeusEx";
 	}
 	public void effectuerCapaciteSpecial() {
 

@@ -3,21 +3,21 @@ package com.sdz.cartes;
 import java.util.ArrayList;
 
 public class Croyant extends CarteAction {
-	private int value;
+	private int nbCroyant;
 	private Boolean estGuidee;
-	private String type = "Croyant";
 
-	private static final String[] nomCroyants = { "Moines", "Moines", "Moines", "Moines", "Moines", "Travailleurs",
+	public static final String[] nomCroyants = { "Moines", "Moines", "Moines", "Moines", "Moines", "Travailleurs",
 			"Travailleurs", "Travailleurs", "Ermite", "Ermite", "Integristes", "Guerriers Saints", "Diplomates",
 			"Démons", "Démons", "Démons", "Démons", "Démons", "Alchimistes", "Alchimistes", "Alchimistes", "Vampire",
 			"Vampire", "Lycanthropes", "Pillards", "Illusionnistes", "Esprits", "Esprits", "Esprits", "Esprits",
 			"Esprits", "Aliénés", "Aliénés", "Aliénés", "Revenant", "Révolutionnaires", "Nibillistes" };
 
-	private static final String[] origineCroyants = { "Jour", "Jour", "Jour", "Jour", "Jour", "Jour", "Jour", "Jour",
+	public static final String[] origineCroyants = { "Jour", "Jour", "Jour", "Jour", "Jour", "Jour", "Jour", "Jour",
 			"Jour", "Jour", "Jour", "Jour", "Jour", "Nuit", "Nuit", "Nuit", "Nuit", "Nuit", "Nuit", "Nuit", "Nuit",
-			"Nuit", "Nuit", "Nuit", "Nuit", "Nuit", "Néant", "Néant" };
+			"Nuit", "Nuit", "Nuit", "Nuit", "Nuit", "Néant", "Néant", "Néant", "Néant", "Néant", "Néant", "Néant",
+			"Néant", "Néant", "Néant", "Néant" };
 
-	private static final String[][] dogmeCroyants = { { "Humain", "Nature", "Mystique" },
+	public static final String[][] dogmeCroyants = { { "Humain", "Nature", "Mystique" },
 			{ "Humain", "Mystique", "Chaos" }, { "Symboles", "Mystique", "Chaos" },
 			{ "Nature", "Symboles", "Mystique" }, { "Nature", "Mystique", "Chaos" }, { "Humain", "Symboles", "Chaos" },
 			{ "Nature", "Humain", "Symboles" }, { "Humain", "Mystique", "Chaos" }, { "Nature", "Mystique", "Chaos" },
@@ -31,12 +31,16 @@ public class Croyant extends CarteAction {
 			{ "Nature", "Symboles", "Mystique" }, { "Nature", "Mystique", "Chaos" }, { "Humain", "Symboles", "Chaos" },
 			{ "Nature", "Humain", "Symboles" }, { "Humain", "Mystique", "Chaos" }, { "Nature", "Humain", "Mystique" },
 			{ "Humain", "Symboles", "Chaos" }, { "Symboles", "Mystique", "Chaos" } };
+	public static final int[] nbCroyants = { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 4,
+										4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 4 };
 
 	public Croyant(int id) {
 		this.id = id;
-		this.nom = nomCroyants[id-1];
-		this.origine = origineCroyants[id-1];
-		this.dogme = dogmeCroyants[id-1];
+		this.nom = nomCroyants[id - 1];
+		this.origine = origineCroyants[id - 1];
+		this.dogme = dogmeCroyants[id - 1];
+		this.type = "Croyant";
+		this.nbCroyant=nbCroyants[id];
 	}
 
 	public void setEstJouee(Boolean estGuidee) {
@@ -46,8 +50,13 @@ public class Croyant extends CarteAction {
 	public Boolean getEstJouee() {
 		return this.estJouee;
 	}
-	public void effectuerCapaciteSpecial(){
-		
+
+	public void effectuerCapaciteSpecial() {
+
+	}
+
+	public int getNbCroyant() {
+		return nbCroyant;
 	}
 
 }

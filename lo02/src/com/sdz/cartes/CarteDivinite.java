@@ -2,12 +2,12 @@ package com.sdz.cartes;
 
 public class CarteDivinite extends Carte {
 
-	private String type = "Divnité";
-	private static final String[] nomDivinite = { "Brewalen", "Drinded", "Yarstur", "Kilinstred", "Llewalla",
+	
+	public static final String[] nomDivinite = { "Brewalen", "Drinded", "Yarstur", "Kilinstred", "Llewalla",
 			"Pui-Tara", "Gwenghelen", "Shingva", "Gorpa", "Romtec" };
-	private static final String[] origineDivinite = { "Jour", "Jour", "Jour", "Nuit", "Nuit", "Nuit", "Aube", "Aube",
+	public static final String[] origineDivinite = { "Jour", "Jour", "Jour", "Nuit", "Nuit", "Nuit", "Aube", "Aube",
 			"Crepuscule", "Crepuscule" };
-	private static final String[][] dogmeDivinite = { { "Nature", "Humain", "Mystique" },
+	public static final String[][] dogmeDivinite = { { "Nature", "Humain", "Mystique" },
 			{ "Nature", "Humain", "Symboles" }, { "Chaos", "Symboles", "Mystique" }, { "Nature", "Mystique", "Chaos" },
 			{ "Nature", "Mystique", "Chaos" }, { "Nature", "Mystique", "Symboles" },
 			{ "Humain", "Mystique", "Symboles" }, { "Humain", "Mystique", "Chaos" }, { "Humain", "Symboles", "Chaos" },
@@ -18,6 +18,7 @@ public class CarteDivinite extends Carte {
 		this.nom=nomDivinite[id-81];
 		this.origine=origineDivinite[id-81];
 		this.dogme=dogmeDivinite[id-81];
+		this.type = "Divnité";
 	}
 	public void effectuerCapaciteSpecial() {
 

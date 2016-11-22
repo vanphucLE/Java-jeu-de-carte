@@ -8,7 +8,7 @@ import com.sdz.cartes.Apocalypse;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;
 import com.sdz.cartes.Croyant;
-import com.sdz.cartes.GuideSpirituels;
+import com.sdz.cartes.GuideSpirituel;
 
 public class JeuDeCartes {
 	// On crée 2 attributes pour contenir Carte Action et Carte Divinité
@@ -28,7 +28,7 @@ public class JeuDeCartes {
 
 		// Crée les Cartes Guide Spirituels
 		for (int i = 38; i <= 57; i++) {
-			GuideSpirituels carteGuideSpirituel = new GuideSpirituels(i);
+			GuideSpirituel carteGuideSpirituel = new GuideSpirituel(i);
 			this.listeCartesAction.add(carteGuideSpirituel);
 		}
 
@@ -55,7 +55,7 @@ public class JeuDeCartes {
 	public void melangerCartesAction() {
 
 		for (int i = 0; i < 80; i++) {
-			int position = (int) Math.round((80 - 1) * Math.random());
+			int position = (int) Math.ceil((80 - 1) * Math.random());
 			CarteAction carteAction = this.listeCartesAction.pop();
 			this.listeCartesAction.add(position, carteAction);
 		}
@@ -64,7 +64,7 @@ public class JeuDeCartes {
 	// Mélanger les Cartes Divinités
 	public void melangerCartesDivinite() {
 		for (int i = 81; i < 90; i++) {
-			int position = (int) Math.round((90 - 81) * Math.random()) + 80;
+			int position = (int) Math.ceil((90 - 81) * Math.random()) + 80;
 			CarteDivinite carteDivinite = this.listeCartesDivinite.pop();
 			this.listeCartesDivinite.add(position, carteDivinite);
 		}

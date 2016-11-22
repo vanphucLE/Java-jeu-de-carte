@@ -1,5 +1,10 @@
 package com.sdz.modele;
 
+import java.util.LinkedList;
+
+import com.sdz.cartes.CarteAction;
+import com.sdz.cartes.Croyant;
+
 public class Joueur {
 	protected int id;
 	protected String nom;
@@ -8,45 +13,62 @@ public class Joueur {
 	protected int ptAction;
 	protected Boolean estElimine;
 	protected int idCarteDivinite;
-	
-	public void setNom(String nom){
-		this.nom=nom;
+	protected LaMain laMain = new LaMain();
+
+	public Joueur(int id, String nom, int age) {
+		this.id = id;
+		this.nom = nom;
+		this.age = age;
 	}
-	public String getNom(){
+
+	public String getNom() {
 		return this.nom;
 	}
-	public int getId(){
+
+	public int getId() {
 		return this.id;
 	}
-	public void piocherDivinite(int id){
-		this.id=id;
+
+	public void piocherDivinite(int id) {
+		this.id = id;
 	}
-	public void setPtAction(int ptAction){
-		this.ptAction=ptAction;
+
+	public void setPtAction(int ptAction) {
+		this.ptAction = ptAction;
 	}
-	public int getPtAction(){
+
+	public int getPtAction() {
 		return this.ptAction;
 	}
-	public void setPtPriere(int ptPriere){
+
+	public void setPtPriere(){
+		int sumPtPriere=0;
+		for (LinkedList<Croyant> listeCarte : laMain.getListeCroyantGuidee() ){
+				for (Croyant carte : listeCarte){
+						sumPtPriere += carte.getNbCroyant();
+				}
+		}
 		this.ptPriere=ptPriere;
 	}
-	public int getPtPriere(){
+
+	public int getPtPriere() {
 		return this.ptPriere;
 	}
-	public void setElimine(Boolean estElimie){
-		this.estElimine=estElimine;
+
+	public void setElimine(Boolean estElimie) {
+		this.estElimine = estElimine;
 	}
-	public Boolean getElimine(){
+
+	public Boolean getElimine() {
 		return this.estElimine;
 	}
-	
-	public String toString(){
-		StringBuffer sb=new StringBuffer();
-		sb.append("Joueur :" +this.nom+" \n");
-		sb.append("Age :" +this.age+"\n" );
-		sb.append("\n");
-		sb.append("\n");
+
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Joueur n." + this.id + " : ");
+		sb.append(this.nom + " ");
+		sb.append("(" + this.age + " ans) \n");
 		return sb.toString();
 	}
-	
+
 }

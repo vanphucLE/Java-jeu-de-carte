@@ -10,18 +10,26 @@ public class vidu {
 		System.out.println("ashfbalskfb \n alksjbfalkjsfb");
 		
 		LinkedList<Integer> arr =new LinkedList<Integer>();
-		arr.add(1);
-		arr.add(2);
-		arr.add(3);
+		arr.add(11);
+		arr.add(22);
+		arr.add(33);
 		int compte=0;
 		Iterator<Integer> it=arr.iterator();
 		while( it.hasNext()){
 			compte++;
-			System.out.println(compte);
 			Integer a=(Integer)it.next();
-			System.out.println(a);
+			if (a==22){
+				arr.remove(compte);
+				System.out.println(compte);
+				break;
+			}
 		}
-		System.out.println(compte);
+		
+		int num = (int) Math.ceil(3 * Math.random());
+		System.out.println(num);
+		
+		System.out.print("néant");
+		
 	}
 
 }
