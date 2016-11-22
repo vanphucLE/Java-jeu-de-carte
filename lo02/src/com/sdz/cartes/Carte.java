@@ -50,8 +50,8 @@ public abstract class Carte {
 		dogmeString=dogmeString.substring(0, dogmeString.length()-2);
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append("Carte " + this.type + " : "+this.nom + " \n");
-		sb.append("Dogme: " + dogmeString + "\n");
+		sb.append("Carte " + this.type + " : "+this.nom + " | ");
+		sb.append("Dogme: " + dogmeString + " | ");
 		sb.append("Origine: " + this.origine + " \n");
 		return sb.toString();
 	}

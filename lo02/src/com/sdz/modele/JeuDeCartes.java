@@ -70,16 +70,16 @@ public class JeuDeCartes {
 		}
 	}
 
-	// Distribuer 7 Cartes Actions au début de la partie
-	public LinkedList<CarteAction> distribuerCartesAction() {
-		LinkedList<CarteAction> cartesA = new LinkedList<CarteAction>();
-		while ((this.listeCartesAction.size() > 0) && (cartesA.size() <= 7)) {
-			CarteAction ca = this.listeCartesAction.removeLast();
-			cartesA.add(ca);
-		}
-		return cartesA;
+	// Distribuer Carte Action 
+	public CarteAction distribuerCarteAction() {
+		return this.listeCartesAction.removeLast();
 	}
 
+	//Distribuer Carte Divinité au joueur
+	public CarteDivinite piocherCarteDivinite(){
+		  return this.listeCartesDivinite.removeLast();
+	}
+	
 	// La carte action va être récupéré au jeu de carte, lors que elle est
 	// défaussée ou sacrifiée.
 	// Ensuite, le jeu de carte va être mélangé avant de commencer le nouveau
@@ -101,8 +101,8 @@ public class JeuDeCartes {
 		return nbCarteAction;
 	}
 
-	public void setNbCarteAction(int nbCarteAction) {
-		this.nbCarteAction = nbCarteAction;
+	public void setNbCarteAction(){
+		this.nbCarteAction = this.listeCartesAction.size();
 	}
 
 }

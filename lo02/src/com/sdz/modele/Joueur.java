@@ -29,10 +29,6 @@ public class Joueur {
 		return this.id;
 	}
 
-	public void piocherDivinite(int id) {
-		this.id = id;
-	}
-
 	public void setPtAction(int ptAction) {
 		this.ptAction = ptAction;
 	}
@@ -62,6 +58,15 @@ public class Joueur {
 	public Boolean getElimine() {
 		return this.estElimine;
 	}
+
+	public LaMain getLaMain() {
+		return laMain;
+	}
+
+	public void setLaMain(LaMain laMain) {
+		this.laMain = laMain;
+	}
+
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();

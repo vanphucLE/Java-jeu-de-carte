@@ -41,7 +41,7 @@ public class LaMain {
 		return carteDivinite;
 	}
 
-	public void setCarteDivinite(CarteDivinite carteDivinite) {
+	public void piocherDivinite(CarteDivinite carteDivinite) {
 		this.carteDivinite = carteDivinite;
 	}
 
@@ -56,6 +56,7 @@ public class LaMain {
 	// Un fois que le joueur se déffauser un carte, cette carte va être rétiré
 	// de la main
 	public void seDeffausserCarte(CarteAction carte) {
+		
 		Iterator<CarteAction> it = listeCarteA.iterator();
 		int position=0; 
 		while (it.hasNext()) {
@@ -69,7 +70,7 @@ public class LaMain {
 	}
 	
 
-	public void completerCartes(CarteAction carte) {
+	public void completerCarteAction(CarteAction carte) {
 		this.listeCarteA.add(carte);
 	}
 
