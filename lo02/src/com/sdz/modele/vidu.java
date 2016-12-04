@@ -1,18 +1,21 @@
 package com.sdz.modele;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class vidu {
-
+	public void cong(ArrayList<Integer> abc){
+		abc.remove(2);
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("ashfbalskfb \n alksjbfalkjsfb");
+	/*	System.out.println("ashfbalskfb \n alksjbfalkjsfb");
 		
 		LinkedList<Integer> arr =new LinkedList<Integer>();
 		arr.add(11);
 		arr.add(22);
 		arr.add(33);
+		System.out.println(arr.size());
+		System.out.println(arr.get(2));
 		int compte=0;
 		Iterator<Integer> it=arr.iterator();
 		while( it.hasNext()){
@@ -27,9 +30,42 @@ public class vidu {
 		
 		int num = (int) Math.ceil(3 * Math.random());
 		System.out.println(num);
+	
+		/*
+		Scanner sc =new Scanner(System.in);
+		System.out.print("choisir : " );
+		String str=sc.nextLine();
+		System.out.println(str);
 		
-		System.out.print("néant");
+	
+		Croyant a =new Croyant(1);
+		System.out.print(a.toString());
+		System.out.println("a"+(1+2)+"a");
+		*/
+//		CarteAction carte=new Croyant(1);
+//		LaMain laMain=new LaMain();
+//		CarteDivinite carteDI=new CarteDivinite(81);
+//		laMain.piocherDivinite(carteDI);
+//		laMain.completerCarteAction(carte);
+//		laMain.completerCarteAction(carte);
+//		LinkedList<Croyant> listeCroyant=new LinkedList<Croyant>();
+//		Croyant cr=new Croyant(5);
+//		listeCroyant.add(cr);
+//		GuideSpirituel guideSpirituel=new GuideSpirituel(38);
+//		laMain.setCardeGuidee(listeCroyant, guideSpirituel);
+//		System.out.println(laMain);
+//		
+		ArrayList<Integer> abc = new ArrayList();
+		abc.add(1);
+		abc.add(2);
+		abc.add(3);
+		abc.add(4);
+		abc.add(5);
 		
+		
+		vidu ab=new vidu();
+		ab.cong(abc);
+		System.out.println(abc.toString());
 	}
 
 }

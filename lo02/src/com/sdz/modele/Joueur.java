@@ -11,6 +11,7 @@ public class Joueur {
 	protected int age;
 	protected int ptPriere;
 	protected int ptAction;
+	protected String ptActionOrigine;
 	protected Boolean estElimine;
 	protected int idCarteDivinite;
 	protected LaMain laMain = new LaMain();
@@ -66,7 +67,16 @@ public class Joueur {
 	public void setLaMain(LaMain laMain) {
 		this.laMain = laMain;
 	}
+	public String getPtActionOrigine() {
+		return ptActionOrigine;
+	}
 
+	public void setPtActionOrigine(String ptActionOrigine) {
+		this.ptActionOrigine = ptActionOrigine;
+	}
+	public void jouer(){
+		
+	}
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();

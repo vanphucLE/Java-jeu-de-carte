@@ -1,5 +1,7 @@
 package com.sdz.cartes;
 
+import java.util.Arrays;
+
 public abstract class Carte {
 	protected String nom;
 	protected String[] dogme = {};
@@ -41,19 +43,17 @@ public abstract class Carte {
 		return this.dogme;
 	}
 
+	@Override
+	
 	public String toString() {
 		//on conserve les dogme dans un chain
-		String dogmeString="";
-		for(String dogmeElem : this.dogme ){
-			dogmeString +=dogmeElem+", ";
-		}
-		dogmeString=dogmeString.substring(0, dogmeString.length()-2);
-		
 		StringBuffer sb = new StringBuffer();
 		sb.append("Carte " + this.type + " : "+this.nom + " | ");
-		sb.append("Dogme: " + dogmeString + " | ");
-		sb.append("Origine: " + this.origine + " \n");
+		sb.append("Id: " + this.id+ " | ");
+		sb.append("Dogme: " + Arrays.toString(dogme) + " | ");
+		sb.append("Origine: " + this.origine + " | ");
+		sb.append("Capacité speciale (" + this.capaciteSpecial);
+		sb.append(") est utilisée: " + this.capaciteSpecial + " | ");
 		return sb.toString();
 	}
-
 }

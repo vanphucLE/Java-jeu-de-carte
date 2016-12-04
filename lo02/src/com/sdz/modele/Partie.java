@@ -7,12 +7,12 @@ import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;
 
 public class Partie {
-
 	private int nbJoueur;
 	private Joueur gagnant;
 	private Joueur joueurEncours;
 	private ArrayList<Joueur> listeJoueurs = new ArrayList();
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
+	private Boolean estFini = false;
 
 	public void setNbJoueur(int nbJoueur) {
 		this.nbJoueur = nbJoueur;
@@ -22,15 +22,52 @@ public class Partie {
 		return this.nbJoueur;
 	}
 
-	public String lancerDe() {
+	public void lancerDe() {
 		String[] de = { "", "Jour", "Nuit", "Néant" };
 		int num = (int) Math.ceil(3 * Math.random());
-		return de[num];
+		String FaceDe = de[num];
+		if (FaceDe == "Jour") {
+			for (Joueur joueur : this.listeJoueurs) {
+				if (joueur.laMain.getCarteDivinite().getOrigine() == "Jour") {
+					joueur.setPtAction(2);
+					joueur.setPtActionOrigine("Jour");
+				}
+				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
+					joueur.setPtAction(1);
+					joueur.setPtActionOrigine("Jour");
+				}
+			}
+		}else if (FaceDe == "Nuit") {
+			for (Joueur joueur : this.listeJoueurs) {
+				if (joueur.laMain.getCarteDivinite().getOrigine() == "Nuit") {
+					joueur.setPtAction(2);
+					joueur.setPtActionOrigine("Nuit");
+				}
+				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
+					joueur.setPtAction(1);
+					joueur.setPtActionOrigine("Nuit");
+				}
+			}
+		}else if (FaceDe == "Néant") {
+			for (Joueur joueur : this.listeJoueurs) {
+				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
+					joueur.setPtAction(1);
+					joueur.setPtActionOrigine("Néant");
+				}
+				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
+					joueur.setPtAction(1);
+					joueur.setPtActionOrigine("Néant");
+				}
+			}
+		}
 	}
 
 	// un partie va commencer par appeller cette méthode
 	public void jouer() {
 		this.commencerPartie();
+		while (!this.estFini) {
+
+		}
 
 	}
 
@@ -53,19 +90,17 @@ public class Partie {
 		}
 	}
 
-	// Déscrire les action du joueur dans chaque tour
-	private void TourDeJeu() {
+	// Déscrire les actions des joueurs dans chaque tour
+	// numCom: numéro du joueur dans listJoueurs qui commence ce tour
+	private void TourDeJeu(int numCom) {
 		Scanner sc = new Scanner(System.in);
 		String str = "";
 		do {
 			System.out.print("Entrez 'Lancer' pour lancer le dé! ");
 			str = sc.nextLine();
 		} while (str != "Lancer");
-		String FaceDe = lancerDe();
-		if (FaceDe=="Jour"){
-			
-		}
-
+		// lancer dé
+		this.lancerDe();
 	}
 
 	public void annoncerGagnant() {

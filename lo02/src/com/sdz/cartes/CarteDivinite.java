@@ -1,12 +1,12 @@
 package com.sdz.cartes;
 
 public class CarteDivinite extends Carte {
-
+	//Carte Divinite: 81 -->90
 	
 	public static final String[] nomDivinite = { "Brewalen", "Drinded", "Yarstur", "Kilinstred", "Llewalla",
 			"Pui-Tara", "Gwenghelen", "Shingva", "Gorpa", "Romtec" };
 	public static final String[] origineDivinite = { "Jour", "Jour", "Jour", "Nuit", "Nuit", "Nuit", "Aube", "Aube",
-			"Crepuscule", "Crepuscule" };
+			"Crépuscule", "Crépuscule" };
 	public static final String[][] dogmeDivinite = { { "Nature", "Humain", "Mystique" },
 			{ "Nature", "Humain", "Symboles" }, { "Chaos", "Symboles", "Mystique" }, { "Nature", "Mystique", "Chaos" },
 			{ "Nature", "Mystique", "Chaos" }, { "Nature", "Mystique", "Symboles" },
