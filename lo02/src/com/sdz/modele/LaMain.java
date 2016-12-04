@@ -60,12 +60,12 @@ public class LaMain {
 		Iterator<CarteAction> it = listeCarteA.iterator();
 		int position = 0;
 		while (it.hasNext()) {
-			position++;
 			CarteAction carteA = (CarteAction) it.next();
 			if (carteA.estEgal(carte)) {
 				listeCarteA.remove(position);
 				break;
 			}
+			position++;
 		}
 	}
 	
@@ -73,13 +73,27 @@ public class LaMain {
 		Iterator<CarteAction> it = listeCarteA.iterator();
 		int position = 0;
 		while (it.hasNext()) {
-			position++;
 			CarteAction carteA = (CarteAction) it.next();
 			if (carteA.getId()==id) {
 				listeCarteA.remove(position);
 				break;
 			}
+			position++;
 		}
+	}
+	public CarteAction prendreCarteAction(int id){
+		CarteAction carteReturn=new CarteAction();
+		Iterator<CarteAction> it = listeCarteA.iterator();
+		int position = 0;
+		while (it.hasNext()) {
+			CarteAction carteA = (CarteAction) it.next();
+			if (carteA.getId()==id) {
+				carteReturn= carteA; 
+				break;
+			}
+			position++;
+		}
+		return carteReturn;
 	}
 
 	public void completerCarteAction(CarteAction carte) {

@@ -17,12 +17,12 @@ public class EspaceCommun {
 		Iterator<Croyant> it = this.listeCartes.iterator();
 		int position = 0;
 		while (it.hasNext()) {
-			position++;
 			Croyant carteA = (Croyant) it.next();
 			if (carteA.getId()==id) {
 				this.listeCartes.remove(position);
 				break;
 			}
+			position++;
 		}
 	}
 	

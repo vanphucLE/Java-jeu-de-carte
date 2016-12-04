@@ -13,6 +13,7 @@ public class Partie {
 	private ArrayList<Joueur> listeJoueurs = new ArrayList();
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
 	private Boolean estFini = false;
+	private EspaceCommun espaceCommun = new EspaceCommun();
 
 	public void setNbJoueur(int nbJoueur) {
 		this.nbJoueur = nbJoueur;
@@ -37,7 +38,7 @@ public class Partie {
 					joueur.setPtActionOrigine("Jour");
 				}
 			}
-		}else if (FaceDe == "Nuit") {
+		} else if (FaceDe == "Nuit") {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Nuit") {
 					joueur.setPtAction(2);
@@ -48,7 +49,7 @@ public class Partie {
 					joueur.setPtActionOrigine("Nuit");
 				}
 			}
-		}else if (FaceDe == "Néant") {
+		} else if (FaceDe == "Néant") {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
 					joueur.setPtAction(1);
@@ -98,7 +99,7 @@ public class Partie {
 		do {
 			System.out.print("Entrez 'Lancer' pour lancer le dé! ");
 			str = sc.nextLine();
-		} while (str != "Lancer");
+		} while (str.equals("Lancer"));
 		// lancer dé
 		this.lancerDe();
 	}
@@ -112,6 +113,6 @@ public class Partie {
 	 * break; case "Apocalypse": jouerCroyant(); break; case "GuideSpirituel":
 	 * jouerCroyant(); break; } }
 	 */
-	//s
+	// s
 
 }
