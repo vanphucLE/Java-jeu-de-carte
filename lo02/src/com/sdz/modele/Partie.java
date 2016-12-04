@@ -112,5 +112,6 @@ public class Partie {
 	 * break; case "Apocalypse": jouerCroyant(); break; case "GuideSpirituel":
 	 * jouerCroyant(); break; } }
 	 */
+	//s
 
 }
