@@ -1,7 +1,7 @@
 package com.sdz.modele;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.LinkedList;
 
 public class vidu {
 	public void cong(ArrayList<Integer> abc) {
@@ -43,31 +43,44 @@ public class vidu {
 		// laMain.setCardeGuidee(listeCroyant, guideSpirituel);
 		// System.out.println(laMain);
 		//
-		ArrayList<Integer> abc = new ArrayList();
-		abc.add(1);
-		abc.add(2);
-		abc.add(3);
-		abc.add(4);
-		abc.add(5);
+		// ArrayList<Integer> abc = new ArrayList();
+		// abc.add(1);
+		// abc.add(2);
+		// abc.add(3);
+		// abc.add(4);
+		// abc.add(5);
+		//
+		// vidu ab = new vidu();
+		// ab.cong(abc);
+		// System.out.println(abc.toString());
+		//
+		// Scanner sc = new Scanner(System.in);
+		//
+		// System.out.print("Vous voulez continuer à jouer l'autre cartes (Y/N)
+		// ? ");
+		// String commande = sc.nextLine();
+		// Boolean continu;
+		// continu= (commande.equals("Y")) ? true : false;
+		// System.out.println(continu);
+		// System.out.println("("+commande+")");
+		// if(commande=="Y"){
+		// System.out.println("!");
+		// }
+		// if(commande.equals("Y")){
+		// System.out.println("a");
+		// }
 
-		vidu ab = new vidu();
-		ab.cong(abc);
-		System.out.println(abc.toString());
-
-		Scanner sc = new Scanner(System.in);
-
-		System.out.print("Vous voulez continuer à jouer l'autre cartes (Y/N) ?    ");
-		String commande = sc.nextLine();
-		Boolean continu;
-		continu= (commande.equals("Y")) ? true : false;
-		System.out.println(continu);
-		System.out.println("("+commande+")");
-		if(commande=="Y"){
-			System.out.println("!");
+		String a = "1  2 3  4 5";
+		String[] b = a.split(" ");
+		for (String c : b) {
+			System.out.println("("+c+")");
 		}
-		if(commande.equals("Y")){
-			System.out.println("a");
-		}
+		System.out.println(Integer.parseInt("1"));
 		
+		LinkedList<Integer> ar=new LinkedList<Integer>();
+		ar.add(1);
+		ar.add(2);
+		System.out.print(ar.indexOf(3));
+
 	}
 }

@@ -1,9 +1,9 @@
 package com.sdz.modele;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import com.sdz.cartes.Carte;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.Croyant;
 import com.sdz.cartes.GuideSpirituel;
@@ -35,15 +35,16 @@ public class JoueurPhysique extends Joueur {
 			String commande2 = "";
 			System.out.println("Les cartes actions tenu dans vôtre main:");
 			System.out.println(this.laMain);
-			System.out.print("Choisir les Id dont les cartes actions déffausées (Ex: 1 3 5) : ");
-			commande2 = sc.nextLine();
-			commande2 = commande2.trim();
+			do {
+				System.out.print("Choisir les Id dont les cartes actions déffausées (Ex: 1 3 5) : ");
+				commande2 = sc.nextLine();
+			} while (!this.testEntrer(commande2, this.laMain.getListeCarteA()));
 			String[] cartesDef = {};
 			cartesDef = commande2.split(" ");
 			for (String str : cartesDef) {
 				int num = Integer.parseInt(str);
 				// la carte défaussées est recupéré dans le jeu de carte.
-				CarteAction carteA=this.laMain.seDeffausserCarte(num);
+				CarteAction carteA = this.laMain.seDeffausserCarte(num);
 				jeuDeCartes.recupererCarteAction(carteA);
 			}
 		}
@@ -62,6 +63,8 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	private void choisirCarteReel(EspaceCommun espaceCommun) {
+		System.out.println("Les cartes en l'espace commun: ");
+		System.out.println(espaceCommun);
 		System.out.println(
 				"(Rappeler) Votre point Action : " + this.ptAction + " ---- Origine : " + this.ptActionOrigine);
 		Boolean continu = true;
@@ -109,19 +112,19 @@ public class JoueurPhysique extends Joueur {
 
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
-		LinkedList<Croyant> listeCroyants=new LinkedList<Croyant>();
-		
-		System.out.print("Vous pouvez guider "+carteG+" carte(s) croyant(s). Choisir les Id dont la carte croyants guidées (Ex: 1 2): ");
-		Scanner sc=new Scanner(System.in);
+		LinkedList<Croyant> listeCroyants = new LinkedList<Croyant>();
+
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Vous pouvez guider " + carteG
+				+ " carte(s) croyant(s). Choisir les Id dont la carte croyants dans l'espace commun pour guider (Ex: 1 2): ");
 		String commande = sc.nextLine();
 		commande = commande.trim();
-		String[] idCartesGuidee =commande.split(" ");
+		String[] idCartesGuidee = commande.split(" ");
 		for (String str : idCartesGuidee) {
 			int num = Integer.parseInt(str);
 			listeCroyants.add(espaceCommun.supprimerCarte(num));
-			
 		}
-		
+		this.laMain.ajouterGuidee(listeCroyants, carteG);
 	}
 
 	private void jouerDeusEx() {
@@ -148,6 +151,48 @@ public class JoueurPhysique extends Joueur {
 			}
 		}
 		return true;
+	}
+
+	private LinkedList<Integer> convertIdsEntree(String str) {
+		Boolean test = true;
+		str = str.trim();
+		String[] arrayIdStr = str.split(" ");
+		LinkedList<Integer> arrayId = new LinkedList<Integer>();
+		for (String elem : arrayIdStr) {
+			if (elem.matches("\\d+")) {
+				arrayId.add(Integer.parseInt(elem));
+			} else if (elem != "") {
+				System.out.println("Eurreur entree!!! ");
+				test = false;
+				break;
+			}
+		}
+		if (test == true) {
+			return arrayId;
+		} else {
+			return new LinkedList<Integer>();
+		}
+	}
+
+	private Boolean testEntrer(String stringEntree, LinkedList<CarteAction> listeContenantId) {
+		Boolean test = true;
+		LinkedList<Integer> arrayIdEntree = this.convertIdsEntree(stringEntree);
+		LinkedList<Integer> arrayId = new LinkedList<Integer>();
+		if (arrayId.size() != 0) {
+			Iterator<CarteAction> it = listeContenantId.iterator();
+			while (it.hasNext()) {
+				CarteAction carte = it.next();
+				arrayId.add(carte.getId());
+			}
+			for (int elem : arrayIdEntree) {
+				if (arrayId.indexOf(elem) == -1) {
+					test = false;
+				}
+			}
+		} else {
+			test = false;
+		}
+		return test;
 	}
 
 	public void JoueurCapaSpeReel() {

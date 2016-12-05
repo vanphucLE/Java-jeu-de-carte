@@ -32,7 +32,7 @@ public class LaMain {
 		return listeCroyantGuidee;
 	}
 
-	public void setCardeGuidee(LinkedList<Croyant> listeCroyant, GuideSpirituel guideSpirituel) {
+	public void ajouterGuidee(LinkedList<Croyant> listeCroyant, GuideSpirituel guideSpirituel) {
 		this.listeCroyantGuidee.add(listeCroyant);
 		this.listeGuideSpirituelGuider.add(guideSpirituel);
 	}
