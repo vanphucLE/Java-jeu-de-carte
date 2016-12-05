@@ -1,8 +1,12 @@
 package com.sdz.modele;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 
+import com.sdz.cartes.Carte;
 import com.sdz.cartes.CarteAction;
+import com.sdz.cartes.Croyant;
+import com.sdz.cartes.GuideSpirituel;
 
 public class JoueurPhysique extends Joueur {
 
@@ -13,9 +17,10 @@ public class JoueurPhysique extends Joueur {
 		super(id, nom, age);
 	}
 
-	public void jouer(JeuDeCartes jeuDeCartes) {
+	public void jouer(JeuDeCartes jeuDeCartes, EspaceCommun espaceCommun) {
 		this.seDefausserCartes(jeuDeCartes);
 		this.Compeleter7Carte(jeuDeCartes);
+		this.choisirCarteReel(espaceCommun);
 
 	}
 
@@ -37,9 +42,8 @@ public class JoueurPhysique extends Joueur {
 			cartesDef = commande2.split(" ");
 			for (String str : cartesDef) {
 				int num = Integer.parseInt(str);
-				CarteAction carteA = this.laMain.getListeCarteA().get(num - 1);
 				// la carte défaussées est recupéré dans le jeu de carte.
-				this.laMain.seDeffausserCarte(carteA);
+				CarteAction carteA=this.laMain.seDeffausserCarte(num);
 				jeuDeCartes.recupererCarteAction(carteA);
 			}
 		}
@@ -57,7 +61,7 @@ public class JoueurPhysique extends Joueur {
 		System.out.println(this.laMain);
 	}
 
-	public void choisirCarteReel() {
+	private void choisirCarteReel(EspaceCommun espaceCommun) {
 		System.out.println(
 				"(Rappeler) Votre point Action : " + this.ptAction + " ---- Origine : " + this.ptActionOrigine);
 		Boolean continu = true;
@@ -65,16 +69,21 @@ public class JoueurPhysique extends Joueur {
 			System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
 			Scanner sc = new Scanner(System.in);
 			String idChoisir = sc.nextLine();
-			CarteAction carteChoisi = new CarteAction();
-			carteChoisi = this.laMain.prendreCarteAction(Integer.parseInt(idChoisir));
+			int idChoisirInt = Integer.parseInt(idChoisir);
+			CarteAction carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
 			System.out.print("Vous avez choisi la carte: " + carteChoisi);
-			this.setPtAction(carteChoisi);
+			Boolean test = this.setPtAction(carteChoisi);
+			if (!test) {
+				// Si la choice de joueur n'est pas valide, la main va récupérer
+				// la carte qui se sont défaussé.
+				this.laMain.completerCarteAction(carteChoisi);
+			}
 			switch (carteChoisi.getType()) {
 			case "Croyant":
-				this.jouerCroyant();
+				this.jouerCroyant(carteChoisi, espaceCommun);
 				break;
 			case "GuideSpirituel":
-				this.jouerGuideSpirituel();
+				this.jouerGuideSpirituel(carteChoisi, espaceCommun);
 				break;
 			case "DeusEx":
 				this.jouerDeusEx();
@@ -83,7 +92,6 @@ public class JoueurPhysique extends Joueur {
 				this.jouerApocalypse();
 				break;
 			}
-
 			if (this.ptAction > 0) {
 				System.out.print("Vous avez encore " + this.ptAction + " point d'action " + " ---- Origine : "
 						+ this.ptActionOrigine);
@@ -95,12 +103,25 @@ public class JoueurPhysique extends Joueur {
 
 	}
 
-	private void jouerCroyant() {
-
+	private void jouerCroyant(CarteAction carte, EspaceCommun espaceCommun) {
+		espaceCommun.ajouterCarte((Croyant) carte);
 	}
 
-	private void jouerGuideSpirituel() {
-
+	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
+		GuideSpirituel carteG = (GuideSpirituel) carte;
+		LinkedList<Croyant> listeCroyants=new LinkedList<Croyant>();
+		
+		System.out.print("Vous pouvez guider "+carteG+" carte(s) croyant(s). Choisir les Id dont la carte croyants guidées (Ex: 1 2): ");
+		Scanner sc=new Scanner(System.in);
+		String commande = sc.nextLine();
+		commande = commande.trim();
+		String[] idCartesGuidee =commande.split(" ");
+		for (String str : idCartesGuidee) {
+			int num = Integer.parseInt(str);
+			listeCroyants.add(espaceCommun.supprimerCarte(num));
+			
+		}
+		
 	}
 
 	private void jouerDeusEx() {
@@ -113,17 +134,20 @@ public class JoueurPhysique extends Joueur {
 
 	// on utilise cette méthode pour mettre à jour le point d'action de joueur
 	// après qu'il a choisi une carte pour jouer.
-	private void setPtAction(CarteAction carte) {
+	private Boolean setPtAction(CarteAction carte) {
 		if (carte.getOrigine() != "") {
 			if (carte.getOrigine() == this.ptActionOrigine) {
 				this.ptAction--;
 			} else if (carte.getOrigine() == "Néant") {
 				if (this.ptAction < 2) {
 					System.out.println("Eurreur en choissant!!");
-				} else
+					return false;
+				} else {
 					this.ptAction -= 2;
+				}
 			}
 		}
+		return true;
 	}
 
 	public void JoueurCapaSpeReel() {

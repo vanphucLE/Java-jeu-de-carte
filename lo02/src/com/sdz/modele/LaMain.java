@@ -69,33 +69,22 @@ public class LaMain {
 		}
 	}
 	
-	public void seDeffausserCarte(int id) {
+	// un fois que la carte est jouée, il est supprimée de la main
+	public CarteAction seDeffausserCarte(int id) {
+		CarteAction carteReturn =new CarteAction();
 		Iterator<CarteAction> it = listeCarteA.iterator();
 		int position = 0;
 		while (it.hasNext()) {
 			CarteAction carteA = (CarteAction) it.next();
 			if (carteA.getId()==id) {
-				listeCarteA.remove(position);
-				break;
-			}
-			position++;
-		}
-	}
-	public CarteAction prendreCarteAction(int id){
-		CarteAction carteReturn=new CarteAction();
-		Iterator<CarteAction> it = listeCarteA.iterator();
-		int position = 0;
-		while (it.hasNext()) {
-			CarteAction carteA = (CarteAction) it.next();
-			if (carteA.getId()==id) {
-				carteReturn= carteA; 
+				carteReturn=listeCarteA.remove(position);
 				break;
 			}
 			position++;
 		}
 		return carteReturn;
 	}
-
+	
 	public void completerCarteAction(CarteAction carte) {
 		this.listeCarteA.add(carte);
 	}

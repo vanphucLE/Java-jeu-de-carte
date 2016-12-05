@@ -42,6 +42,9 @@ public class Croyant extends CarteAction {
 		this.type = "Croyant";
 		this.nbCroyant=nbCroyants[id];
 	}
+	public Croyant(){
+		
+	}
 
 	public void setEstJouee(Boolean estGuidee) {
 		this.estGuidee = estGuidee;
