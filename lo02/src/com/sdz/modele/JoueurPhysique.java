@@ -124,7 +124,7 @@ public class JoueurPhysique extends Joueur {
 
 		LinkedList<Integer> idCartesGuidee = this.convertIdsEntree(commande);
 		for (int elem : idCartesGuidee) {
-			listeCroyants.add(espaceCommun.supprimerCarte(elem));
+			listeCroyants.add((Croyant)espaceCommun.supprimerCarte(elem));
 		}
 		this.laMain.ajouterGuidee(listeCroyants, carteG);
 	}
