@@ -3,6 +3,11 @@ package com.sdz.modele;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import com.sdz.cartes.CarteAction;
+import com.sdz.cartes.CarteDivinite;
+import com.sdz.cartes.Croyant;
+import com.sdz.cartes.GuideSpirituel;
+
 public class vidu {
 	public void cong(ArrayList<Integer> abc) {
 		abc.remove(2);
@@ -30,19 +35,19 @@ public class vidu {
 		 * Croyant a =new Croyant(1); System.out.print(a.toString());
 		 * System.out.println("a"+(1+2)+"a");
 		 */
-		// CarteAction carte=new Croyant(1);
-		// LaMain laMain=new LaMain();
-		// CarteDivinite carteDI=new CarteDivinite(81);
-		// laMain.piocherDivinite(carteDI);
-		// laMain.completerCarteAction(carte);
-		// laMain.completerCarteAction(carte);
-		// LinkedList<Croyant> listeCroyant=new LinkedList<Croyant>();
-		// Croyant cr=new Croyant(5);
-		// listeCroyant.add(cr);
-		// GuideSpirituel guideSpirituel=new GuideSpirituel(38);
-		// laMain.setCardeGuidee(listeCroyant, guideSpirituel);
-		// System.out.println(laMain);
-		//
+		 CarteAction carte=new Croyant(1);
+		 LaMain laMain=new LaMain();
+		 CarteDivinite carteDI=new CarteDivinite(81);
+		 laMain.piocherDivinite(carteDI);
+		 laMain.completerCarteAction(carte);
+		 laMain.completerCarteAction(carte);
+		 LinkedList<Croyant> listeCroyant=new LinkedList<Croyant>();
+		 Croyant cr=new Croyant(5);
+		 listeCroyant.add(cr);
+		 GuideSpirituel guideSpirituel=new GuideSpirituel(38);
+		 laMain.ajouterGuidee(listeCroyant, guideSpirituel);
+		 System.out.println(laMain);
+		
 		// ArrayList<Integer> abc = new ArrayList();
 		// abc.add(1);
 		// abc.add(2);
@@ -70,17 +75,19 @@ public class vidu {
 		// System.out.println("a");
 		// }
 
-		String a = "1  2 3  4 5";
-		String[] b = a.split(" ");
-		for (String c : b) {
-			System.out.println("("+c+")");
-		}
-		System.out.println(Integer.parseInt("1"));
+//		String a = "1  2 3  4 5";
+//		String[] b = a.split(" ");
+//		for (String c : b) {
+//			System.out.println("("+c+")");
+//		}
+//		System.out.println(Integer.parseInt("1"));
+//		
+//		LinkedList<Integer> ar=new LinkedList<Integer>();
+//		ar.add(1);
+//		ar.add(2);
+//		System.out.print(ar.indexOf(3));
+//		
 		
-		LinkedList<Integer> ar=new LinkedList<Integer>();
-		ar.add(1);
-		ar.add(2);
-		System.out.print(ar.indexOf(3));
 
 	}
 }

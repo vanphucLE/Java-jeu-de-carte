@@ -115,14 +115,16 @@ public class JoueurPhysique extends Joueur {
 		LinkedList<Croyant> listeCroyants = new LinkedList<Croyant>();
 
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Vous pouvez guider " + carteG
-				+ " carte(s) croyant(s). Choisir les Id dont la carte croyants dans l'espace commun pour guider (Ex: 1 2): ");
-		String commande = sc.nextLine();
-		commande = commande.trim();
-		String[] idCartesGuidee = commande.split(" ");
-		for (String str : idCartesGuidee) {
-			int num = Integer.parseInt(str);
-			listeCroyants.add(espaceCommun.supprimerCarte(num));
+		String commande = "";
+		do {
+			System.out.print("Vous pouvez guider " + carteG
+					+ " carte(s) croyant(s). Choisir les Id dont la carte croyants dans l'espace commun pour guider (Ex: 1 2): ");
+			commande = sc.nextLine();
+		} while (!this.testEntrer(commande, espaceCommun.getListeCartes()));
+
+		LinkedList<Integer> idCartesGuidee = this.convertIdsEntree(commande);
+		for (int elem : idCartesGuidee) {
+			listeCroyants.add(espaceCommun.supprimerCarte(elem));
 		}
 		this.laMain.ajouterGuidee(listeCroyants, carteG);
 	}
