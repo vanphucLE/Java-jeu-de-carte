@@ -48,5 +48,9 @@ public class EspaceCommun {
 		}
 		return sb.toString();
 	}
+	public LinkedList<Croyant> getListeCartes() {
+		return listeCartes;
+	}
+	
 	
 }
