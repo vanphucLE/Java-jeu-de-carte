@@ -110,6 +110,6 @@ public class Joueur {
 	public void sacrifierCroyant(CarteAction a){
 		//rut me cai carte di
 		//
-		if(this.sacrifice )
+		if(this.sacrifice){}
 	}
 }

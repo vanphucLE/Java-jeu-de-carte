@@ -74,6 +74,25 @@ public class CapaciteSpeciale {
 		}
 		if (id == 24) {
 			// retirer les croyants rattacher une autre divinite
+			System.out.println("Choisir id de la Divinité pour effectuer la capacite");
+			boolean choix=true;
+			Iterator<Joueur> it = Partie.listeJoueurs.iterator();
+			while (it.hasNext()) {
+				if (it.next().getId() > Partie.joueurEncours.getId()) {
+					System.out.println("id" + it.next().getId() + it.next().getNom());
+				}
+			}
+			while (choix) {
+				Scanner sc = new Scanner(System.in);
+				int Divine;
+				Divine = sc.nextInt();
+				if(Divine != Partie.joueurEncours.getId() && Divine< Partie.listeJoueurs.size() && Divine<0){
+					System.out.println("Choisir la carte guider a retirer"+Partie.listeJoueurs.get(Divine).laMain.getListeGuideSpirituelGuider());
+				}
+				
+
+			}
+			
 		}
 		if (id == 25) {
 			// prender pt Action

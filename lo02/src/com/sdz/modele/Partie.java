@@ -6,15 +6,12 @@ import java.util.Scanner;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;
 
+
 public class Partie {
 	private int nbJoueur;
 	private Joueur Joueurgagnant;
 	public static Joueur joueurEncours;
-	public static ArrayList<Joueur> listeJoueurs ;
-=======
-	public static Joueur joueurEncours;
 	public static ArrayList<Joueur> listeJoueurs = new ArrayList();
->>>>>>> branch 'master' of https://github.com/vanphucLE/projetLo02.git
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
 	private Boolean estFini = false;
 	private EspaceCommun espaceCommun = new EspaceCommun();
@@ -23,7 +20,7 @@ public class Partie {
 	private int estApocalypseAvant=0;
 	
 	public Partie(ArrayList<Joueur> listeJoueurs){
-		this.listeJoueurs=listeJoueurs;
+		Partie.listeJoueurs=listeJoueurs;
 	}
 
 	public void setNbJoueur(int nbJoueur) {
