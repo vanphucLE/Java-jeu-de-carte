@@ -1,5 +1,7 @@
 package com.sdz.cartes;
 
+import com.sdz.modele.Partie;
+
 public class Croyant extends CarteAction {
 	private int nbCroyant;
 	private Boolean estGuidee;
@@ -52,9 +54,10 @@ public class Croyant extends CarteAction {
 		return this.estJouee;
 	}
 
-	public void effectuerCapaciteSpecial() {
+	public void effectuerCapaciteSpecial(Partie partie) {
+		
 		CapaciteSpeciale a=new CapaciteSpeciale();
-		a.capacite(this.id);
+
 	}
 
 	public int getNbCroyant() {

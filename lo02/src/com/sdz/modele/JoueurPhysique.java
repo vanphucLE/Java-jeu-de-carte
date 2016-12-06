@@ -13,7 +13,7 @@ public class JoueurPhysique extends Joueur {
 	// Id du joueur phisique est 1 par défault;
 	private static final int id = 1;
 
-	public JoueurPhysique(int id, String nom, int age) {
+	public JoueurPhysique(String nom, int age) {
 		super(id, nom, age);
 	}
 
@@ -27,7 +27,8 @@ public class JoueurPhysique extends Joueur {
 
 	// Un joueur veut défausser un plusieur Cartes
 	private void seDefausserCartes(JeuDeCartes jeuDeCartes) {
-		System.out.println("Votre point Action : " + this.ptAction + " ---- Origine : " + this.ptActionOrigine);
+		System.out.println("Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: " + this.ptAction_Nuit
+				+ ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
 		Scanner sc = new Scanner(System.in);
 		String commande = "";
 		System.out.print("Voulez-vous défausser les cartes ? (Y/N):");
@@ -68,8 +69,8 @@ public class JoueurPhysique extends Joueur {
 		partie.getEspaceCommun();
 		System.out.println("Les cartes en l'espace commun: ");
 		System.out.println(partie.getEspaceCommun());
-		System.out.println(
-				"(Rappeler) Votre point Action : " + this.ptAction + " ---- Origine : " + this.ptActionOrigine);
+		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: " + this.ptAction_Nuit
+				+ ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
 		Boolean continu = true;
 		while (this.ptAction > 0 && continu) {
 			String idChoisi = "";
@@ -153,30 +154,32 @@ public class JoueurPhysique extends Joueur {
 			}
 			for (int i = 0; i <= indice - 1; i++) {
 				for (int j = i + 1; j <= indice; j++) {
-					if(arPriere[i] < arPriere[j]){
-						int tg=arPriere[i];
-						arPriere[i]=arPriere[j];
-						arPriere[j]=tg;
+					if (arPriere[i] < arPriere[j]) {
+						int tg = arPriere[i];
+						arPriere[i] = arPriere[j];
+						arPriere[j] = tg;
 					}
 				}
 			}
-			if (indice+1>=4){
-				if(arPriere[indice]==arPriere[indice-1]){
-					System.out.println("Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé.");
-				}else{
+			if (indice + 1 >= 4) {
+				if (arPriere[indice] == arPriere[indice - 1]) {
+					System.out.println(
+							"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé.");
+				} else {
 					for (Joueur j : partie.getListeJoueurs()) {
-						if(j.getPtPriere()==arPriere[indice]){
+						if (j.getPtPriere() == arPriere[indice]) {
 							partie.eliminerJoueur(j);
 							break;
 						}
 					}
 				}
-			}else{
-				if(arPriere[0]==arPriere[1]){
-					System.out.println("Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé.");
-				}else{
+			} else {
+				if (arPriere[0] == arPriere[1]) {
+					System.out.println(
+							"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé.");
+				} else {
 					for (Joueur j : partie.getListeJoueurs()) {
-						if(j.getPtPriere()==arPriere[0]){
+						if (j.getPtPriere() == arPriere[0]) {
 							partie.setJoueurgagnant(j);
 							partie.setEstFini(true);
 							break;
@@ -184,7 +187,7 @@ public class JoueurPhysique extends Joueur {
 					}
 				}
 			}
-				
+
 		}
 	}
 
@@ -251,5 +254,5 @@ public class JoueurPhysique extends Joueur {
 	public void JoueurCapaSpeReel() {
 
 	}
-	
+
 }

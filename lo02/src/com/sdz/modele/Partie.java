@@ -10,8 +10,8 @@ import com.sdz.cartes.CarteDivinite;
 public class Partie {
 	private int nbJoueur;
 	private Joueur Joueurgagnant;
-	public static Joueur joueurEncours;
-	public static ArrayList<Joueur> listeJoueurs = new ArrayList();
+	private Joueur joueurEncours;
+	private ArrayList<Joueur> listeJoueurs = new ArrayList();
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
 	private Boolean estFini = false;
 	private EspaceCommun espaceCommun = new EspaceCommun();
@@ -20,23 +20,16 @@ public class Partie {
 	private int estApocalypseAvant=0;
 	
 	public Partie(ArrayList<Joueur> listeJoueurs){
-		Partie.listeJoueurs=listeJoueurs;
+		this.listeJoueurs=listeJoueurs;
 	}
 
-	public void setNbJoueur(int nbJoueur) {
-		this.nbJoueur = nbJoueur;
-	}
 
-	public int getNbJoueur() {
-		return this.nbJoueur;
-	}
-
-	public static void lancerDe() {
+	public void lancerDe() {
 		String[] de = { "", "Jour", "Nuit", "Néant" };
 		int num = (int) Math.ceil(3 * Math.random());
 		String FaceDe = de[num];
 		if (FaceDe == "Jour") {
-			for (Joueur joueur : Partie.listeJoueurs) {
+			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Jour") {
 					joueur.setPtAction_Jour(2);
 					joueur.setPtActionOrigine("Jour");
@@ -47,7 +40,7 @@ public class Partie {
 				}
 			}
 		} else if (FaceDe == "Nuit") {
-			for (Joueur joueur : Partie.listeJoueurs) {
+			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Nuit") {
 					joueur.setPtAction_Nuit(2);
 					joueur.setPtActionOrigine("Nuit");
@@ -58,7 +51,7 @@ public class Partie {
 				}
 			}
 		} else if (FaceDe == "Néant") {
-			for (Joueur joueur : Partie.listeJoueurs) {
+			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
 					joueur.setPtAction_Neant(1);
 					joueur.setPtActionOrigine("Néant");
@@ -169,6 +162,17 @@ public class Partie {
 
 	public void setEstFini(Boolean estFini) {
 		this.estFini = estFini;
+	}
+	public void setNbJoueur(int nbJoueur) {
+		this.nbJoueur = nbJoueur;
+	}
+
+	public int getNbJoueur() {
+		return this.nbJoueur;
+	}
+
+	public Joueur getJoueurEncours() {
+		return joueurEncours;
 	}
 	
 

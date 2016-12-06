@@ -26,7 +26,7 @@ public class Main {
 		} while (!nb.matches("\\d+"));
 		int nombreJoueur = Integer.parseInt(nb);
 
-		listeJoueurs.add(new JoueurPhysique(1, "Phuc", 21));
+		listeJoueurs.add(new JoueurPhysique( "Phuc", 21));
 
 		for (int i = 1; i < nombreJoueur; i++) {
 			listeJoueurs.add(listeJoueursVirtuel.get(i - 1));

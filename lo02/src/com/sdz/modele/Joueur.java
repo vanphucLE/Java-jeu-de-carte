@@ -10,15 +10,13 @@ public class Joueur {
 	protected String nom;
 	protected int age;
 	protected int ptPriere;
-	protected int ptAction;
-	public int ptAction_Jour;
-	public int ptAction_Nuit;
-	public int ptAction_Neant;
-	protected String ptActionOrigine;
+	protected int ptAction_Jour;
+	protected int ptAction_Nuit;
+	protected int ptAction_Neant;
 	protected Boolean estElimine;
 	protected int idCarteDivinite;
-	public LaMain laMain = new LaMain();
-	public boolean sacrifice=true;
+	protected LaMain laMain = new LaMain();
+	protected boolean sacrifice=true;
 
 	public Joueur(int id, String nom, int age) {
 		this.id = id;
@@ -86,13 +84,7 @@ public class Joueur {
 		this.laMain = laMain;
 	}
 
-	public String getPtActionOrigine() {
-		return ptActionOrigine;
-	}
 
-	public void setPtActionOrigine(String ptActionOrigine) {
-		this.ptActionOrigine = ptActionOrigine;
-	}
 
 	public void jouer(Partie partie) {
 
@@ -104,7 +96,9 @@ public class Joueur {
 		sb.append(this.nom + " ");
 		sb.append("(" + this.age + " ans) | ");
 		sb.append("Point Prière: " + this.ptPriere + " | ");
-		sb.append("Point Action: " + this.ptAction + " (origine: " + this.ptActionOrigine + ")\n");
+		sb.append("Point Action (Jour: " +  this.ptAction_Jour + ") | ");
+		sb.append("(Nuit: " + this.ptAction_Nuit+ ") | ");
+		sb.append("(Néant: " + this.ptAction_Neant + ")\n");
 		return sb.toString();
 	}
 	public void sacrifierCroyant(CarteAction a){

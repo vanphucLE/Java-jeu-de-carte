@@ -10,9 +10,9 @@ public class CapaciteSpeciale {
 	public CapaciteSpeciale(){
 		
 	}
-	public void capacite(int id) {
+	public void capacite(int id,Partie partie) {
 		if (id < 6) {
-			Partie.joueurEncours.ptAction_Jour++;
+			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour()+1);
 		}
 		if (id == 6) {
 		}
@@ -23,7 +23,7 @@ public class CapaciteSpeciale {
 			boolean choix = true;
 			while (choix) {
 				System.out.print("Choisir id de la Divinité");
-				Iterator<Joueur> it = Partie.listeJoueurs.iterator();
+				Iterator<Joueur> it = partie.getListeJoueurs().iterator(); 
 				while (it.hasNext()) {
 					System.out.println("id" + it.next().getId() + it.next().getNom());
 				}
@@ -31,11 +31,11 @@ public class CapaciteSpeciale {
 				int Divine;
 				Divine = sc.nextInt();
 				while (it.hasNext()) {
-					if (it.next().getId() == Divine && !it.next().equals(Partie.joueurEncours)
+					if (it.next().getId() == Divine && !it.next().equals(partie.getJoueurEncours())
 							&& it.next().laMain.listeCarteA.size() > 2) {
 						Collections.shuffle(it.next().laMain.listeCarteA);
-						Partie.joueurEncours.laMain.listeCarteA.add(it.next().laMain.listeCarteA.pop());
-						Partie.joueurEncours.laMain.listeCarteA.add(it.next().laMain.listeCarteA.pop());
+						partie.getjoueurEncours().laMain.listeCarteA.add(it.next().laMain.listeCarteA.pop());
+						partie.getjoueurEncours().laMain.listeCarteA.add(it.next().laMain.listeCarteA.pop());
 						choix = false;
 					}
 					;
