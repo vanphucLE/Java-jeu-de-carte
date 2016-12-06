@@ -77,7 +77,7 @@ public class JoueurPhysique extends Joueur {
 			do {
 				System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
 				idChoisi = sc.nextLine();
-			} while (this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
+			} while (!this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
 			int idChoisirInt = Integer.parseInt(idChoisi);
 			CarteAction carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
 			System.out.print("Vous avez choisi la carte: " + carteChoisi);

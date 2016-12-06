@@ -10,12 +10,17 @@ public class Partie {
 	private int nbJoueur;
 	private Joueur Joueurgagnant;
 	private Joueur joueurEncours;
-	private ArrayList<Joueur> listeJoueurs = new ArrayList();
+	private ArrayList<Joueur> listeJoueurs ;
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
 	private Boolean estFini = false;
 	private EspaceCommun espaceCommun = new EspaceCommun();
+	private String difficulte;
 	// cette attribute pour valider si le carteApocalypse peut-être joué
 	private int estApocalypseAvant=0;
+	
+	public Partie(ArrayList<Joueur> listeJoueurs){
+		this.listeJoueurs=listeJoueurs;
+	}
 
 	public void setNbJoueur(int nbJoueur) {
 		this.nbJoueur = nbJoueur;
@@ -69,7 +74,7 @@ public class Partie {
 	public void jouer() {
 		this.commencerPartie();
 		while (!this.estFini) {
-
+			this.TourDeJeu(0);
 		}
 
 	}
