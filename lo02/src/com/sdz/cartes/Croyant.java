@@ -1,7 +1,5 @@
 package com.sdz.cartes;
 
-import java.util.ArrayList;
-
 public class Croyant extends CarteAction {
 	private int nbCroyant;
 	private Boolean estGuidee;
@@ -55,7 +53,8 @@ public class Croyant extends CarteAction {
 	}
 
 	public void effectuerCapaciteSpecial() {
-
+		CapaciteSpeciale a=new CapaciteSpeciale();
+		a.capacite(this.id);
 	}
 
 	public int getNbCroyant() {
