@@ -69,10 +69,10 @@ public class JoueurPhysique extends Joueur {
 		partie.getEspaceCommun();
 		System.out.println("Les cartes en l'espace commun: ");
 		System.out.println(partie.getEspaceCommun());
-		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: " + this.ptAction_Nuit
-				+ ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
+		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
+				+ this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
 		Boolean continu = true;
-		while (this.ptAction > 0 && continu) {
+		while ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0 && continu) {
 			String idChoisi = "";
 			Scanner sc = new Scanner(System.in);
 			do {
@@ -87,24 +87,25 @@ public class JoueurPhysique extends Joueur {
 				// Si la choice de joueur n'est pas valide, la main va récupérer
 				// la carte qui se sont défaussé.
 				this.laMain.completerCarteAction(carteChoisi);
+			} else {
+				switch (carteChoisi.getType()) {
+				case "Croyant":
+					this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
+					break;
+				case "GuideSpirituel":
+					this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
+					break;
+				case "DeusEx":
+					this.jouerDeusEx(partie);
+					break;
+				case "Apocalypse":
+					this.jouerApocalypse(carteChoisi, partie);
+					break;
+				}
 			}
-			switch (carteChoisi.getType()) {
-			case "Croyant":
-				this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
-				break;
-			case "GuideSpirituel":
-				this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
-				break;
-			case "DeusEx":
-				this.jouerDeusEx(partie);
-				break;
-			case "Apocalypse":
-				this.jouerApocalypse(carteChoisi, partie);
-				break;
-			}
-			if (this.ptAction > 0) {
-				System.out.print("Vous avez encore " + this.ptAction + " point d'action " + " ---- Origine : "
-						+ this.ptActionOrigine);
+			if ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0) {
+				System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
+						+ this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
 				System.out.print("Vous voulez continuer à jouer l'autre cartes (Y/N) ?    ");
 				String commande = sc.nextLine();
 				continu = (commande.equals("Y")) ? true : false;
@@ -195,17 +196,40 @@ public class JoueurPhysique extends Joueur {
 	// après qu'il a choisi une carte pour jouer.
 	private Boolean setPtAction(CarteAction carte) {
 		if (carte.getOrigine() != "") {
-			if (carte.getOrigine() == this.ptActionOrigine) {
-				this.ptAction--;
-			} else if (carte.getOrigine() == "Néant") {
-				if (this.ptAction < 2) {
+			if (carte.getOrigine() == "Jour") {
+				if (this.ptAction_Jour == 0) {
 					System.out.println("Eurreur en choissant!!");
 					return false;
 				} else {
-					this.ptAction -= 2;
+					this.ptAction_Jour--;
+				}
+			} else if (carte.getOrigine() == "Nuit") {
+				if (this.ptAction_Nuit == 0) {
+					System.out.println("Eurreur en choissant!!");
+					return false;
+				} else {
+					this.ptAction_Nuit--;
+				}
+			} else if (carte.getOrigine() == "Néant") {
+				if (this.ptAction_Neant > 0) {
+					this.ptAction_Neant--;
+				} else if (this.ptAction_Jour >= 2) {
+					this.ptAction_Jour -= 2;
+				} else if (this.ptAction_Nuit >= 2) {
+					this.ptAction_Jour -= 2;
+				} else {
+					System.out.println("Eurreur en choissant!!");
+					return false;
 				}
 			}
+
 		}
+		// if (this.ptAction < 2) {
+		// System.out.println("Eurreur en choissant!!");
+		// return false;
+		// } else {
+		// this.ptAction -= 2;
+		// }
 		return true;
 	}
 
