@@ -38,14 +38,14 @@ public class Joueur {
 		return this.ptAction;
 	}
 
-	public void setPtPriere(){
-		int sumPtPriere=0;
-		for (LinkedList<Croyant> listeCarte : laMain.getListeCroyantGuidee() ){
-				for (Croyant carte : listeCarte){
-						sumPtPriere += carte.getNbCroyant();
-				}
+	public void setPtPriere() {
+		int sumPtPriere = 0;
+		for (LinkedList<Croyant> listeCarte : laMain.getListeCroyantGuidee()) {
+			for (Croyant carte : listeCarte) {
+				sumPtPriere += carte.getNbCroyant();
+			}
 		}
-		this.ptPriere=ptPriere;
+		this.ptPriere = sumPtPriere;
 	}
 
 	public int getPtPriere() {
@@ -67,6 +67,7 @@ public class Joueur {
 	public void setLaMain(LaMain laMain) {
 		this.laMain = laMain;
 	}
+
 	public String getPtActionOrigine() {
 		return ptActionOrigine;
 	}
@@ -74,15 +75,18 @@ public class Joueur {
 	public void setPtActionOrigine(String ptActionOrigine) {
 		this.ptActionOrigine = ptActionOrigine;
 	}
-	public void jouer(){
-		
+
+	public void jouer(Partie partie) {
+
 	}
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Joueur n." + this.id + " : ");
 		sb.append(this.nom + " ");
-		sb.append("(" + this.age + " ans) \n");
+		sb.append("(" + this.age + " ans) | ");
+		sb.append("Point Prière: " + this.ptPriere + " | ");
+		sb.append("Point Action: " + this.ptAction + " (origine: " + this.ptActionOrigine + ")\n");
 		return sb.toString();
 	}
 

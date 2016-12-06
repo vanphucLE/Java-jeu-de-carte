@@ -56,17 +56,7 @@ public class LaMain {
 	// Un fois que le joueur se déffauser un carte, cette carte va être rétiré
 	// de la main
 	public void seDeffausserCarte(CarteAction carte) {
-
-		Iterator<CarteAction> it = listeCarteA.iterator();
-		int position = 0;
-		while (it.hasNext()) {
-			CarteAction carteA = (CarteAction) it.next();
-			if (carteA.estEgal(carte)) {
-				listeCarteA.remove(position);
-				break;
-			}
-			position++;
-		}
+		this.listeCarteA.remove(carte);
 	}
 	
 	// un fois que la carte est jouée, il est supprimée de la main

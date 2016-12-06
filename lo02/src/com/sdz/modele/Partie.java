@@ -8,12 +8,14 @@ import com.sdz.cartes.CarteDivinite;
 
 public class Partie {
 	private int nbJoueur;
-	private Joueur gagnant;
+	private Joueur Joueurgagnant;
 	private Joueur joueurEncours;
 	private ArrayList<Joueur> listeJoueurs = new ArrayList();
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
 	private Boolean estFini = false;
 	private EspaceCommun espaceCommun = new EspaceCommun();
+	// cette attribute pour valider si le carteApocalypse peut-être joué
+	private int estApocalypseAvant=0;
 
 	public void setNbJoueur(int nbJoueur) {
 		this.nbJoueur = nbJoueur;
@@ -94,16 +96,28 @@ public class Partie {
 	// Déscrire les actions des joueurs dans chaque tour
 	// numCom: numéro du joueur dans listJoueurs qui commence ce tour
 	private void TourDeJeu(int numCom) {
+		this.joueurEncours = this.listeJoueurs.get(numCom);
+		System.out.println("Le tour de :" + joueurEncours);
 		Scanner sc = new Scanner(System.in);
 		String str = "";
 		do {
 			System.out.print("Entrez 'Lancer' pour lancer le dé! ");
 			str = sc.nextLine();
 		} while (str.equals("Lancer"));
-		// lancer dé
+		// lancer le dé
 		this.lancerDe();
+		this.listeJoueurs.get(numCom).jouer(this);
+		for (int i = numCom + 1; i < this.listeJoueurs.size(); i++) {
+			this.listeJoueurs.get(i).jouer(this);
+		}
+		for (int i = 0; i < numCom; i++) {
+			this.listeJoueurs.get(i).jouer(this);
+		}
 	}
 
+	public void eliminerJoueur(Joueur joueur){
+		this.listeJoueurs.remove(joueur);
+	}
 	public void annoncerGagnant() {
 
 	}
@@ -114,5 +128,42 @@ public class Partie {
 	 * jouerCroyant(); break; } }
 	 */
 	// s
+
+	public ArrayList<Joueur> getListeJoueurs() {
+		return listeJoueurs;
+	}
+
+	public JeuDeCartes getJeuDeCartes() {
+		return jeuDeCartes;
+	}
+
+	public EspaceCommun getEspaceCommun() {
+		return espaceCommun;
+	}
+
+	public int getEstApocalypseAvant() {
+		return estApocalypseAvant;
+	}
+
+	public void setEstApocalypseAvant(int estApocalypseAvant) {
+		this.estApocalypseAvant = estApocalypseAvant;
+	}
+
+	public Joueur getJoueurgagnant() {
+		return Joueurgagnant;
+	}
+
+	public void setJoueurgagnant(Joueur joueurgagnant) {
+		Joueurgagnant = joueurgagnant;
+	}
+
+	public Boolean getEstFini() {
+		return estFini;
+	}
+
+	public void setEstFini(Boolean estFini) {
+		this.estFini = estFini;
+	}
+	
 
 }

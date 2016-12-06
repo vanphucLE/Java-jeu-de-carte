@@ -17,10 +17,11 @@ public class JoueurPhysique extends Joueur {
 		super(id, nom, age);
 	}
 
-	public void jouer(JeuDeCartes jeuDeCartes, EspaceCommun espaceCommun) {
-		this.seDefausserCartes(jeuDeCartes);
-		this.Compeleter7Carte(jeuDeCartes);
-		this.choisirCarteReel(espaceCommun);
+	@Override
+	public void jouer(Partie partie) {
+		this.seDefausserCartes(partie.getJeuDeCartes());
+		this.Compeleter7Carte(partie.getJeuDeCartes());
+		this.choisirCarteReel(partie);
 
 	}
 
@@ -62,17 +63,22 @@ public class JoueurPhysique extends Joueur {
 		System.out.println(this.laMain);
 	}
 
-	private void choisirCarteReel(EspaceCommun espaceCommun) {
+	// Choisir carte pour jouer
+	private void choisirCarteReel(Partie partie) {
+		partie.getEspaceCommun();
 		System.out.println("Les cartes en l'espace commun: ");
-		System.out.println(espaceCommun);
+		System.out.println(partie.getEspaceCommun());
 		System.out.println(
 				"(Rappeler) Votre point Action : " + this.ptAction + " ---- Origine : " + this.ptActionOrigine);
 		Boolean continu = true;
 		while (this.ptAction > 0 && continu) {
-			System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
+			String idChoisi = "";
 			Scanner sc = new Scanner(System.in);
-			String idChoisir = sc.nextLine();
-			int idChoisirInt = Integer.parseInt(idChoisir);
+			do {
+				System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
+				idChoisi = sc.nextLine();
+			} while (this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
+			int idChoisirInt = Integer.parseInt(idChoisi);
 			CarteAction carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
 			System.out.print("Vous avez choisi la carte: " + carteChoisi);
 			Boolean test = this.setPtAction(carteChoisi);
@@ -83,16 +89,16 @@ public class JoueurPhysique extends Joueur {
 			}
 			switch (carteChoisi.getType()) {
 			case "Croyant":
-				this.jouerCroyant(carteChoisi, espaceCommun);
+				this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
 				break;
 			case "GuideSpirituel":
-				this.jouerGuideSpirituel(carteChoisi, espaceCommun);
+				this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
 				break;
 			case "DeusEx":
-				this.jouerDeusEx();
+				this.jouerDeusEx(partie);
 				break;
 			case "Apocalypse":
-				this.jouerApocalypse();
+				this.jouerApocalypse(carteChoisi, partie);
 				break;
 			}
 			if (this.ptAction > 0) {
@@ -113,7 +119,6 @@ public class JoueurPhysique extends Joueur {
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
 		LinkedList<Croyant> listeCroyants = new LinkedList<Croyant>();
-
 		Scanner sc = new Scanner(System.in);
 		String commande = "";
 		do {
@@ -124,17 +129,63 @@ public class JoueurPhysique extends Joueur {
 
 		LinkedList<Integer> idCartesGuidee = this.convertIdsEntree(commande);
 		for (int elem : idCartesGuidee) {
-			listeCroyants.add((Croyant)espaceCommun.supprimerCarte(elem));
+			listeCroyants.add((Croyant) espaceCommun.supprimerCarte(elem));
 		}
 		this.laMain.ajouterGuidee(listeCroyants, carteG);
 	}
 
-	private void jouerDeusEx() {
+	private void jouerDeusEx(Partie partie) {
 
 	}
 
-	private void jouerApocalypse() {
-
+	// pas finir
+	private void jouerApocalypse(CarteAction carte, Partie partie) {
+		if (partie.getEstApocalypseAvant() == 0) {
+			System.out.println("Vous ne pouvez pas jouer la carte Apocalypse en ce tour");
+			partie.setEstApocalypseAvant(partie.getEstApocalypseAvant() + 1);
+			this.laMain.completerCarteAction(carte);
+		} else {
+			int[] arPriere = {};
+			int indice = -1;
+			for (Joueur j : partie.getListeJoueurs()) {
+				j.setPtPriere();
+				arPriere[indice++] = j.getPtPriere();
+			}
+			for (int i = 0; i <= indice - 1; i++) {
+				for (int j = i + 1; j <= indice; j++) {
+					if(arPriere[i] < arPriere[j]){
+						int tg=arPriere[i];
+						arPriere[i]=arPriere[j];
+						arPriere[j]=tg;
+					}
+				}
+			}
+			if (indice+1>=4){
+				if(arPriere[indice]==arPriere[indice-1]){
+					System.out.println("Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé.");
+				}else{
+					for (Joueur j : partie.getListeJoueurs()) {
+						if(j.getPtPriere()==arPriere[indice]){
+							partie.eliminerJoueur(j);
+							break;
+						}
+					}
+				}
+			}else{
+				if(arPriere[0]==arPriere[1]){
+					System.out.println("Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé.");
+				}else{
+					for (Joueur j : partie.getListeJoueurs()) {
+						if(j.getPtPriere()==arPriere[0]){
+							partie.setJoueurgagnant(j);
+							partie.setEstFini(true);
+							break;
+						}
+					}
+				}
+			}
+				
+		}
 	}
 
 	// on utilise cette méthode pour mettre à jour le point d'action de joueur
