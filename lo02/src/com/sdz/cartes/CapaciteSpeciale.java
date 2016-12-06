@@ -2,6 +2,7 @@ package com.sdz.cartes;
 
 import java.util.*;
 
+
 import com.sdz.modele.Joueur;
 import com.sdz.modele.Partie;
 
@@ -43,6 +44,7 @@ public static void capacite(int id){
 	}
 	if (id==13){
 		//relancer de de cosmonogie
+		Partie.lancerDe();
 	}
 	if (id>13 && id<19){
 		//donner une point d'action de nuit 
@@ -66,13 +68,13 @@ public static void capacite(int id){
 			System.out.print("Choisir id de la Divinité");
 			Iterator<Joueur> it=Partie.listeJoueurs.iterator();
 			while (it.hasNext()){
-				if(it.next().id>Partie.joueurEncours.id){
+				if(it.next().getId()>Partie.joueurEncours.getId()){
 				System.out.println("id"+it.next().getId()+it.next().getNom());}				
 			}
 			Scanner sc=new Scanner(System.in);
 			int Divine;
 			Divine=sc.nextInt();
-			if(Divine>Partie.joueurEncours.id && Divine < Partie.listeJoueurs.size()){
+			if(Divine>Partie.joueurEncours.getId() && Divine < Partie.listeJoueurs.size()){
 				Partie.joueurEncours.ptAction_Jour=Partie.joueurEncours.ptAction_Jour+Partie.listeJoueurs.get(Divine-1).ptAction_Jour;
 				Partie.listeJoueurs.get(Divine-1).ptAction_Jour=0;
 				Partie.joueurEncours.ptAction_Nuit=Partie.joueurEncours.ptAction_Nuit+Partie.listeJoueurs.get(Divine-1).ptAction_Nuit;
@@ -93,4 +95,5 @@ public static void capacite(int id){
 	if (id==32){
 		
 	}
+}
 }

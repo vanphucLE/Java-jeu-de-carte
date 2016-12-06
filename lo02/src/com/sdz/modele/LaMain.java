@@ -12,7 +12,7 @@ public class LaMain {
 
 	private CarteDivinite carteDivinite;
 
-	private LinkedList<CarteAction> listeCarteA = new LinkedList<CarteAction>();
+	public static LinkedList<CarteAction> listeCarteA = new LinkedList<CarteAction>();
 
 	// listeCroyantGuidee est un collection continant les
 	// cartes croyants qui a été guidées par la carte

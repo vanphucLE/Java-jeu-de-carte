@@ -11,10 +11,13 @@ public class Joueur {
 	protected int age;
 	protected int ptPriere;
 	protected int ptAction;
+	public int ptAction_Jour;
+	public int ptAction_Nuit;
+	public int ptAction_Neant;
 	protected String ptActionOrigine;
 	protected Boolean estElimine;
 	protected int idCarteDivinite;
-	protected LaMain laMain = new LaMain();
+	public LaMain laMain = new LaMain();
 
 	public Joueur(int id, String nom, int age) {
 		this.id = id;
@@ -30,12 +33,26 @@ public class Joueur {
 		return this.id;
 	}
 
-	public void setPtAction(int ptAction) {
-		this.ptAction = ptAction;
+	public void setPtAction_Jour(int ptAction) {
+		this.ptAction_Jour =this.ptAction_Jour + ptAction;
 	}
 
-	public int getPtAction() {
-		return this.ptAction;
+	public int getPtAction_Jour() {
+		return this.ptAction_Jour;
+	}
+	public void setPtAction_Nuit(int ptAction) {
+		this.ptAction_Nuit =this.ptAction_Nuit+ ptAction;
+	}
+
+	public int getPtAction_Nuit() {
+		return this.ptAction_Nuit;
+	}
+	public void setPtAction_Neant(int ptAction) {
+		this.ptAction_Neant =this.ptAction_Neant+ ptAction;
+	}
+
+	public int getPtAction_Neant() {
+		return this.ptAction_Neant;
 	}
 
 	public void setPtPriere() {

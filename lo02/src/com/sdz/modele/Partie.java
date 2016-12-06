@@ -9,8 +9,8 @@ import com.sdz.cartes.CarteDivinite;
 public class Partie {
 	private int nbJoueur;
 	private Joueur Joueurgagnant;
-	private Joueur joueurEncours;
-	private ArrayList<Joueur> listeJoueurs = new ArrayList();
+	public static Joueur joueurEncours;
+	public static ArrayList<Joueur> listeJoueurs = new ArrayList();
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
 	private Boolean estFini = false;
 	private EspaceCommun espaceCommun = new EspaceCommun();
@@ -25,40 +25,40 @@ public class Partie {
 		return this.nbJoueur;
 	}
 
-	public void lancerDe() {
+	public static void lancerDe() {
 		String[] de = { "", "Jour", "Nuit", "Néant" };
 		int num = (int) Math.ceil(3 * Math.random());
 		String FaceDe = de[num];
 		if (FaceDe == "Jour") {
-			for (Joueur joueur : this.listeJoueurs) {
+			for (Joueur joueur : Partie.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Jour") {
-					joueur.setPtAction(2);
+					joueur.setPtAction_Jour(2);
 					joueur.setPtActionOrigine("Jour");
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
-					joueur.setPtAction(1);
+					joueur.setPtAction_Jour(1);
 					joueur.setPtActionOrigine("Jour");
 				}
 			}
 		} else if (FaceDe == "Nuit") {
-			for (Joueur joueur : this.listeJoueurs) {
+			for (Joueur joueur : Partie.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Nuit") {
-					joueur.setPtAction(2);
+					joueur.setPtAction_Nuit(2);
 					joueur.setPtActionOrigine("Nuit");
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
-					joueur.setPtAction(1);
+					joueur.setPtAction_Nuit(1);
 					joueur.setPtActionOrigine("Nuit");
 				}
 			}
 		} else if (FaceDe == "Néant") {
-			for (Joueur joueur : this.listeJoueurs) {
+			for (Joueur joueur : Partie.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
-					joueur.setPtAction(1);
+					joueur.setPtAction_Neant(1);
 					joueur.setPtActionOrigine("Néant");
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
-					joueur.setPtAction(1);
+					joueur.setPtAction_Neant(1);
 					joueur.setPtActionOrigine("Néant");
 				}
 			}
