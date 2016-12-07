@@ -90,12 +90,19 @@ public class Joueur {
 		this.laMain = laMain;
 	}
 
-
-
 	public void jouer(Partie partie) {
+		this.seDefausserCartes(partie.getJeuDeCartes());
+		this.Compeleter7Carte(partie.getJeuDeCartes());
+		this.choisirCarteReel(partie);
 
 	}
-
+	public void choisirCarteReel(Partie partie) {
+	}
+	public void Compeleter7Carte(JeuDeCartes jeuDeCartes) {
+	}
+	public void seDefausserCartes(JeuDeCartes jeuDeCartes){
+		
+	}
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Joueur n." + this.id + " : ");

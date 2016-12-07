@@ -6,12 +6,18 @@ public class JoueurVirtuel extends Joueur {
 		super(id,nom,age);
 		this.laMain=new LaMain();
 	}
+	
+	@Override
+	public void jouer(Partie partie){
+		
+	}
 	public void choisirCarte(){
 		
 	}
 	public void JoueurCapaSpe(){
 		
 	}
+	
 
 	public LaMain getLaMain() {
 		return laMain;
