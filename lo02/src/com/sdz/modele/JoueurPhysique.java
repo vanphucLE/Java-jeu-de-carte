@@ -15,6 +15,7 @@ public class JoueurPhysique extends Joueur {
 
 	public JoueurPhysique(String nom, int age) {
 		super(id, nom, age);
+		this.laMain= new LaMain();
 	}
 
 	@Override
@@ -27,16 +28,15 @@ public class JoueurPhysique extends Joueur {
 
 	// Un joueur veut défausser un plusieur Cartes
 	private void seDefausserCartes(JeuDeCartes jeuDeCartes) {
-		System.out.println("Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: " + this.ptAction_Nuit
-				+ ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
+		System.out.println("Votre Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit
+				+ ") " + "(Néant: " + this.ptAction_Neant + ")");
+		System.out.println("Les cartes actions tenu dans vôtre main:");
+		System.out.println(this.laMain);
 		Scanner sc = new Scanner(System.in);
-		String commande = "";
 		System.out.print("Voulez-vous défausser les cartes ? (Y/N):");
-		commande = sc.nextLine();
-		if (commande == "Y") {
+		String commande = sc.nextLine();
+		if (commande.equals("Y")) {
 			String commande2 = "";
-			System.out.println("Les cartes actions tenu dans vôtre main:");
-			System.out.println(this.laMain);
 			do {
 				System.out.print("Choisir les Id dont les cartes actions déffausées (Ex: 1 3 5) : ");
 				commande2 = sc.nextLine();
@@ -278,5 +278,6 @@ public class JoueurPhysique extends Joueur {
 	public void JoueurCapaSpeReel() {
 
 	}
+	
 
 }

@@ -35,12 +35,14 @@ public class Main {
 		}
 		
 		Partie partie= new Partie(listeJoueurs);
-		for (Joueur j:partie.getListeJoueurs()){
-			System.out.println(j);
-		}
-		for (CarteAction carte: partie.getJeuDeCartes().getListeCartesAction()){
-			System.out.println(carte);
-		};
+		
+//		for (Joueur j:partie.getListeJoueurs()){
+//			System.out.println(j);
+//		}
+//		for (CarteAction carte: partie.getJeuDeCartes().getListeCartesAction()){
+//			System.out.println(carte);
+//		};
+		partie.jouer();
 	}
 
 }

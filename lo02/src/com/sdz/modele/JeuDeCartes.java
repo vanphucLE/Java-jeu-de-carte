@@ -48,6 +48,8 @@ public class JeuDeCartes {
 			CarteDivinite carteDivinite = new CarteDivinite(i);
 			this.listeCartesDivinite.add(carteDivinite);
 		}
+		this.melangerCartesAction();
+		this.melangerCartesDivinite();
 	}
 
 	// Mélanger les Cartes Action
@@ -63,7 +65,7 @@ public class JeuDeCartes {
 	// Mélanger les Cartes Divinités
 	public void melangerCartesDivinite() {
 		for (int i = 81; i < 90; i++) {
-			int position = (int) Math.ceil((90 - 81) * Math.random()) + 80;
+			int position = (int) Math.ceil((90 - 81) * Math.random()) ;
 			CarteDivinite carteDivinite = this.listeCartesDivinite.pop();
 			this.listeCartesDivinite.add(position, carteDivinite);
 		}

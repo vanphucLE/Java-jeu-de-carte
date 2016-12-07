@@ -15,7 +15,7 @@ public class Joueur {
 	protected int ptAction_Neant;
 	protected Boolean estElimine;
 	protected int idCarteDivinite;
-	protected LaMain laMain = new LaMain();
+	protected LaMain laMain;
 	protected boolean sacrifice=true;
 
 	public Joueur(int id, String nom, int age) {

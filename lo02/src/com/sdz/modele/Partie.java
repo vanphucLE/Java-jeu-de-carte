@@ -63,9 +63,16 @@ public class Partie {
 	// un partie va commencer par appeller cette méthode
 	public void jouer() {
 		this.commencerPartie();
-		while (!this.estFini) {
-			this.TourDeJeu(0);
-		}
+		int numCom=-1;
+//		while (!this.estFini) {
+//			if (numCom < this.getListeJoueurs().size()-1){
+//				numCom++;
+//			}else{
+//				numCom=0;
+//			}
+//			this.tourDeJeu(numCom);
+//		}
+		this.tourDeJeu(0);
 
 	}
 
@@ -86,11 +93,16 @@ public class Partie {
 				joueur.getLaMain().completerCarteAction(carte);
 			}
 		}
+		System.out.println(this.listeJoueurs.get(0));
+		System.out.println(this.listeJoueurs.get(0).getLaMain());
+		System.out.println(this.listeJoueurs.get(1));
+		System.out.println(this.listeJoueurs.get(1).getLaMain());
+	
 	}
 
 	// Déscrire les actions des joueurs dans chaque tour
 	// numCom: numéro du joueur dans listJoueurs qui commence ce tour
-	private void TourDeJeu(int numCom) {
+	private void tourDeJeu(int numCom) {
 		this.joueurEncours = this.listeJoueurs.get(numCom);
 		System.out.println("Le tour de :" + joueurEncours);
 		Scanner sc = new Scanner(System.in);
@@ -98,7 +110,7 @@ public class Partie {
 		do {
 			System.out.print("Entrez 'Lancer' pour lancer le dé! ");
 			str = sc.nextLine();
-		} while (str.equals("Lancer"));
+		} while (!str.equals("Lancer"));
 		// lancer le dé
 		this.lancerDe();
 		this.listeJoueurs.get(numCom).jouer(this);
