@@ -48,7 +48,7 @@ public abstract class Carte {
 	public String toString() {
 		//on conserve les dogme dans un chain
 		StringBuffer sb = new StringBuffer();
-		sb.append("Carte " + this.type + " : "+this.nom + " | ");
+		sb.append("Carte " + this.type + ": "+this.nom + " \t| ");
 		sb.append("Id: " + this.id+ " | ");
 		sb.append("Dogme: " + Arrays.toString(dogme) + " | ");
 		sb.append("Origine: " + this.origine + " | ");

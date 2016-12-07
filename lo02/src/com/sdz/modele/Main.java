@@ -3,6 +3,8 @@ package com.sdz.modele;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sdz.cartes.CarteAction;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -23,7 +25,7 @@ public class Main {
 			System.out.print("Entrez le nombre de joueur (le nombre compris entre 2 et 9): ");
 			nb = sc.nextLine();
 			nb = nb.trim();
-		} while (!nb.matches("\\d+"));
+		} while (!nb.matches("\\d"));
 		int nombreJoueur = Integer.parseInt(nb);
 
 		listeJoueurs.add(new JoueurPhysique( "Phuc", 21));
@@ -33,9 +35,12 @@ public class Main {
 		}
 		
 		Partie partie= new Partie(listeJoueurs);
-		for (Joueur j:listeJoueurs){
+		for (Joueur j:partie.getListeJoueurs()){
 			System.out.println(j);
 		}
+		for (CarteAction carte: partie.getJeuDeCartes().getListeCartesAction()){
+			System.out.println(carte);
+		};
 	}
 
 }

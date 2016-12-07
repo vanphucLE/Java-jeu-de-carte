@@ -1,13 +1,12 @@
 package com.sdz.modele;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.sdz.cartes.Apocalypse;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;
 import com.sdz.cartes.Croyant;
+import com.sdz.cartes.DeusEx;
 import com.sdz.cartes.GuideSpirituel;
 
 public class JeuDeCartes {
@@ -32,16 +31,16 @@ public class JeuDeCartes {
 			this.listeCartesAction.add(carteGuideSpirituel);
 		}
 
-		// Crée les Cartes Apocalypses
+		// Crée les Cartes DeusEx
 		for (int i = 58; i <= 75; i++) {
-			Apocalypse carteApocalypse = new Apocalypse(i);
-			this.listeCartesAction.add(carteApocalypse);
+			DeusEx carteDeusEx = new DeusEx(i);
+			this.listeCartesAction.add(carteDeusEx);
 		}
 
-		// Crée les Cartes DeusEx
+		// Crée les Cartes Apocalypses
 		for (int i = 76; i <= 80; i++) {
-			Croyant carteDeusEx = new Croyant(i);
-			this.listeCartesAction.add(carteDeusEx);
+			Apocalypse carteApocalypse = new Apocalypse(i);
+			this.listeCartesAction.add(carteApocalypse);
 		}
 
 		// Crée les Cartes Divinité
@@ -70,16 +69,16 @@ public class JeuDeCartes {
 		}
 	}
 
-	// Distribuer Carte Action 
+	// Distribuer Carte Action
 	public CarteAction distribuerCarteAction() {
 		return this.listeCartesAction.removeLast();
 	}
 
-	//Distribuer Carte Divinité au joueur
-	public CarteDivinite piocherCarteDivinite(){
-		  return this.listeCartesDivinite.removeLast();
+	// Distribuer Carte Divinité au joueur
+	public CarteDivinite piocherCarteDivinite() {
+		return this.listeCartesDivinite.removeLast();
 	}
-	
+
 	// La carte action va être récupéré au jeu de carte, lors que elle est
 	// défaussée ou sacrifiée.
 	// Ensuite, le jeu de carte va être mélangé avant de commencer le nouveau
@@ -101,7 +100,7 @@ public class JeuDeCartes {
 		return nbCarteAction;
 	}
 
-	public void setNbCarteAction(){
+	public void setNbCarteAction() {
 		this.nbCarteAction = this.listeCartesAction.size();
 	}
 

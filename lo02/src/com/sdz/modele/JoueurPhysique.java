@@ -216,7 +216,7 @@ public class JoueurPhysique extends Joueur {
 				} else if (this.ptAction_Jour >= 2) {
 					this.ptAction_Jour -= 2;
 				} else if (this.ptAction_Nuit >= 2) {
-					this.ptAction_Jour -= 2;
+					this.ptAction_Nuit -= 2;
 				} else {
 					System.out.println("Eurreur en choissant!!");
 					return false;

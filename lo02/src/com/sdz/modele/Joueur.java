@@ -99,12 +99,12 @@ public class Joueur {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Joueur n." + this.id + " : ");
-		sb.append(this.nom + " ");
+		sb.append(this.nom + "\t ");
 		sb.append("(" + this.age + " ans) | ");
 		sb.append("Point Prière: " + this.ptPriere + " | ");
-		sb.append("Point Action (Jour: " +  this.ptAction_Jour + ") | ");
-		sb.append("(Nuit: " + this.ptAction_Nuit+ ") | ");
-		sb.append("(Néant: " + this.ptAction_Neant + ")\n");
+		sb.append("Point Action : (Jour: " +  this.ptAction_Jour + ") ");
+		sb.append("(Nuit: " + this.ptAction_Nuit+ ") ");
+		sb.append("(Néant: " + this.ptAction_Neant + ")");
 		return sb.toString();
 	}
 	public void sacrifierCroyant(CarteAction a){

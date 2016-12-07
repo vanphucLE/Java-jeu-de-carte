@@ -43,7 +43,6 @@ public class Partie {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Nuit") {
 					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit()+2);
-					
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
 					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit()+1);				}
