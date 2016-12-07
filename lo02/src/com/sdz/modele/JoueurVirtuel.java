@@ -32,7 +32,7 @@ public class JoueurVirtuel extends Joueur {
 
 	@Override
 	public void choisirCarte(Partie partie) {
-		CarteAction carteChoisi;
+		CarteAction carteChoisi=new CarteAction();
 		for (CarteAction carteA : this.laMain.getListeCarteA()) {
 			if (carteA.getOrigine().equals("Jour") && this.testEntree(carteA, partie)) {
 				if (this.ptAction_Jour > 0) {
@@ -78,10 +78,26 @@ public class JoueurVirtuel extends Joueur {
 
 	}
 
-	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun){
-		GuideSpirituel carteG= (GuideSpirituel)carte;
+	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
+		GuideSpirituel carteG = (GuideSpirituel) carte;
 		LinkedList<Croyant> listeCroyantsGuidee = new LinkedList<Croyant>();
-		for(CarteAction )
+		int indice = 0;
+		for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
+			Boolean test = false;
+			for (String dogmeA : carteA.getDogme()) {
+				for (String dogmeD : carteG.getDogme()) {
+					if (dogmeD.equals(dogmeA)) {
+						test = true;
+						break;
+					}
+				}
+			}
+			if (test == true && indice < carteG.getNbGuider()) {
+				indice++;
+				listeCroyantsGuidee.add((Croyant) carteA);
+			}
+		}
+		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
 	}
 
 	private Boolean testEntree(CarteAction carte, Partie partie) {
@@ -103,6 +119,15 @@ public class JoueurVirtuel extends Joueur {
 		}
 		return test;
 	}
+
+	private void jouerDeusEx(Partie partie) {
+
+	}
+
+	private void jouerApocalypse(CarteAction carte, Partie partie) {
+
+	}
+
 
 	public void JoueurCapaSpe() {
 
