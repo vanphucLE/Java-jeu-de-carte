@@ -103,9 +103,9 @@ public class Partie {
 		Scanner sc = new Scanner(System.in);
 		String str = "";
 		do {
-			System.out.print("Entrez 'Lancer' pour lancer le dé! ");
+			System.out.print("Entrez 'L' pour lancer le dé! ");
 			str = sc.nextLine();
-		} while (!str.equals("Lancer"));
+		} while (!str.equals("L"));
 		// lancer le dé
 		this.lancerDe();
 		this.listeJoueurs.get(numCom).jouer(this);

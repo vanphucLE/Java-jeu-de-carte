@@ -83,7 +83,7 @@ public class JoueurPhysique extends Joueur {
 			} while (!this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
 			int idChoisirInt = Integer.parseInt(idChoisi);
 			CarteAction carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
-			System.out.print("Vous avez choisi la carte: " + carteChoisi);
+			System.out.println("Vous avez choisi la carte: " + carteChoisi);
 			Boolean test = this.setPtAction(carteChoisi);
 			if (!test) {
 				// Si la choice de joueur n'est pas valide, la main va récupérer
