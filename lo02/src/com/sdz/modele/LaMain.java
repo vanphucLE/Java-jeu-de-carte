@@ -88,7 +88,7 @@ public class LaMain {
 			CarteAction carte = (CarteAction) it.next();
 			sb.append(" ."+carte + "\n");
 		}
-		sb.append("Liste cartes guidées: \n");
+		sb.append("Liste cartes guidées: ");
 		Iterator<GuideSpirituel> it2 = this.listeGuideSpirituelGuider.iterator();
 		int compte = -1;
 		while (it2.hasNext()) {

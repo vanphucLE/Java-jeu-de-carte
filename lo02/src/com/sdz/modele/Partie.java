@@ -6,7 +6,6 @@ import java.util.Scanner;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;
 
-
 public class Partie {
 	private int nbJoueur;
 	private Joueur Joueurgagnant;
@@ -17,44 +16,45 @@ public class Partie {
 	private EspaceCommun espaceCommun = new EspaceCommun();
 	private String difficulte;
 	// cette attribute pour valider si le carteApocalypse peut-être joué
-	private int estApocalypseAvant=0;
-	
-	public Partie(ArrayList<Joueur> listeJoueurs){
-		this.listeJoueurs=listeJoueurs;
-	}
+	private int estApocalypseAvant = 0;
 
+	public Partie(ArrayList<Joueur> listeJoueurs) {
+		this.listeJoueurs = listeJoueurs;
+	}
 
 	public void lancerDe() {
 		String[] de = { "", "Jour", "Nuit", "Néant" };
 		int num = (int) Math.ceil(3 * Math.random());
 		String FaceDe = de[num];
+		System.out.println("Face du dé: " + FaceDe);
 		if (FaceDe == "Jour") {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Jour") {
-					joueur.setPtAction_Jour(joueur.getPtAction_Jour()+2);
-					
+					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 2);
+
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
-					joueur.setPtAction_Jour(joueur.getPtAction_Jour()+1);
-					
+					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 1);
+
 				}
 			}
 		} else if (FaceDe == "Nuit") {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Nuit") {
-					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit()+2);
+					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 2);
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
-					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit()+1);				}
+					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 1);
+				}
 			}
 		} else if (FaceDe == "Néant") {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
-					joueur.setPtAction_Neant(joueur.getPtAction_Neant()+1);
-					
+					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
+
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
-					joueur.setPtAction_Neant(joueur.getPtAction_Neant()+1);
+					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
 				}
 			}
 		}
@@ -63,15 +63,15 @@ public class Partie {
 	// un partie va commencer par appeller cette méthode
 	public void jouer() {
 		this.commencerPartie();
-		int numCom=-1;
-//		while (!this.estFini) {
-//			if (numCom < this.getListeJoueurs().size()-1){
-//				numCom++;
-//			}else{
-//				numCom=0;
-//			}
-//			this.tourDeJeu(numCom);
-//		}
+		int numCom = -1;
+		// while (!this.estFini) {
+		// if (numCom < this.getListeJoueurs().size()-1){
+		// numCom++;
+		// }else{
+		// numCom=0;
+		// }
+		// this.tourDeJeu(numCom);
+		// }
 		this.tourDeJeu(0);
 
 	}
@@ -93,11 +93,6 @@ public class Partie {
 				joueur.getLaMain().completerCarteAction(carte);
 			}
 		}
-		System.out.println(this.listeJoueurs.get(0));
-		System.out.println(this.listeJoueurs.get(0).getLaMain());
-		System.out.println(this.listeJoueurs.get(1));
-		System.out.println(this.listeJoueurs.get(1).getLaMain());
-	
 	}
 
 	// Déscrire les actions des joueurs dans chaque tour
@@ -122,9 +117,10 @@ public class Partie {
 		}
 	}
 
-	public void eliminerJoueur(Joueur joueur){
+	public void eliminerJoueur(Joueur joueur) {
 		this.listeJoueurs.remove(joueur);
 	}
+
 	public void annoncerGagnant() {
 
 	}
@@ -171,6 +167,7 @@ public class Partie {
 	public void setEstFini(Boolean estFini) {
 		this.estFini = estFini;
 	}
+
 	public void setNbJoueur(int nbJoueur) {
 		this.nbJoueur = nbJoueur;
 	}
@@ -182,6 +179,5 @@ public class Partie {
 	public Joueur getJoueurEncours() {
 		return joueurEncours;
 	}
-	
 
 }

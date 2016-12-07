@@ -15,7 +15,7 @@ public class JoueurPhysique extends Joueur {
 
 	public JoueurPhysique(String nom, int age) {
 		super(id, nom, age);
-		this.laMain= new LaMain();
+		this.laMain = new LaMain();
 	}
 
 	@Override
@@ -33,8 +33,11 @@ public class JoueurPhysique extends Joueur {
 		System.out.println("Les cartes actions tenu dans vôtre main:");
 		System.out.println(this.laMain);
 		Scanner sc = new Scanner(System.in);
-		System.out.print("Voulez-vous défausser les cartes ? (Y/N):");
-		String commande = sc.nextLine();
+		String commande="";
+		do {
+			System.out.print("Voulez-vous défausser les cartes ? (Y/N):");
+			 commande= sc.nextLine();
+		} while (!commande.equals("Y") && !commande.equals("N"));
 		if (commande.equals("Y")) {
 			String commande2 = "";
 			do {
@@ -67,10 +70,9 @@ public class JoueurPhysique extends Joueur {
 	// Choisir carte pour jouer
 	private void choisirCarteReel(Partie partie) {
 		partie.getEspaceCommun();
-		System.out.println("Les cartes en l'espace commun: ");
 		System.out.println(partie.getEspaceCommun());
 		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
-				+ this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
+				+ this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")");
 		Boolean continu = true;
 		while ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0 && continu) {
 			String idChoisi = "";
@@ -78,7 +80,7 @@ public class JoueurPhysique extends Joueur {
 			do {
 				System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
 				idChoisi = sc.nextLine();
-			} while (this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
+			} while (!this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
 			int idChoisirInt = Integer.parseInt(idChoisi);
 			CarteAction carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
 			System.out.print("Vous avez choisi la carte: " + carteChoisi);
@@ -258,7 +260,7 @@ public class JoueurPhysique extends Joueur {
 		Boolean test = true;
 		LinkedList<Integer> arrayIdEntree = this.convertIdsEntree(stringEntree);
 		LinkedList<Integer> arrayId = new LinkedList<Integer>();
-		if (arrayId.size() != 0) {
+		if (arrayIdEntree.size() != 0) {
 			Iterator<CarteAction> it = listeContenantId.iterator();
 			while (it.hasNext()) {
 				CarteAction carte = it.next();
@@ -267,6 +269,8 @@ public class JoueurPhysique extends Joueur {
 			for (int elem : arrayIdEntree) {
 				if (arrayId.indexOf(elem) == -1) {
 					test = false;
+					System.out.println("Eurreur entree!!! ");
+					break;
 				}
 			}
 		} else {
@@ -278,6 +282,5 @@ public class JoueurPhysique extends Joueur {
 	public void JoueurCapaSpeReel() {
 
 	}
-	
 
 }

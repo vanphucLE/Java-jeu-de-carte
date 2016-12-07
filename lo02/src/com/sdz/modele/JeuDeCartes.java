@@ -54,9 +54,9 @@ public class JeuDeCartes {
 
 	// Mélanger les Cartes Action
 	public void melangerCartesAction() {
-
-		for (int i = 0; i < 80; i++) {
-			int position = (int) Math.ceil((80 - 1) * Math.random());
+		int tail=this.listeCartesAction.size();
+		for (int i = 0; i < tail; i++) {
+			int position = (int) Math.ceil((tail - 1) * Math.random());
 			CarteAction carteAction = this.listeCartesAction.pop();
 			this.listeCartesAction.add(position, carteAction);
 		}
@@ -78,7 +78,7 @@ public class JeuDeCartes {
 
 	// Distribuer Carte Divinité au joueur
 	public CarteDivinite piocherCarteDivinite() {
-		return this.listeCartesDivinite.removeLast();
+		return this.listeCartesDivinite.removeFirst();
 	}
 
 	// La carte action va être récupéré au jeu de carte, lors que elle est
