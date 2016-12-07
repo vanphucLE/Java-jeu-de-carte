@@ -58,11 +58,13 @@ public class JoueurPhysique extends Joueur {
 		while ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0 && continu) {
 			String idChoisi = "";
 			Scanner sc = new Scanner(System.in);
+			int idChoisirInt=0;
 			do {
 				System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
 				idChoisi = sc.nextLine();
+				
 			} while (!this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
-			int idChoisirInt = Integer.parseInt(idChoisi);
+			idChoisirInt = Integer.parseInt(idChoisi);
 			CarteAction carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
 			System.out.println("Vous avez choisi la carte: " + carteChoisi);
 			Boolean test = this.setPtAction(carteChoisi);
@@ -121,6 +123,7 @@ public class JoueurPhysique extends Joueur {
 
 	// pas finir
 	private void jouerApocalypse(CarteAction carte, Partie partie) {
+		//
 		if (partie.getEstApocalypseAvant() == 0) {
 			System.out.println("Vous ne pouvez pas jouer la carte Apocalypse en ce tour");
 			partie.setEstApocalypseAvant(partie.getEstApocalypseAvant() + 1);
