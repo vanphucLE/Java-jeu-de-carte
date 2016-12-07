@@ -13,19 +13,12 @@ public class JoueurVirtuel extends Joueur {
 
 	@Override
 	public void seDefausserCartes(JeuDeCartes jeuDeCartes) {
-		//Choisir au hasard le nombre de carte défaussée.
+		// Choisir au hasard le nombre de carte défaussée.
 		int nbDe = (int) Math.ceil(Math.random() * 7);
-		for (int i = 1; i <= 7; i++) {
-			//Choisir au hasard les carte défaussée.
+		for (int i = 7; i >= 1; i--) {
+			// Choisir au hasard les carte défaussée.
 			int nbCa = (int) Math.ceil(Math.random() * i);
-			CarteAction carteA=this.laMain.getListeCarteA().remove(nbCa-1);
-		}
-		
-
-		for (String str : cartesDef) {
-			int num = Integer.parseInt(str);
-			// la carte défaussées est recupéré dans le jeu de carte.
-			CarteAction carteA = this.laMain.seDeffausserCarte(num);
+			CarteAction carteA = this.laMain.getListeCarteA().remove(nbCa - 1);
 			jeuDeCartes.recupererCarteAction(carteA);
 		}
 	}

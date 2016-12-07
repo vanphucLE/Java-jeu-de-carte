@@ -108,11 +108,17 @@ public class Partie {
 		} while (!str.equals("L"));
 		// lancer le dé
 		this.lancerDe();
-		this.listeJoueurs.get(numCom).jouer(this);
+		
+		this.joueurEncours.jouer(this);
+		
 		for (int i = numCom + 1; i < this.listeJoueurs.size(); i++) {
+			this.joueurEncours = this.listeJoueurs.get(i);
+			System.out.println("Le tour de :" + joueurEncours);
 			this.listeJoueurs.get(i).jouer(this);
 		}
 		for (int i = 0; i < numCom; i++) {
+			this.joueurEncours = this.listeJoueurs.get(i);
+			System.out.println("Le tour de :" + joueurEncours);
 			this.listeJoueurs.get(i).jouer(this);
 		}
 	}

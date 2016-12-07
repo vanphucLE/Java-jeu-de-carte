@@ -19,11 +19,6 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	@Override
-	public void jouer(Partie partie) {
-
-	}
-
-	@Override
 	public void seDefausserCartes(JeuDeCartes jeuDeCartes) {
 		System.out.println("Votre Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit
 				+ ") " + "(Néant: " + this.ptAction_Neant + ")");
