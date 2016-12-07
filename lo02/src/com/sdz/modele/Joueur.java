@@ -97,20 +97,28 @@ public class Joueur {
 	public void jouer(Partie partie) {
 		this.seDefausserCartes(partie.getJeuDeCartes());
 		this.Compeleter7Carte(partie.getJeuDeCartes());
-		this.choisirCarteReel(partie);
-	}
-
-	// Choisir carte pour jouer
-	public void choisirCarteReel(Partie partie) {
-	}
-
-	// Le joueur compléte 7 cartes dans la main
-	public void Compeleter7Carte(JeuDeCartes jeuDeCartes) {
+		this.choisirCarte(partie);
 	}
 
 	// Un joueur veut défausser un plusieur Cartes
 	public void seDefausserCartes(JeuDeCartes jeuDeCartes) {
 
+	}
+
+	// Le joueur compléte 7 cartes dans la main
+	public void Compeleter7Carte(JeuDeCartes jeuDeCartes) {
+		int compte = this.laMain.getListeCarteA().size();
+		while (compte < 7) {
+			compte++;
+			CarteAction carte = jeuDeCartes.distribuerCarteAction();
+			this.getLaMain().completerCarteAction(carte);
+		}
+		System.out.println("Vous avez complété 7 Cartes. Maintenant, les cartes sont: ");
+		System.out.println(this.laMain);
+	}
+
+	// Choisir carte pour jouer
+	public void choisirCarte(Partie partie) {
 	}
 
 	public String toString() {

@@ -47,20 +47,9 @@ public class JoueurPhysique extends Joueur {
 		}
 	}
 
+	
 	@Override
-	public void Compeleter7Carte(JeuDeCartes jeuDeCartes) {
-		int compte = this.laMain.getListeCarteA().size();
-		while (compte < 7) {
-			compte++;
-			CarteAction carte = jeuDeCartes.distribuerCarteAction();
-			this.getLaMain().completerCarteAction(carte);
-		}
-		System.out.println("Vous avez complété 7 Cartes. Maintenant, les cartes sont: ");
-		System.out.println(this.laMain);
-	}
-
-	@Override
-	public void choisirCarteReel(Partie partie) {
+	public void choisirCarte(Partie partie) {
 		partie.getEspaceCommun();
 		System.out.println(partie.getEspaceCommun());
 		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
@@ -236,7 +225,7 @@ public class JoueurPhysique extends Joueur {
 			if (elem.matches("\\d+")) {
 				arrayId.add(Integer.parseInt(elem));
 			} else if (elem != "") {
-				System.out.println("Eurreur entree!!! ");
+				System.out.println("Eurreur entrée!!! ");
 				test = false;
 				break;
 			}
