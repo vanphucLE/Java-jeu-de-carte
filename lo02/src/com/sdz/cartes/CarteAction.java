@@ -2,7 +2,6 @@ package com.sdz.cartes;
 
 public class CarteAction extends Carte {
 	protected Boolean estJouee;
-
 	public CarteAction() {
 	
 	}

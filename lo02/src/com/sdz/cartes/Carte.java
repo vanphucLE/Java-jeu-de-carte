@@ -43,8 +43,6 @@ public abstract class Carte {
 		return this.dogme;
 	}
 
-	@Override
-	
 	public String toString() {
 		//on conserve les dogme dans un chain
 		StringBuffer sb = new StringBuffer();

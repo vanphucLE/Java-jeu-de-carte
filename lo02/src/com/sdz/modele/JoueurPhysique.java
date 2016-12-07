@@ -107,7 +107,7 @@ public class JoueurPhysique extends Joueur {
 		Scanner sc = new Scanner(System.in);
 		String commande = "";
 		do {
-			System.out.print("Vous pouvez guider " + carteG
+			System.out.print("Vous pouvez guider " + carteG.getNbGuider()
 					+ " carte(s) croyant(s). Choisir les Id dont la carte croyants dans l'espace commun pour guider (Ex: 1 2): ");
 			commande = sc.nextLine();
 		} while (!this.testEntrer(commande, espaceCommun.getListeCartes()));
