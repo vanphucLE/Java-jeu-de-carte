@@ -23,7 +23,13 @@ public class Joueur {
 		this.nom = nom;
 		this.age = age;
 	}
-
+	public int getidCarteDivinite(){
+		return this.idCarteDivinite;
+	}
+	public void setSacrifice(boolean sacrifice){
+		this.sacrifice=sacrifice;
+	}
+	
 	public String getNom() {
 		return this.nom;
 	}

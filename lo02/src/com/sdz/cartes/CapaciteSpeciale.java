@@ -15,8 +15,36 @@ public class CapaciteSpeciale {
 			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour()+1);
 		}
 		if (id == 6) {
+			boolean choix=true;
+			while(choix){
+				System.out.println("Choisir id Divinité origine Nature ou Mystique pour empecher sa sacrifice la carte croyant");
+				for (int i=1;i<=partie.getListeJoueurs().size();i++){
+					System.out.print("id "+i+" nom "+partie.getListeJoueurs().get(i).getNom()+" Dogme "+partie.getListeJoueurs().get(i).getLaMain().getCarteDivinite().getDogme());
+				}
+				Scanner sc=new Scanner(System.in);
+				int Divine= sc.nextInt();
+				Joueur joueur=partie.getListeJoueurs().get(Divine-1);
+				if(!joueur.equals(partie.getJoueurEncours())&&joueur.getLaMain().getCarteDivinite().id!=89){
+					joueur.setSacrifice(false);
+					choix=false;
+				}
+			}
 		}
 		if (id == 7) {
+			boolean choix=true;
+			while(choix){
+				System.out.println("Choisir id Divinité origine Chaos ou Mystique pour empecher sa sacrifice la carte croyant");
+				for (int i=1;i<=partie.getListeJoueurs().size();i++){
+					System.out.print("id "+i+" nom "+partie.getListeJoueurs().get(i).getNom()+" Dogme "+partie.getListeJoueurs().get(i).getLaMain().getCarteDivinite().getDogme());
+				}
+				Scanner sc=new Scanner(System.in);
+				int Divine= sc.nextInt();
+				Joueur joueur=partie.getListeJoueurs().get(Divine-1);
+				if(!joueur.equals(partie.getJoueurEncours()) &&joueur.getLaMain().getCarteDivinite().id!=82 ){
+					joueur.setSacrifice(false);
+					choix=false;
+				}
+			}
 		}
 		if (id == 8) {
 			System.out.println("Choisir Divinité pour prendre ses 2 cartes");
@@ -62,11 +90,39 @@ public class CapaciteSpeciale {
 			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Nuit()+1);
 		}
 		if (id == 19) {
+			boolean choix=true;
+			while(choix){
+				System.out.println("Choisir id Divinité origine Humaine ou Mystique pour empecher sa sacrifice la carte croyant");
+				for (int i=1;i<=partie.getListeJoueurs().size();i++){
+					System.out.print("id "+i+" nom "+partie.getListeJoueurs().get(i).getNom()+" Dogme "+partie.getListeJoueurs().get(i).getLaMain().getCarteDivinite().getDogme());
+				}
+				Scanner sc=new Scanner(System.in);
+				int Divine= sc.nextInt();
+				Joueur joueur=partie.getListeJoueurs().get(Divine-1);
+				if(!joueur.equals(partie.getJoueurEncours()) ){
+					partie.getListeJoueurs().get(Divine-1).setSacrifice(false);
+					choix=false;
+				}
+			}
 		}
 		if (id == 20) {
+			boolean choix=true;
+			while(choix){
+				System.out.println("Choisir id Divinité origine Humain ou Symbole pour empecher sa sacrifice la carte croyant");
+				for (int i=1;i<=partie.getListeJoueurs().size();i++){
+					System.out.print("id "+i+" nom "+partie.getListeJoueurs().get(i).getNom()+" Dogme "+partie.getListeJoueurs().get(i).getLaMain().getCarteDivinite().getDogme());
+				}
+				Scanner sc=new Scanner(System.in);
+				int Divine= sc.nextInt();
+				Joueur joueur=partie.getListeJoueurs().get(Divine-1);
+				if(!joueur.equals(partie.getJoueurEncours()) &&joueur.getLaMain().getCarteDivinite().id!=84 &&joueur.getLaMain().getCarteDivinite().id!=85){
+					partie.getListeJoueurs().get(Divine-1).setSacrifice(false);
+					choix=false;
+				}
+			}
 		}
 		if (id == 21) {
-			// pioche 2 carte au harsards dans la main une autre Divinité
+			// pioche 2 carte au harsards dans la main une autre Divinité id=8
 		}
 		if (id == 22) {
 		}
@@ -129,7 +185,42 @@ public class CapaciteSpeciale {
 			partie.getJoueurEncours().setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant()+1);
 		}
 		if (id == 32) {
-
+			boolean choix=true;
+			while(choix){
+				System.out.println("Choisir id Divinité origine Nature ou Mystique pour empecher sa sacrifice la carte croyant");
+				for (int i=1;i<=partie.getListeJoueurs().size();i++){
+					System.out.print("id "+i+" nom "+partie.getListeJoueurs().get(i).getNom()+" Dogme "+partie.getListeJoueurs().get(i).getLaMain().getCarteDivinite().getDogme());
+				}
+				Scanner sc=new Scanner(System.in);
+				int Divine= sc.nextInt();
+				Joueur joueur=partie.getListeJoueurs().get(Divine-1);
+				if(!joueur.equals(partie.getJoueurEncours()) &&joueur.getLaMain().getCarteDivinite().id!=89){
+					joueur.setSacrifice(false);
+					choix=false;
+				}
+			}
+		}
+		if (id == 33) {
+			boolean choix=true;
+			while(choix){
+				System.out.println("Choisir id Divinité origine Chaos ou Mystique pour empecher sa sacrifice la carte croyant");
+				for (int i=1;i<=partie.getListeJoueurs().size();i++){
+					System.out.print("id "+i+" nom "+partie.getListeJoueurs().get(i).getNom()+" Dogme "+partie.getListeJoueurs().get(i).getLaMain().getCarteDivinite().getDogme());
+				}
+				Scanner sc=new Scanner(System.in);
+				int Divine= sc.nextInt();
+				Joueur joueur=partie.getListeJoueurs().get(Divine-1);
+				if(!joueur.equals(partie.getJoueurEncours()) &&joueur.getLaMain().getCarteDivinite().id!=82){
+					joueur.setSacrifice(false);
+					choix=false;
+				}
+			}
+		}
+		if (id == 34) {
+			//piocher 2 cartes id=8
+		}
+		if (id == 35) {
+			//lancer le de id=13
 		}
 	}
 }
