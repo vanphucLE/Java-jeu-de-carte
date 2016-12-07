@@ -31,56 +31,80 @@ public class JoueurVirtuel extends Joueur {
 	@Override
 	public void choisirCarte(Partie partie) {
 		CarteAction carteChoisi;
-		if (this.ptAction_Neant>0){
-			for (CarteAction carte:this.getLaMain().getListeCarteA()){
-				if(carte.getOrigine().equals("Néant")){
+		if (this.ptAction_Neant > 0) {
+			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
+				if (carte.getOrigine().equals("Néant")) {
 					this.ptAction_Neant--;
 					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi=carte;
+					carteChoisi = carte;
 					break;
-				};
+				}
+				;
 			}
-		}else if (this.ptAction_Jour>2){
-			for (CarteAction carte:this.getLaMain().getListeCarteA()){
-				if(carte.getOrigine().equals("Néant")){
-					this.ptAction_Jour -=2;
+		} else if (this.ptAction_Jour >= 2) {
+			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
+				if (carte.getOrigine().equals("Néant")) {
+					this.ptAction_Jour -= 2;
 					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi=carte;
+					carteChoisi = carte;
 					break;
-				};
+				}
+				;
 			}
-		}else if (this.ptAction_Nuit>2){
-			for (CarteAction carte:this.getLaMain().getListeCarteA()){
-				if(carte.getOrigine().equals("Néant")){
-					this.ptAction_Nuit -=2;
+		} else if (this.ptAction_Nuit >= 2) {
+			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
+				if (carte.getOrigine().equals("Néant")) {
+					this.ptAction_Nuit -= 2;
 					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi=carte;
+					carteChoisi = carte;
 					break;
-				};
+				}
+				;
 			}
-		}else if (this.ptAction_Jour>1){
-			for (CarteAction carte:this.getLaMain().getListeCarteA()){
-				if(carte.getOrigine().equals("Jour")){
-					this.ptAction_Jour --;
+		} else if (this.ptAction_Jour >= 1) {
+			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
+				if (carte.getOrigine().equals("Jour")) {
+					this.ptAction_Jour--;
 					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi=carte;
+					carteChoisi = carte;
 					break;
-				};
+				}
+				;
 			}
-		}else if (this.ptAction_Nuit>1){
-			for (CarteAction carte:this.getLaMain().getListeCarteA()){
-				if(carte.getOrigine().equals("Nuit")){
-					this.ptAction_Nuit --;
+		} else if (this.ptAction_Nuit >= 1) {
+			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
+				if (carte.getOrigine().equals("Nuit")) {
+					this.ptAction_Nuit--;
 					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi=carte;
+					carteChoisi = carte;
 					break;
-				};
+				}
+				;
+			}
+		}else{
+			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
+				if (carte.getOrigine().equals("")) {
+					this.getLaMain().seDeffausserCarte(carte);
+					carteChoisi = carte;
+					break;
+				}
+				;
 			}
 		}
-		
-	}
-
-	public void choisirCarte() {
+		switch (carteChoisi.getType()) {
+		case "Croyant":
+			this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
+			break;
+		case "GuideSpirituel":
+			this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
+			break;
+		case "DeusEx":
+			this.jouerDeusEx(partie);
+			break;
+		case "Apocalypse":
+			this.jouerApocalypse(carteChoisi, partie);
+			break;
+		}
 
 	}
 

@@ -96,11 +96,7 @@ public class JoueurPhysique extends Joueur {
 		}
 
 	}
-
-	private void jouerCroyant(CarteAction carte, EspaceCommun espaceCommun) {
-		espaceCommun.ajouterCarte((Croyant) carte);
-	}
-
+	//pas fini
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
 		LinkedList<Croyant> listeCroyants = new LinkedList<Croyant>();

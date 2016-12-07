@@ -120,6 +120,9 @@ public class Joueur {
 	// Choisir carte pour jouer
 	public void choisirCarte(Partie partie) {
 	}
+	public void jouerCroyant(CarteAction carte, EspaceCommun espaceCommun) {
+		espaceCommun.ajouterCarte((Croyant) carte);
+	}
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
