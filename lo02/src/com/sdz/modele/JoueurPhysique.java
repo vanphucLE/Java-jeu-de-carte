@@ -26,8 +26,8 @@ public class JoueurPhysique extends Joueur {
 
 	}
 
-	// Un joueur veut défausser un plusieur Cartes
-	private void seDefausserCartes(JeuDeCartes jeuDeCartes) {
+	@Override
+	public void seDefausserCartes(JeuDeCartes jeuDeCartes) {
 		System.out.println("Votre Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit
 				+ ") " + "(Néant: " + this.ptAction_Neant + ")");
 		System.out.println("Les cartes actions tenu dans vôtre main:");
@@ -55,8 +55,8 @@ public class JoueurPhysique extends Joueur {
 		}
 	}
 
-	// Le joueur compléte 7 cartes dans la main
-	private void Compeleter7Carte(JeuDeCartes jeuDeCartes) {
+	@Override
+	public void Compeleter7Carte(JeuDeCartes jeuDeCartes) {
 		int compte = this.laMain.getListeCarteA().size();
 		while (compte < 7) {
 			compte++;
@@ -67,8 +67,8 @@ public class JoueurPhysique extends Joueur {
 		System.out.println(this.laMain);
 	}
 
-	// Choisir carte pour jouer
-	private void choisirCarteReel(Partie partie) {
+	@Override
+	public void choisirCarteReel(Partie partie) {
 		partie.getEspaceCommun();
 		System.out.println(partie.getEspaceCommun());
 		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
