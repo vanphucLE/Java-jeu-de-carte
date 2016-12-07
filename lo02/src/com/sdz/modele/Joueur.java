@@ -98,7 +98,6 @@ public class Joueur {
 		this.seDefausserCartes(partie.getJeuDeCartes());
 		this.Compeleter7Carte(partie.getJeuDeCartes());
 		this.choisirCarteReel(partie);
-
 	}
 
 	// Choisir carte pour jouer

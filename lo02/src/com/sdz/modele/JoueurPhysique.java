@@ -20,9 +20,6 @@ public class JoueurPhysique extends Joueur {
 
 	@Override
 	public void jouer(Partie partie) {
-		this.seDefausserCartes(partie.getJeuDeCartes());
-		this.Compeleter7Carte(partie.getJeuDeCartes());
-		this.choisirCarteReel(partie);
 
 	}
 
