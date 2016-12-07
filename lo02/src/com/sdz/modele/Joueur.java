@@ -33,21 +33,21 @@ public class Joueur {
 	}
 
 	public void setPtAction_Jour(int ptAction) {
-		this.ptAction_Jour =this.ptAction_Jour + ptAction;
+		this.ptAction_Jour = ptAction;
 	}
 
 	public int getPtAction_Jour() {
 		return this.ptAction_Jour;
 	}
 	public void setPtAction_Nuit(int ptAction) {
-		this.ptAction_Nuit =this.ptAction_Nuit+ ptAction;
+		this.ptAction_Nuit = ptAction;
 	}
 
 	public int getPtAction_Nuit() {
 		return this.ptAction_Nuit;
 	}
 	public void setPtAction_Neant(int ptAction) {
-		this.ptAction_Neant =this.ptAction_Neant+ ptAction;
+		this.ptAction_Neant = ptAction;
 	}
 
 	public int getPtAction_Neant() {

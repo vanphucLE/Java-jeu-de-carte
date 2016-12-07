@@ -31,34 +31,31 @@ public class Partie {
 		if (FaceDe == "Jour") {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Jour") {
-					joueur.setPtAction_Jour(2);
-					joueur.setPtActionOrigine("Jour");
+					joueur.setPtAction_Jour(joueur.getPtAction_Jour()+2);
+					
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
-					joueur.setPtAction_Jour(1);
-					joueur.setPtActionOrigine("Jour");
+					joueur.setPtAction_Jour(joueur.getPtAction_Jour()+1);
+					
 				}
 			}
 		} else if (FaceDe == "Nuit") {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Nuit") {
-					joueur.setPtAction_Nuit(2);
-					joueur.setPtActionOrigine("Nuit");
+					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit()+2);
+					
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
-					joueur.setPtAction_Nuit(1);
-					joueur.setPtActionOrigine("Nuit");
-				}
+					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit()+1);				}
 			}
 		} else if (FaceDe == "Néant") {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
-					joueur.setPtAction_Neant(1);
-					joueur.setPtActionOrigine("Néant");
+					joueur.setPtAction_Neant(joueur.getPtAction_Neant()+1);
+					
 				}
 				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
-					joueur.setPtAction_Neant(1);
-					joueur.setPtActionOrigine("Néant");
+					joueur.setPtAction_Neant(joueur.getPtAction_Neant()+1);
 				}
 			}
 		}

@@ -32,10 +32,10 @@ public class CapaciteSpeciale {
 				Divine = sc.nextInt();
 				while (it.hasNext()) {
 					if (it.next().getId() == Divine && !it.next().equals(partie.getJoueurEncours())
-							&& it.next().laMain.listeCarteA.size() > 2) {
-						Collections.shuffle(it.next().laMain.listeCarteA);
-						partie.getjoueurEncours().laMain.listeCarteA.add(it.next().laMain.listeCarteA.pop());
-						partie.getjoueurEncours().laMain.listeCarteA.add(it.next().laMain.listeCarteA.pop());
+							&& it.next().getLaMain().listeCarteA.size() > 2) {
+						Collections.shuffle(it.next().getLaMain().listeCarteA);
+						partie.getJoueurEncours().getLaMain().listeCarteA.add(it.next().getLaMain().listeCarteA.pop());
+						partie.getJoueurEncours().getLaMain().listeCarteA.add(it.next().getLaMain().listeCarteA.pop());
 						choix = false;
 					}
 					;
@@ -55,11 +55,11 @@ public class CapaciteSpeciale {
 		}
 		if (id == 13) {
 			// relancer de de cosmonogie
-			Partie.lancerDe();
+			partie.lancerDe();
 		}
 		if (id > 13 && id < 19) {
 			// donner une point d'action de nuit
-			Partie.joueurEncours.ptAction_Nuit++;
+			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Nuit()+1);
 		}
 		if (id == 19) {
 		}
@@ -76,9 +76,9 @@ public class CapaciteSpeciale {
 			// retirer les croyants rattacher une autre divinite
 			System.out.println("Choisir id de la Divinité pour effectuer la capacite");
 			boolean choix=true;
-			Iterator<Joueur> it = Partie.listeJoueurs.iterator();
+			Iterator<Joueur> it = partie.getListeJoueurs().iterator();
 			while (it.hasNext()) {
-				if (it.next().getId() > Partie.joueurEncours.getId()) {
+				if (it.next().getId() > partie.getJoueurEncours().getId()) {
 					System.out.println("id" + it.next().getId() + it.next().getNom());
 				}
 			}
@@ -86,8 +86,8 @@ public class CapaciteSpeciale {
 				Scanner sc = new Scanner(System.in);
 				int Divine;
 				Divine = sc.nextInt();
-				if(Divine != Partie.joueurEncours.getId() && Divine< Partie.listeJoueurs.size() && Divine<0){
-					System.out.println("Choisir la carte guider a retirer"+Partie.listeJoueurs.get(Divine).laMain.getListeGuideSpirituelGuider());
+				if(Divine != partie.getJoueurEncours().getId() && Divine< partie.getListeJoueurs().size() && Divine<0){
+					System.out.println("Choisir la carte guider a retirer"+partie.getListeJoueurs().get(Divine).getLaMain().getListeGuideSpirituelGuider());
 				}
 				
 
@@ -100,25 +100,22 @@ public class CapaciteSpeciale {
 			boolean choix = true;
 			while (choix) {
 				System.out.print("Choisir id de la Divinité");
-				Iterator<Joueur> it = Partie.listeJoueurs.iterator();
+				Iterator<Joueur> it = partie.getListeJoueurs().iterator();
 				while (it.hasNext()) {
-					if (it.next().getId() > Partie.joueurEncours.getId()) {
+					if (it.next().getId() > partie.getJoueurEncours().getId()) {
 						System.out.println("id" + it.next().getId() + it.next().getNom());
 					}
 				}
 				Scanner sc = new Scanner(System.in);
 				int Divine;
 				Divine = sc.nextInt();
-				if (Divine > Partie.joueurEncours.getId() && Divine < Partie.listeJoueurs.size()) {
-					Partie.joueurEncours.ptAction_Jour = Partie.joueurEncours.ptAction_Jour
-							+ Partie.listeJoueurs.get(Divine - 1).ptAction_Jour;
-					Partie.listeJoueurs.get(Divine - 1).ptAction_Jour = 0;
-					Partie.joueurEncours.ptAction_Nuit = Partie.joueurEncours.ptAction_Nuit
-							+ Partie.listeJoueurs.get(Divine - 1).ptAction_Nuit;
-					Partie.listeJoueurs.get(Divine - 1).ptAction_Nuit = 0;
-					Partie.joueurEncours.ptAction_Neant = Partie.joueurEncours.ptAction_Neant
-							+ Partie.listeJoueurs.get(Divine - 1).ptAction_Neant;
-					Partie.listeJoueurs.get(Divine - 1).ptAction_Neant = 0;
+				if (Divine > partie.getJoueurEncours().getId() && Divine < partie.getListeJoueurs().size()) {
+					partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour()+partie.getListeJoueurs().get(Divine-1).getPtAction_Jour());
+					partie.getListeJoueurs().get(Divine-1).setPtAction_Jour(0);
+					partie.getJoueurEncours().setPtAction_Nuit(partie.getJoueurEncours().getPtAction_Nuit()+partie.getListeJoueurs().get(Divine-1).getPtAction_Nuit());
+					partie.getListeJoueurs().get(Divine-1).setPtAction_Nuit(0);
+					partie.getJoueurEncours().setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant()+partie.getListeJoueurs().get(Divine-1).getPtAction_Neant());
+					partie.getListeJoueurs().get(Divine-1).setPtAction_Neant(0);
 					choix = false;
 				}
 
@@ -129,7 +126,7 @@ public class CapaciteSpeciale {
 			// un autre joueur
 		}
 		if (id > 26 && id < 32) {
-			Partie.joueurEncours.ptAction_Neant++;
+			partie.getJoueurEncours().setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant()+1);
 		}
 		if (id == 32) {
 
