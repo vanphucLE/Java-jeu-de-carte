@@ -25,10 +25,10 @@ public class JoueurPhysique extends Joueur {
 		System.out.println("Les cartes actions tenu dans vôtre main:");
 		System.out.println(this.laMain);
 		Scanner sc = new Scanner(System.in);
-		String commande="";
+		String commande = "";
 		do {
 			System.out.print("Voulez-vous défausser les cartes ? (Y/N):");
-			 commande= sc.nextLine();
+			commande = sc.nextLine();
 		} while (!commande.equals("Y") && !commande.equals("N"));
 		if (commande.equals("Y")) {
 			String commande2 = "";
@@ -47,7 +47,6 @@ public class JoueurPhysique extends Joueur {
 		}
 	}
 
-	
 	@Override
 	public void choisirCarte(Partie partie) {
 		partie.getEspaceCommun();
@@ -58,15 +57,19 @@ public class JoueurPhysique extends Joueur {
 		while ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0 && continu) {
 			String idChoisi = "";
 			Scanner sc = new Scanner(System.in);
-			int idChoisirInt=0;
+			int idChoisirInt = 0;
+			CarteAction carteChoisi;
 			do {
-				System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
-				idChoisi = sc.nextLine();
-				
-			} while (!this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
-			idChoisirInt = Integer.parseInt(idChoisi);
-			CarteAction carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
+				do {
+					System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
+					idChoisi = sc.nextLine();
+				} while (!this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
+				idChoisirInt = Integer.parseInt(idChoisi);
+				carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
+			} while (!testGuideSpirituelEntree(carteChoisi, partie.getEspaceCommun()));
+
 			System.out.println("Vous avez choisi la carte: " + carteChoisi);
+
 			Boolean test = this.setPtAction(carteChoisi);
 			if (!test) {
 				// Si la choice de joueur n'est pas valide, la main va récupérer
@@ -98,23 +101,49 @@ public class JoueurPhysique extends Joueur {
 		}
 
 	}
-	//pas fini
+
+	// pas fini
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
-		LinkedList<Croyant> listeCroyants = new LinkedList<Croyant>();
+		LinkedList<Croyant> listeCroyantsGuidee = new LinkedList<Croyant>();
+		LinkedList<CarteAction> listeCroyants = new LinkedList<CarteAction>();
+
+		for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
+			Boolean test = false;
+			for (String dogmeA : carteA.getDogme()) {
+				for (String dogmeD : carteG.getDogme()) {
+					if (dogmeD.equals(dogmeA)) {
+						test = true;
+						break;
+					}
+				}
+			}
+			if (test == true) {
+				listeCroyants.add(carteA);
+			}
+		}
+
 		Scanner sc = new Scanner(System.in);
 		String commande = "";
+		LinkedList<Integer> idCartesGuidee;
 		do {
-			System.out.print("Vous pouvez guider " + carteG.getNbGuider()
-					+ " carte(s) croyant(s). Choisir les Id dont la carte croyants dans l'espace commun pour guider (Ex: 1 2): ");
-			commande = sc.nextLine();
-		} while (!this.testEntrer(commande, espaceCommun.getListeCartes()));
-
-		LinkedList<Integer> idCartesGuidee = this.convertIdsEntree(commande);
+			do {
+				System.out.print("Vous pouvez guider " + carteG.getNbGuider()
+						+ " carte(s) croyant(s). Choisir les Id dont la carte croyants dans l'espace commun pour guider suivant(Ex: 1 2): ");
+				for (CarteAction carteA : listeCroyants) {
+					System.out.println("  +" + carteA);
+				}
+				commande = sc.nextLine();
+			} while (!this.testEntrer(commande, listeCroyants));
+			idCartesGuidee = this.convertIdsEntree(commande);
+			if (idCartesGuidee.size() <= carteG.getNbGuider()) {
+				System.out.print("Vous ne pouvez guider que " + carteG.getNbGuider() + " carte(s) croyant(s)");
+			}
+		} while (idCartesGuidee.size() > carteG.getNbGuider());
 		for (int elem : idCartesGuidee) {
-			listeCroyants.add((Croyant) espaceCommun.supprimerCarte(elem));
+			listeCroyantsGuidee.add((Croyant) espaceCommun.supprimerCarte(elem));
 		}
-		this.laMain.ajouterGuidee(listeCroyants, carteG);
+		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
 	}
 
 	private void jouerDeusEx(Partie partie) {
@@ -206,12 +235,6 @@ public class JoueurPhysique extends Joueur {
 			}
 
 		}
-		// if (this.ptAction < 2) {
-		// System.out.println("Eurreur en choissant!!");
-		// return false;
-		// } else {
-		// this.ptAction -= 2;
-		// }
 		return true;
 	}
 
@@ -235,7 +258,7 @@ public class JoueurPhysique extends Joueur {
 			return new LinkedList<Integer>();
 		}
 	}
-
+	// tester la valeur entrée 
 	private Boolean testEntrer(String stringEntree, LinkedList<CarteAction> listeContenantId) {
 		Boolean test = true;
 		LinkedList<Integer> arrayIdEntree = this.convertIdsEntree(stringEntree);
@@ -255,6 +278,29 @@ public class JoueurPhysique extends Joueur {
 			}
 		} else {
 			test = false;
+		}
+		return test;
+	}
+
+	private Boolean testGuideSpirituelEntree(CarteAction carteD, EspaceCommun espaceCommun) {
+		Boolean test = false;
+		if (carteD.getType().equals("GuideSpitituel")) {
+			for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
+				for (String dogmeA : carteA.getDogme()) {
+					for (String dogmeD : carteD.getDogme()) {
+						if (dogmeD.equals(dogmeA)) {
+							test = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+		if (test == false) {
+			System.out.println(
+					"Le carte Guide Spirituel que vous avez choisi ne peut guider aucune carte Croyant dans l'espace Commun");
+		} else {
+			this.laMain.completerCarteAction(carteD);
 		}
 		return test;
 	}

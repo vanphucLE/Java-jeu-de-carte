@@ -3,6 +3,8 @@ package com.sdz.modele;
 import java.util.LinkedList;
 
 import com.sdz.cartes.CarteAction;
+import com.sdz.cartes.Croyant;
+import com.sdz.cartes.GuideSpirituel;
 
 public class JoueurVirtuel extends Joueur {
 	// private Stategie stagie;
@@ -31,66 +33,34 @@ public class JoueurVirtuel extends Joueur {
 	@Override
 	public void choisirCarte(Partie partie) {
 		CarteAction carteChoisi;
-		if (this.ptAction_Neant > 0) {
-			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
-				if (carte.getOrigine().equals("Néant")) {
-					this.ptAction_Neant--;
-					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi = carte;
-					break;
-				}
-				;
-			}
-		} else if (this.ptAction_Jour >= 2) {
-			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
-				if (carte.getOrigine().equals("Néant")) {
-					this.ptAction_Jour -= 2;
-					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi = carte;
-					break;
-				}
-				;
-			}
-		} else if (this.ptAction_Nuit >= 2) {
-			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
-				if (carte.getOrigine().equals("Néant")) {
-					this.ptAction_Nuit -= 2;
-					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi = carte;
-					break;
-				}
-				;
-			}
-		} else if (this.ptAction_Jour >= 1) {
-			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
-				if (carte.getOrigine().equals("Jour")) {
+		for (CarteAction carteA : this.laMain.getListeCarteA()) {
+			if (carteA.getOrigine().equals("Jour") && this.testEntree(carteA, partie)) {
+				if (this.ptAction_Jour > 0) {
+					carteChoisi = carteA;
 					this.ptAction_Jour--;
-					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi = carte;
-					break;
 				}
-				;
-			}
-		} else if (this.ptAction_Nuit >= 1) {
-			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
-				if (carte.getOrigine().equals("Nuit")) {
+			} else if (carteA.getOrigine().equals("Nuit") && this.testEntree(carteA, partie)) {
+				if (this.ptAction_Nuit > 0) {
+					carteChoisi = carteA;
 					this.ptAction_Nuit--;
-					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi = carte;
-					break;
 				}
-				;
+			} else if (carteA.getOrigine().equals("Néant") && this.testEntree(carteA, partie)) {
+				if (this.ptAction_Neant > 0) {
+					carteChoisi = carteA;
+					this.ptAction_Neant--;
+				} else if (this.ptAction_Nuit >= 2) {
+					carteChoisi = carteA;
+					this.ptAction_Nuit -= 2;
+				} else if (this.ptAction_Jour >= 2) {
+					carteChoisi = carteA;
+					this.ptAction_Jour -= 2;
+				}
 			}
-		}else{
-			for (CarteAction carte : this.getLaMain().getListeCarteA()) {
-				if (carte.getOrigine().equals("")) {
-					this.getLaMain().seDeffausserCarte(carte);
-					carteChoisi = carte;
-					break;
-				}
-				;
+			if (carteChoisi.equals(carteA)) {
+				break;
 			}
 		}
+
 		switch (carteChoisi.getType()) {
 		case "Croyant":
 			this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
@@ -106,6 +76,32 @@ public class JoueurVirtuel extends Joueur {
 			break;
 		}
 
+	}
+
+	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun){
+		GuideSpirituel carteG= (GuideSpirituel)carte;
+		LinkedList<Croyant> listeCroyantsGuidee = new LinkedList<Croyant>();
+		for(CarteAction )
+	}
+
+	private Boolean testEntree(CarteAction carte, Partie partie) {
+		Boolean test = true;
+		if (carte.getType().equals("GuideSpirituel")) {
+			test = false;
+			if (carte.getType().equals("GuideSpitituel")) {
+				for (CarteAction carteA : partie.getEspaceCommun().getListeCartesPret()) {
+					for (String dogmeA : carteA.getDogme()) {
+						for (String dogmeD : carte.getDogme()) {
+							if (dogmeD.equals(dogmeA)) {
+								test = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		return test;
 	}
 
 	public void JoueurCapaSpe() {

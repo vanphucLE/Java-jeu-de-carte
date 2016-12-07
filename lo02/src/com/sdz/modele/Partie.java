@@ -64,6 +64,9 @@ public class Partie {
 	public void jouer() {
 		this.commencerPartie();
 		int numCom = -1;
+		// les cartes croyants posées dans le dernier tour va être prêt à être
+		// guidée
+		this.espaceCommun.preterCartes();
 		// while (!this.estFini) {
 		// if (numCom < this.getListeJoueurs().size()-1){
 		// numCom++;
@@ -108,9 +111,9 @@ public class Partie {
 		} while (!str.equals("L"));
 		// lancer le dé
 		this.lancerDe();
-		
+
 		this.joueurEncours.jouer(this);
-		
+
 		for (int i = numCom + 1; i < this.listeJoueurs.size(); i++) {
 			this.joueurEncours = this.listeJoueurs.get(i);
 			System.out.println("Le tour de :" + joueurEncours);
