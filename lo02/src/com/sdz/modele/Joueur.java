@@ -116,9 +116,6 @@ public class Joueur {
 	}
 
 	public void jouer(Partie partie) {
-		this.seDefausserCartes(partie.getJeuDeCartes());
-		this.Compeleter7Carte(partie.getJeuDeCartes());
-		this.choisirCarte(partie);
 	}
 
 	// Un joueur veut défausser un plusieur Cartes

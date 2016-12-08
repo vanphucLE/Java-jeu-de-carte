@@ -15,6 +15,16 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	@Override
+	public void jouer(Partie partie) {
+		this.seDefausserCartes(partie.getJeuDeCartes());
+		this.Compeleter7Carte(partie.getJeuDeCartes());
+		this.choisirCarte(partie);
+		if (this.sacrifice && this.laMain.getListeCroyantGuidee().size() != 0) {
+			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), partie);
+		}
+	}
+
+	@Override
 	public void seDefausserCartes(JeuDeCartes jeuDeCartes) {
 		// Choisir au hasard le nombre de carte défaussée.
 		System.out.println("Les cartes actions tenu dans sa main:");
@@ -119,7 +129,7 @@ public class JoueurVirtuel extends Joueur {
 			}
 		}
 		if (carte.getType().equals("Apocalypse")) {
-			if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1 ) {
+			if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1) {
 				test = false;
 			}
 		}
@@ -174,7 +184,6 @@ public class JoueurVirtuel extends Joueur {
 			}
 		}
 	}
-
 
 	public LaMain getLaMain() {
 		return laMain;
