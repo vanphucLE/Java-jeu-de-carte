@@ -1,6 +1,7 @@
 package com.sdz.modele;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import com.sdz.cartes.CarteAction;
@@ -101,6 +102,10 @@ public class Partie {
 	// Déscrire les actions des joueurs dans chaque tour
 	// numCom: numéro du joueur dans listJoueurs qui commence ce tour
 	private void tourDeJeu(int numCom) {
+		Iterator<Joueur> it= this.listeJoueurs.iterator();
+		while(it.hasNext()){
+			it.next().setpointAction(true);
+		}
 		this.joueurEncours = this.listeJoueurs.get(numCom);
 		System.out.println("Le tour de :" + joueurEncours);
 		Scanner sc = new Scanner(System.in);
@@ -188,5 +193,6 @@ public class Partie {
 	public Joueur getJoueurEncours() {
 		return joueurEncours;
 	}
+
 
 }
