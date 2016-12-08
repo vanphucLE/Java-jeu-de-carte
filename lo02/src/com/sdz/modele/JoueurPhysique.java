@@ -16,7 +16,25 @@ public class JoueurPhysique extends Joueur {
 	public JoueurPhysique(String nom, int age) {
 		super(id, nom, age);
 		this.laMain = new LaMain();
-		this.bot=false;
+		this.bot = false;
+	}
+
+	@Override
+	public void jouer(Partie partie) {
+		this.seDefausserCartes(partie.getJeuDeCartes());
+		this.Compeleter7Carte(partie.getJeuDeCartes());
+		this.choisirCarte(partie);
+		String commande = "";
+		if (this.laMain.getListeGuideSpirituelGuider().size() > 0) {
+			Scanner sc =new Scanner(System.in);
+			do {
+				System.out.print("Voulez-vous sacrifier la cartes ? (Y/N):");
+				commande = sc.nextLine();
+			} while (!commande.equals("Y") && !commande.equals("N"));
+			if(commande.equals("Y")){
+				this.sacrifierCarte(partie);
+			}
+		}
 	}
 
 	@Override
@@ -103,7 +121,7 @@ public class JoueurPhysique extends Joueur {
 
 	}
 
-	// pas fini
+	//Jouer Carte GuideSpirituel
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
 		LinkedList<Croyant> listeCroyantsGuidee = new LinkedList<Croyant>();
@@ -151,7 +169,7 @@ public class JoueurPhysique extends Joueur {
 
 	}
 
-	// pas finir
+	// Jouer carteApocalypse
 	private void jouerApocalypse(CarteAction carte, Partie partie) {
 		//
 		if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1) {
@@ -201,6 +219,12 @@ public class JoueurPhysique extends Joueur {
 				}
 			}
 		}
+	}
+	
+	@Override 
+	public void sacrifierCarte(Partie partie){
+		System.out.println("Vous pouvez sacrifier les cartes suivants: ");
+		for()
 	}
 
 	// on utilise cette méthode pour mettre à jour le point d'action de joueur
@@ -258,7 +282,8 @@ public class JoueurPhysique extends Joueur {
 			return new LinkedList<Integer>();
 		}
 	}
-	// tester la valeur entrée 
+
+	// tester la valeur entrée
 	private Boolean testEntrer(String stringEntree, LinkedList<CarteAction> listeContenantId) {
 		Boolean test = true;
 		LinkedList<Integer> arrayIdEntree = this.convertIdsEntree(stringEntree);
@@ -304,8 +329,6 @@ public class JoueurPhysique extends Joueur {
 		}
 		return test;
 	}
-	public void JoueurCapaSpeReel() {
 
-	}
 
 }

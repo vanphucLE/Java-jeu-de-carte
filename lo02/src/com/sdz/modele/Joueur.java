@@ -21,7 +21,7 @@ public class Joueur {
 	protected LaMain laMain;
 	protected boolean sacrifice = true;
 	protected boolean bot;
-	//chua xu li bien setpointAction
+	// chua xu li bien setpointAction
 	protected boolean setpointAction;
 
 	public Joueur(int id, String nom, int age) {
@@ -29,12 +29,15 @@ public class Joueur {
 		this.nom = nom;
 		this.age = age;
 	}
-	public boolean estBot(){
-			return this.bot;
+
+	public boolean estBot() {
+		return this.bot;
 	}
-	public void setpointAction(boolean setpointAction){
-	this.setpointAction=setpointAction;
+
+	public void setpointAction(boolean setpointAction) {
+		this.setpointAction = setpointAction;
 	}
+
 	public int getidCarteDivinite() {
 		return this.idCarteDivinite;
 	}
@@ -52,8 +55,9 @@ public class Joueur {
 	}
 
 	public void setPtAction_Jour(int ptAction) {
-		if(this.setpointAction){
-		this.ptAction_Jour = ptAction;}
+		if (this.setpointAction) {
+			this.ptAction_Jour = ptAction;
+		}
 	}
 
 	public int getPtAction_Jour() {
@@ -61,8 +65,9 @@ public class Joueur {
 	}
 
 	public void setPtAction_Nuit(int ptAction) {
-		if(this.setpointAction){
-		this.ptAction_Nuit = ptAction;}
+		if (this.setpointAction) {
+			this.ptAction_Nuit = ptAction;
+		}
 	}
 
 	public int getPtAction_Nuit() {
@@ -70,8 +75,9 @@ public class Joueur {
 	}
 
 	public void setPtAction_Neant(int ptAction) {
-		if(this.setpointAction){
-		this.ptAction_Neant = ptAction;}
+		if (this.setpointAction) {
+			this.ptAction_Neant = ptAction;
+		}
 	}
 
 	public int getPtAction_Neant() {
@@ -134,6 +140,10 @@ public class Joueur {
 	// Choisir carte pour jouer
 	public void choisirCarte(Partie partie) {
 	}
+	public void sacrifierCarte(Partie partie){
+		
+	}
+
 	public void jouerCroyant(CarteAction carte, EspaceCommun espaceCommun) {
 		espaceCommun.ajouterCarte((Croyant) carte);
 	}
@@ -150,41 +160,46 @@ public class Joueur {
 		return sb.toString();
 	}
 
-	public void sacrifierCroyant(int croyant,Partie partie) {
+	public void sacrifierCroyant(int croyant, Partie partie) {
 		// rut me cai carte di
 		if (this.sacrifice) {
-			
-			for(int i=0;i<this.getLaMain().getlisteCroyantGuidee().size();i++){
-				for(int j=0;j<this.getLaMain().getlisteCroyantGuidee().get(i).size();j++){
-					if(id==(this.getLaMain().getlisteCroyantGuidee().get(i).get(j)).getId()){
-						this.sacrifice=false;
+
+			for (int i = 0; i < this.getLaMain().getlisteCroyantGuidee().size(); i++) {
+				for (int j = 0; j < this.getLaMain().getlisteCroyantGuidee().get(i).size(); j++) {
+					if (id == (this.getLaMain().getlisteCroyantGuidee().get(i).get(j)).getId()) {
+						this.sacrifice = false;
 						this.getLaMain().getlisteCroyantGuidee().get(i).get(j).effectuerCapaciteSpecial();
-						partie.getJeuDeCartes().getListeCartesAction().add(this.getLaMain().getlisteCroyantGuidee().get(i).remove(j));
-						if(this.getLaMain().getlisteCroyantGuidee().get(i).size()==0){
-							partie.getJeuDeCartes().getListeCartesAction().add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
+						partie.getJeuDeCartes().getListeCartesAction()
+								.add(this.getLaMain().getlisteCroyantGuidee().get(i).remove(j));
+						if (this.getLaMain().getlisteCroyantGuidee().get(i).size() == 0) {
+							partie.getJeuDeCartes().getListeCartesAction()
+									.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
 						}
-					break;	
+						break;
 					}
 				}
 			}
-			
-			
-		} else System.out.println("Vous ne pouvez pas sacrifier la carte");
+
+		} else
+			System.out.println("Vous ne pouvez pas sacrifier la carte");
 	}
-	public void sacrifierGuideSpirit(int guide,Partie partie){
-		if (this.sacrifice){
-			
-			for(int i=0;i<this.getLaMain().getListeGuideSpirituelGuider().size();i++){
-				if(guide==(this.getLaMain().getListeGuideSpirituelGuider().get(i).getId())){
-					this.sacrifice=false;
+
+	public void sacrifierGuideSpirit(int guide, Partie partie) {
+		if (this.sacrifice) {
+
+			for (int i = 0; i < this.getLaMain().getListeGuideSpirituelGuider().size(); i++) {
+				if (guide == (this.getLaMain().getListeGuideSpirituelGuider().get(i).getId())) {
+					this.sacrifice = false;
 					this.getLaMain().getListeGuideSpirituelGuider().get(i).effectuerCapaciteSpecial();
-					partie.getJeuDeCartes().getListeCartesAction().add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
-					partie.getEspaceCommun().getListeCartesPret().addAll(this.getLaMain().getListeCroyantGuidee().get(i));
+					partie.getJeuDeCartes().getListeCartesAction()
+							.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
+					partie.getEspaceCommun().getListeCartesPret()
+							.addAll(this.getLaMain().getListeCroyantGuidee().get(i));
 					break;
 				}
 			}
-			
+
 		}
-		
+
 	}
 }
