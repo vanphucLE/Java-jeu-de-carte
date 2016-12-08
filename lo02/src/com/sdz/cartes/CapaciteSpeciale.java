@@ -90,10 +90,12 @@ public class CapaciteSpeciale {
 			}
 			if(joueur.estBot()){
 				Collections.shuffle(carte);
+				joueur.setSacrifice(true);
 				joueur.sacrifierCroyant(carte.pop().getId(), partie);
 			}
 			else {
 				int croyant=sc.nextInt();
+				joueur.setSacrifice(true);
 				joueur.sacrifierCroyant(croyant, partie);
 			}
 		}

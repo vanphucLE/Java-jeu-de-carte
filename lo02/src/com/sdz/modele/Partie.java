@@ -105,6 +105,7 @@ public class Partie {
 		Iterator<Joueur> it= this.listeJoueurs.iterator();
 		while(it.hasNext()){
 			it.next().setpointAction(true);
+			it.next().setSacrifice(true);
 		}
 		this.joueurEncours = this.listeJoueurs.get(numCom);
 		System.out.println("Le tour de :" + joueurEncours);
