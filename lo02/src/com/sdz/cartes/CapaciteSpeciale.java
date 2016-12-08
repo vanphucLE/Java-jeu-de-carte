@@ -84,7 +84,7 @@ public class CapaciteSpeciale {
 			System.out.println("Choisir id carte croyant a sacrifier");
 			for (int i=1;i<=joueur.getLaMain().getListeCroyantGuidee().size();i++){
 				for (int j=1;j<=joueur.getLaMain().getListeCroyantGuidee().get(i-1).size();j++){
-					carte.add(joueur.getLaMain().getListeCroyantGuidee().get(i-1).get(j-1));
+					carte.add((Croyant)joueur.getLaMain().getListeCroyantGuidee().get(i-1).get(j-1));
 					System.out.println(carte.toString());
 				}
 			}
@@ -276,7 +276,7 @@ public class CapaciteSpeciale {
 				Joueur joueur=partie.getListeJoueurs().get(i);
 				for(int j=1;j<=joueur.getLaMain().getListeGuideSpirituelGuider().size();j++){
 					if(joueur.getLaMain().getListeGuideSpirituelGuider().get(j).id==id){
-						int ptActionajouter=joueur.getLaMain().getlisteCroyantGuidee().get(j).size();
+						int ptActionajouter=joueur.getLaMain().getListeCroyantGuidee().get(j).size();
 						System.out.println("Choisir pt Action ajouter, 1 Jour, 2 Nuit, 3 Neant");
 						Scanner sc= new Scanner(System.in);
 						int originePtAction=sc.nextInt();

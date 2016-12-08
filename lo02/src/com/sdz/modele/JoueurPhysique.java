@@ -26,12 +26,12 @@ public class JoueurPhysique extends Joueur {
 		this.choisirCarte(partie);
 		String commande = "";
 		if (this.laMain.getListeGuideSpirituelGuider().size() > 0) {
-			Scanner sc =new Scanner(System.in);
+			Scanner sc = new Scanner(System.in);
 			do {
 				System.out.print("Voulez-vous sacrifier la cartes ? (Y/N):");
 				commande = sc.nextLine();
 			} while (!commande.equals("Y") && !commande.equals("N"));
-			if(commande.equals("Y")){
+			if (commande.equals("Y")) {
 				this.sacrifierCarte(partie);
 			}
 		}
@@ -121,10 +121,10 @@ public class JoueurPhysique extends Joueur {
 
 	}
 
-	//Jouer Carte GuideSpirituel
+	// Jouer Carte GuideSpirituel
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
-		LinkedList<Croyant> listeCroyantsGuidee = new LinkedList<Croyant>();
+		LinkedList<CarteAction> listeCroyantsGuidee = new LinkedList<CarteAction>();
 		LinkedList<CarteAction> listeCroyants = new LinkedList<CarteAction>();
 
 		for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
@@ -160,7 +160,7 @@ public class JoueurPhysique extends Joueur {
 			}
 		} while (idCartesGuidee.size() > carteG.getNbGuider());
 		for (int elem : idCartesGuidee) {
-			listeCroyantsGuidee.add((Croyant) espaceCommun.supprimerCarte(elem));
+			listeCroyantsGuidee.add(espaceCommun.supprimerCarte(elem));
 		}
 		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
 	}
@@ -220,11 +220,36 @@ public class JoueurPhysique extends Joueur {
 			}
 		}
 	}
-	
-	@Override 
-	public void sacrifierCarte(Partie partie){
-		System.out.println("Vous pouvez sacrifier les cartes suivants: ");
-		for()
+
+	@Override
+	public void sacrifierCarte(Partie partie) {
+		LinkedList<CarteAction> liste =new LinkedList<CarteAction>();
+		for (CarteAction carte : this.laMain.getListeGuideSpirituelGuider()) {
+			liste.add(carte);
+		}
+		for (LinkedList<CarteAction> listeCarte : this.laMain.getListeCroyantGuidee()) {
+			for (CarteAction carte : listeCarte) {
+				liste.add(carte);
+			}
+		}
+		Scanner sc=new Scanner(System.in);
+		String idChoisi="";
+		do {
+			System.out.print("Choissiez la carte pour sacrifier les cartes suivants (Entrez l'id, comme: 1): ");
+			idChoisi = sc.nextLine();
+		} while (!this.testEntrer(idChoisi, liste));
+		int idSacrifice = Integer.parseInt(idChoisi);
+		
+		/*
+		 * Carte Croyant: id :1 -->37 Carte Guide Spirituel: 38-->57 Carte Deus Ex :
+		 * 58 --> 75 Carte Apocalypse: 76 --> 80 Carte Divinite: 81 -->90
+		 */
+		if (1<=idSacrifice && idSacrifice<=37){
+			this.sacrifierCroyant(idSacrifice, partie);
+		}
+		if (38<=idSacrifice && idSacrifice<=57){
+			this.sacrifierCroyant(idSacrifice, partie);
+		}
 	}
 
 	// on utilise cette méthode pour mettre à jour le point d'action de joueur
@@ -329,6 +354,5 @@ public class JoueurPhysique extends Joueur {
 		}
 		return test;
 	}
-
 
 }

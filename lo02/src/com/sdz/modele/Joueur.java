@@ -86,9 +86,10 @@ public class Joueur {
 
 	public void setPtPriere() {
 		int sumPtPriere = 0;
-		for (LinkedList<Croyant> listeCarte : laMain.getListeCroyantGuidee()) {
-			for (Croyant carte : listeCarte) {
-				sumPtPriere += carte.getNbCroyant();
+		for (LinkedList<CarteAction> listeCarte : laMain.getListeCroyantGuidee()) {
+			for (CarteAction carte : listeCarte) {
+				Croyant c=(Croyant)carte;
+				sumPtPriere += c.getNbCroyant();
 			}
 		}
 		this.ptPriere = sumPtPriere;
@@ -161,17 +162,15 @@ public class Joueur {
 	}
 
 	public void sacrifierCroyant(int croyant, Partie partie) {
-		// rut me cai carte di
 		if (this.sacrifice) {
-
-			for (int i = 0; i < this.getLaMain().getlisteCroyantGuidee().size(); i++) {
-				for (int j = 0; j < this.getLaMain().getlisteCroyantGuidee().get(i).size(); j++) {
-					if (id == (this.getLaMain().getlisteCroyantGuidee().get(i).get(j)).getId()) {
+			for (int i = 0; i < this.getLaMain().getListeCroyantGuidee().size(); i++) {
+				for (int j = 0; j < this.getLaMain().getListeCroyantGuidee().get(i).size(); j++) {
+					if (id == this.getLaMain().getListeCroyantGuidee().get(i).get(j).getId()) {
 						this.sacrifice = false;
-						this.getLaMain().getlisteCroyantGuidee().get(i).get(j).effectuerCapaciteSpecial();
+						this.getLaMain().getListeCroyantGuidee().get(i).get(j).effectuerCapaciteSpecial();
 						partie.getJeuDeCartes().getListeCartesAction()
-								.add(this.getLaMain().getlisteCroyantGuidee().get(i).remove(j));
-						if (this.getLaMain().getlisteCroyantGuidee().get(i).size() == 0) {
+								.add(this.getLaMain().getListeCroyantGuidee().get(i).remove(j));
+						if (this.getLaMain().getListeCroyantGuidee().get(i).size() == 0) {
 							partie.getJeuDeCartes().getListeCartesAction()
 									.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
 						}
@@ -186,7 +185,6 @@ public class Joueur {
 
 	public void sacrifierGuideSpirit(int guide, Partie partie) {
 		if (this.sacrifice) {
-
 			for (int i = 0; i < this.getLaMain().getListeGuideSpirituelGuider().size(); i++) {
 				if (guide == (this.getLaMain().getListeGuideSpirituelGuider().get(i).getId())) {
 					this.sacrifice = false;

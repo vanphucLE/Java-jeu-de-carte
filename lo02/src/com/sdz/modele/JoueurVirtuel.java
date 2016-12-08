@@ -81,7 +81,7 @@ public class JoueurVirtuel extends Joueur {
 
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
-		LinkedList<Croyant> listeCroyantsGuidee = new LinkedList<Croyant>();
+		LinkedList<CarteAction> listeCroyantsGuidee = new LinkedList<CarteAction>();
 		int indice = 0;
 		for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
 			Boolean test = false;
@@ -95,7 +95,7 @@ public class JoueurVirtuel extends Joueur {
 			}
 			if (test == true && indice < carteG.getNbGuider()) {
 				indice++;
-				listeCroyantsGuidee.add((Croyant) carteA);
+				listeCroyantsGuidee.add(carteA);
 			}
 		}
 		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
@@ -175,9 +175,6 @@ public class JoueurVirtuel extends Joueur {
 		}
 	}
 
-	public void JoueurCapaSpe() {
-
-	}
 
 	public LaMain getLaMain() {
 		return laMain;

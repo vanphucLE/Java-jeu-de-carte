@@ -17,8 +17,8 @@ public class LaMain {
 	// listeCroyantGuidee est un collection continant les
 	// cartes croyants qui a été guidées par la carte
 	// guide spirituel qui sont enregistrées dans listGuideSpirituelGuider
-	private LinkedList<LinkedList<Croyant>> listeCroyantGuidee = new LinkedList();
-	private LinkedList<GuideSpirituel> listeGuideSpirituelGuider = new LinkedList();
+	private LinkedList<LinkedList<CarteAction>> listeCroyantGuidee = new LinkedList();
+	private LinkedList<CarteAction> listeGuideSpirituelGuider = new LinkedList();
 
 	public LinkedList<CarteAction> getListeCarteA() {
 		return listeCarteA;
@@ -28,11 +28,7 @@ public class LaMain {
 		this.listeCarteA = listeCarteA;
 	}
 
-	public LinkedList<LinkedList<Croyant>> getlisteCroyantGuidee() {
-		return listeCroyantGuidee;
-	}
-
-	public void ajouterGuidee(LinkedList<Croyant> listeCroyant, GuideSpirituel guideSpirituel) {
+	public void ajouterGuidee(LinkedList<CarteAction> listeCroyant, GuideSpirituel guideSpirituel) {
 		this.listeCroyantGuidee.add(listeCroyant);
 		this.listeGuideSpirituelGuider.add(guideSpirituel);
 	}
@@ -45,11 +41,11 @@ public class LaMain {
 		this.carteDivinite = carteDivinite;
 	}
 
-	public LinkedList<LinkedList<Croyant>> getListeCroyantGuidee() {
+	public LinkedList<LinkedList<CarteAction>> getListeCroyantGuidee() {
 		return listeCroyantGuidee;
 	}
 
-	public LinkedList<GuideSpirituel> getListeGuideSpirituelGuider() {
+	public LinkedList<CarteAction> getListeGuideSpirituelGuider() {
 		return listeGuideSpirituelGuider;
 	}
 
@@ -89,13 +85,13 @@ public class LaMain {
 			sb.append(" ."+carte + "\n");
 		}
 		sb.append("Liste cartes guidées: ");
-		Iterator<GuideSpirituel> it2 = this.listeGuideSpirituelGuider.iterator();
+		Iterator<CarteAction> it2 = this.listeGuideSpirituelGuider.iterator();
 		int compte = -1;
 		while (it2.hasNext()) {
 			compte++;
 			GuideSpirituel carteG = (GuideSpirituel) it2.next();
 			sb.append(" .Carte guide spirituel: " + carteG);
-			Iterator<Croyant> it3 = this.listeCroyantGuidee.get(compte).iterator();
+			Iterator<CarteAction> it3 = this.listeCroyantGuidee.get(compte).iterator();
 			while (it3.hasNext()) {
 				Croyant carteA = (Croyant) it3.next();
 				sb.append("\n   - Guider: "+carteA);
