@@ -17,7 +17,7 @@ public class Partie {
 	private EspaceCommun espaceCommun = new EspaceCommun();
 	private String difficulte;
 	// cette attribute pour valider si le carteApocalypse peut-être joué
-	private int estApocalypseAvant = 0;
+	private int estApocalypseAvant = -1;
 
 	public Partie(ArrayList<Joueur> listeJoueurs) {
 		this.listeJoueurs = listeJoueurs;
@@ -63,6 +63,7 @@ public class Partie {
 
 	// un partie va commencer par appeller cette méthode
 	public void jouer() {
+		this.estApocalypseAvant++;
 		this.commencerPartie();
 		int numCom = -1;
 		// les cartes croyants posées dans le dernier tour va être prêt à être

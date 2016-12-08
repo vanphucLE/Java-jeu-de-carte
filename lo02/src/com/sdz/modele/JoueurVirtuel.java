@@ -11,6 +11,7 @@ public class JoueurVirtuel extends Joueur {
 	public JoueurVirtuel(int id, String nom, int age) {
 		super(id, nom, age);
 		this.laMain = new LaMain();
+		this.bot = true;
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class JoueurVirtuel extends Joueur {
 
 	@Override
 	public void choisirCarte(Partie partie) {
-		CarteAction carteChoisi=new CarteAction();
+		CarteAction carteChoisi = new CarteAction();
 		for (CarteAction carteA : this.laMain.getListeCarteA()) {
 			if (carteA.getOrigine().equals("Jour") && this.testEntree(carteA, partie)) {
 				if (this.ptAction_Jour > 0) {
@@ -117,6 +118,11 @@ public class JoueurVirtuel extends Joueur {
 				}
 			}
 		}
+		if (carte.getType().equals("Apocalypse")) {
+			if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1 ) {
+				test = false;
+			}
+		}
 		return test;
 	}
 
@@ -125,9 +131,49 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	private void jouerApocalypse(CarteAction carte, Partie partie) {
-
+		partie.setEstApocalypseAvant(-1);
+		int[] arPriere = {};
+		int indice = -1;
+		for (Joueur j : partie.getListeJoueurs()) {
+			j.setPtPriere();
+			arPriere[indice++] = j.getPtPriere();
+		}
+		for (int i = 0; i <= indice - 1; i++) {
+			for (int j = i + 1; j <= indice; j++) {
+				if (arPriere[i] < arPriere[j]) {
+					int tg = arPriere[i];
+					arPriere[i] = arPriere[j];
+					arPriere[j] = tg;
+				}
+			}
+		}
+		if (indice + 1 >= 4) {
+			if (arPriere[indice] == arPriere[indice - 1]) {
+				System.out.println(
+						"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé.");
+			} else {
+				for (Joueur j : partie.getListeJoueurs()) {
+					if (j.getPtPriere() == arPriere[indice]) {
+						partie.eliminerJoueur(j);
+						break;
+					}
+				}
+			}
+		} else {
+			if (arPriere[0] == arPriere[1]) {
+				System.out.println(
+						"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé.");
+			} else {
+				for (Joueur j : partie.getListeJoueurs()) {
+					if (j.getPtPriere() == arPriere[0]) {
+						partie.setJoueurgagnant(j);
+						partie.setEstFini(true);
+						break;
+					}
+				}
+			}
+		}
 	}
-
 
 	public void JoueurCapaSpe() {
 

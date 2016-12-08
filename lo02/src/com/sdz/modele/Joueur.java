@@ -21,6 +21,7 @@ public class Joueur {
 	protected LaMain laMain;
 	protected boolean sacrifice = true;
 	protected boolean bot;
+	//chua xu li bien setpointAction
 	protected boolean setpointAction;
 
 	public Joueur(int id, String nom, int age) {

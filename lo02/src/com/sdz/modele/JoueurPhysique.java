@@ -16,6 +16,7 @@ public class JoueurPhysique extends Joueur {
 	public JoueurPhysique(String nom, int age) {
 		super(id, nom, age);
 		this.laMain = new LaMain();
+		this.bot=false;
 	}
 
 	@Override
@@ -153,11 +154,11 @@ public class JoueurPhysique extends Joueur {
 	// pas finir
 	private void jouerApocalypse(CarteAction carte, Partie partie) {
 		//
-		if (partie.getEstApocalypseAvant() == 0) {
+		if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1) {
 			System.out.println("Vous ne pouvez pas jouer la carte Apocalypse en ce tour");
-			partie.setEstApocalypseAvant(partie.getEstApocalypseAvant() + 1);
 			this.laMain.completerCarteAction(carte);
 		} else {
+			partie.setEstApocalypseAvant(-1);
 			int[] arPriere = {};
 			int indice = -1;
 			for (Joueur j : partie.getListeJoueurs()) {
@@ -199,7 +200,6 @@ public class JoueurPhysique extends Joueur {
 					}
 				}
 			}
-
 		}
 	}
 
