@@ -304,7 +304,6 @@ public class JoueurPhysique extends Joueur {
 		}
 		return test;
 	}
-
 	public void JoueurCapaSpeReel() {
 
 	}
