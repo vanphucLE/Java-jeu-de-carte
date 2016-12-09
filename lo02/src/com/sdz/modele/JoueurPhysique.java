@@ -21,8 +21,7 @@ public class JoueurPhysique extends Joueur {
 
 	@Override
 	public void jouer(Partie partie) {
-		this.seDefausserCartes(partie.getJeuDeCartes());
-		this.Compeleter7Carte(partie.getJeuDeCartes());
+		this.seDefausserCartesEtCompleter(partie.getJeuDeCartes());
 		this.choisirCarte(partie);
 		String commande = "";
 		if (this.laMain.getListeGuideSpirituelGuider().size() > 0) {
@@ -38,7 +37,7 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	@Override
-	public void seDefausserCartes(JeuDeCartes jeuDeCartes) {
+	public void seDefausserCartesEtCompleter(JeuDeCartes jeuDeCartes) {
 		System.out.println("Votre Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit
 				+ ") " + "(Néant: " + this.ptAction_Neant + ")");
 		System.out.println("Les cartes actions tenu dans vôtre main:");
@@ -57,11 +56,19 @@ public class JoueurPhysique extends Joueur {
 			} while (!this.testEntrer(commande2, this.laMain.getListeCarteA()));
 			String[] cartesDef = {};
 			cartesDef = commande2.split(" ");
+			LinkedList<CarteAction> cartesRecupere = new LinkedList<CarteAction>();
 			for (String str : cartesDef) {
 				int num = Integer.parseInt(str);
 				// la carte défaussées est recupéré dans le jeu de carte.
 				CarteAction carteA = this.laMain.seDeffausserCarte(num);
-				jeuDeCartes.recupererCarteAction(carteA);
+				cartesRecupere.add(carteA);
+			}
+
+			this.Compeleter7Carte(jeuDeCartes);
+			// jeuDeCartes recupére les cartes action après le joueur compléte 7
+			// cartes.
+			for (CarteAction carte : cartesRecupere) {
+				jeuDeCartes.recupererCarteAction(carte);
 			}
 		}
 	}
@@ -113,8 +120,11 @@ public class JoueurPhysique extends Joueur {
 			if ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0) {
 				System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
 						+ this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
-				System.out.print("Vous voulez continuer à jouer l'autre cartes (Y/N) ?    ");
-				String commande = sc.nextLine();
+				String commande="";
+				do {
+					System.out.print("Vous voulez continuer à jouer l'autre cartes (Y/N) ?    ");
+					 commande= sc.nextLine();
+				} while (!commande.equals("Y") && !commande.equals("N"));
 				continu = (commande.equals("Y")) ? true : false;
 			}
 		}
@@ -223,7 +233,7 @@ public class JoueurPhysique extends Joueur {
 
 	@Override
 	public void sacrifierCarte(Partie partie) {
-		LinkedList<CarteAction> liste =new LinkedList<CarteAction>();
+		LinkedList<CarteAction> liste = new LinkedList<CarteAction>();
 		for (CarteAction carte : this.laMain.getListeGuideSpirituelGuider()) {
 			liste.add(carte);
 		}
@@ -232,22 +242,22 @@ public class JoueurPhysique extends Joueur {
 				liste.add(carte);
 			}
 		}
-		Scanner sc=new Scanner(System.in);
-		String idChoisi="";
+		Scanner sc = new Scanner(System.in);
+		String idChoisi = "";
 		do {
 			System.out.print("Choissiez la carte pour sacrifier les cartes suivants (Entrez l'id, comme: 1): ");
 			idChoisi = sc.nextLine();
 		} while (!this.testEntrer(idChoisi, liste));
 		int idSacrifice = Integer.parseInt(idChoisi);
-		
+
 		/*
-		 * Carte Croyant: id :1 -->37 Carte Guide Spirituel: 38-->57 Carte Deus Ex :
-		 * 58 --> 75 Carte Apocalypse: 76 --> 80 Carte Divinite: 81 -->90
+		 * Carte Croyant: id :1 -->37 Carte Guide Spirituel: 38-->57 Carte Deus
+		 * Ex : 58 --> 75 Carte Apocalypse: 76 --> 80 Carte Divinite: 81 -->90
 		 */
-		if (1<=idSacrifice && idSacrifice<=37){
+		if (1 <= idSacrifice && idSacrifice <= 37) {
 			this.sacrifierCroyant(idSacrifice, partie);
 		}
-		if (38<=idSacrifice && idSacrifice<=57){
+		if (38 <= idSacrifice && idSacrifice <= 57) {
 			this.sacrifierCroyant(idSacrifice, partie);
 		}
 	}
@@ -256,21 +266,21 @@ public class JoueurPhysique extends Joueur {
 	// après qu'il a choisi une carte pour jouer.
 	private Boolean setPtAction(CarteAction carte) {
 		if (carte.getOrigine() != "") {
-			if (carte.getOrigine() == "Jour") {
+			if (carte.getOrigine().equals("Jour")) {
 				if (this.ptAction_Jour == 0) {
 					System.out.println("Eurreur en choissant!!");
 					return false;
 				} else {
 					this.ptAction_Jour--;
 				}
-			} else if (carte.getOrigine() == "Nuit") {
+			} else if (carte.getOrigine().equals("Nuit")) {
 				if (this.ptAction_Nuit == 0) {
 					System.out.println("Eurreur en choissant!!");
 					return false;
 				} else {
 					this.ptAction_Nuit--;
 				}
-			} else if (carte.getOrigine() == "Néant") {
+			} else if (carte.getOrigine().equals("Néant")) {
 				if (this.ptAction_Neant > 0) {
 					this.ptAction_Neant--;
 				} else if (this.ptAction_Jour >= 2) {
@@ -333,8 +343,8 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	private Boolean testGuideSpirituelEntree(CarteAction carteD, EspaceCommun espaceCommun) {
-		Boolean test = false;
-		if (carteD.getType().equals("GuideSpitituel")) {
+		if (carteD.getType().equals("GuideSpirituel")) {
+			Boolean test = false;
 			for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
 				for (String dogmeA : carteA.getDogme()) {
 					for (String dogmeD : carteD.getDogme()) {
@@ -345,14 +355,16 @@ public class JoueurPhysique extends Joueur {
 					}
 				}
 			}
-		}
-		if (test == false) {
-			System.out.println(
-					"Le carte Guide Spirituel que vous avez choisi ne peut guider aucune carte Croyant dans l'espace Commun");
+			if (test == false) {
+				System.out.println(
+						"Le carte Guide Spirituel que vous avez choisi ne peut guider aucune carte Croyant dans l'espace Commun");
+			} else {
+				this.laMain.completerCarteAction(carteD);
+			}
+			return test;
 		} else {
-			this.laMain.completerCarteAction(carteD);
+			return true;
 		}
-		return test;
 	}
 
 }

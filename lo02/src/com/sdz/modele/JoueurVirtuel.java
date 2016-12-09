@@ -16,8 +16,9 @@ public class JoueurVirtuel extends Joueur {
 
 	@Override
 	public void jouer(Partie partie) {
-		this.seDefausserCartes(partie.getJeuDeCartes());
-		this.Compeleter7Carte(partie.getJeuDeCartes());
+		System.out.println("Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit
+				+ ") " + "(Néant: " + this.ptAction_Neant + ")");
+		this.seDefausserCartesEtCompleter(partie.getJeuDeCartes());
 		this.choisirCarte(partie);
 		if (this.sacrifice && this.laMain.getListeCroyantGuidee().size() != 0) {
 			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), partie);
@@ -25,20 +26,26 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	@Override
-	public void seDefausserCartes(JeuDeCartes jeuDeCartes) {
+	public void seDefausserCartesEtCompleter(JeuDeCartes jeuDeCartes) {
 		// Choisir au hasard le nombre de carte défaussée.
 		System.out.println("Les cartes actions tenu dans sa main:");
 		System.out.println(this.laMain);
 		int nbDe = (int) Math.ceil(Math.random() * 7);
 		LinkedList<Integer> ids = new LinkedList<Integer>();
+		LinkedList<CarteAction> cartesRecupere = new LinkedList<CarteAction>();
 		for (int i = nbDe; i >= 1; i--) {
 			// Choisir au hasard les carte défaussée.
 			int nbCa = (int) Math.ceil(Math.random() * this.getLaMain().getListeCarteA().size());
 			CarteAction carteA = this.laMain.getListeCarteA().remove(nbCa - 1);
-			jeuDeCartes.recupererCarteAction(carteA);
+			cartesRecupere.add(carteA);
 			ids.add(carteA.getId());
 		}
 		System.out.println("Il a défaussé les cartes qui ont les Id en : " + ids);
+		//jeuDeCartes recupére les cartes action après le joueur compléte 7 cartes.
+		this.Compeleter7Carte(jeuDeCartes);
+		for (CarteAction carte: cartesRecupere) {
+			jeuDeCartes.recupererCarteAction(carte);
+		}
 	}
 
 	@Override

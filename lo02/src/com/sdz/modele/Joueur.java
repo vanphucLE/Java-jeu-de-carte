@@ -119,7 +119,7 @@ public class Joueur {
 	}
 
 	// Un joueur veut défausser un plusieur Cartes
-	public void seDefausserCartes(JeuDeCartes jeuDeCartes) {
+	public void seDefausserCartesEtCompleter(JeuDeCartes jeuDeCartes) {
 
 	}
 
@@ -143,6 +143,7 @@ public class Joueur {
 	}
 
 	public void jouerCroyant(CarteAction carte, EspaceCommun espaceCommun) {
+		System.out.println("Cette carte est transmis à l'espace commun!");
 		espaceCommun.ajouterCarte((Croyant) carte);
 	}
 

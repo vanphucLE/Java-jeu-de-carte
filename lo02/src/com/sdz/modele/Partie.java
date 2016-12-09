@@ -28,33 +28,31 @@ public class Partie {
 		int num = (int) Math.ceil(3 * Math.random());
 		String FaceDe = de[num];
 		System.out.println("Face du dé: " + FaceDe);
-		if (FaceDe == "Jour") {
+		if (FaceDe.equals("Jour")) {
+			System.out.println("********JOUR");
 			for (Joueur joueur : this.listeJoueurs) {
-				if (joueur.laMain.getCarteDivinite().getOrigine() == "Jour") {
+				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Jour")) {
 					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 2);
-
-				}
-				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
+				} else if (joueur.laMain.getCarteDivinite().getOrigine().equals("Aube")) {
 					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 1);
 
 				}
 			}
-		} else if (FaceDe == "Nuit") {
+		} else if (FaceDe.equals("Nuit")) {
+			System.out.println("********NUIT");
 			for (Joueur joueur : this.listeJoueurs) {
-				if (joueur.laMain.getCarteDivinite().getOrigine() == "Nuit") {
+				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Nuit")) {
 					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 2);
-				}
-				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
+				} else if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Crépuscule")) {
 					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 1);
 				}
 			}
-		} else if (FaceDe == "Néant") {
+		} else if (FaceDe.equals("Néant")) {
+			System.out.println("********NÉANT");
 			for (Joueur joueur : this.listeJoueurs) {
-				if (joueur.laMain.getCarteDivinite().getOrigine() == "Aube") {
+				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Aube")) {
 					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
-
-				}
-				if (joueur.laMain.getCarteDivinite().getOrigine() == "Crépuscule") {
+				} else if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Crépuscule")) {
 					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
 				}
 			}
@@ -85,7 +83,6 @@ public class Partie {
 	// de jeu de carte
 	private void commencerPartie() {
 		for (Joueur joueur : this.listeJoueurs) {
-
 			// Prendre une carte Divinité
 			CarteDivinite carteDivinite = jeuDeCartes.piocherCarteDivinite();
 			joueur.getLaMain().piocherDivinite(carteDivinite);
@@ -103,32 +100,39 @@ public class Partie {
 	// Déscrire les actions des joueurs dans chaque tour
 	// numCom: numéro du joueur dans listJoueurs qui commence ce tour
 	private void tourDeJeu(int numCom) {
+		System.out.println(
+				"\t----------------------------------------------NOUVELLE TOUR----------------------------------------------");
 		Iterator<Joueur> it = this.listeJoueurs.iterator();
 		while (it.hasNext()) {
 			it.next().setpointAction(true);
 			it.next().setSacrifice(true);
 		}
 		this.joueurEncours = this.listeJoueurs.get(numCom);
-		System.out.println("Le tour de :" + joueurEncours);
-		Scanner sc = new Scanner(System.in);
-		String str = "";
-		do {
-			System.out.print("Entrez 'L' pour lancer le dé! ");
-			str = sc.nextLine();
-		} while (!str.equals("L"));
-		// lancer le dé
-		this.lancerDe();
-
-		this.joueurEncours.jouer(this);
+		if (!joueurEncours.bot) {
+			System.out.println("\nLe tour de :" + joueurEncours);
+			Scanner sc = new Scanner(System.in);
+			String str = "";
+			do {
+				System.out.print("Entrez 'L' pour lancer le dé! ");
+				str = sc.nextLine();
+			} while (!str.equals("L"));
+			// lancer le dé
+			this.lancerDe();
+			this.joueurEncours.jouer(this);
+		} else {
+			System.out.print(this.joueurEncours.getNom() + " a lancé le dé! ");
+			this.lancerDe();
+			this.joueurEncours.jouer(this);
+		}
 
 		for (int i = numCom + 1; i < this.listeJoueurs.size(); i++) {
 			this.joueurEncours = this.listeJoueurs.get(i);
-			System.out.println("Le tour de :" + joueurEncours);
+			System.out.println("\nLe tour de :" + joueurEncours);
 			this.listeJoueurs.get(i).jouer(this);
 		}
 		for (int i = 0; i < numCom; i++) {
 			this.joueurEncours = this.listeJoueurs.get(i);
-			System.out.println("Le tour de :" + joueurEncours);
+			System.out.println("\nLe tour de :" + joueurEncours);
 			this.listeJoueurs.get(i).jouer(this);
 		}
 	}
