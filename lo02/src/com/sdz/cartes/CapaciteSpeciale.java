@@ -56,7 +56,7 @@ public class CapaciteSpeciale {
 					choix=false;
 				}
 			}
-		}
+		}else
 		if (id == 7) {
 			boolean choix=true;
 			while(choix){
@@ -72,7 +72,7 @@ public class CapaciteSpeciale {
 					choix=false;
 				}
 			}
-		}
+		}else
 		if (id == 8||id==21||id == 34) {
 			System.out.println("Choisir Divinité pour prendre ses 2 cartes");
 			boolean choix = true;
@@ -97,7 +97,7 @@ public class CapaciteSpeciale {
 				}
 
 			}
-		}
+		}else
 		if (id >= 9 && id <=11 || id==23||id==22||id==9) {
 			//imposer la sacrifice un croyant d'un joueur
 			joueur=partie.getListeJoueurs().get(this.choisirlaDivinite());
@@ -119,7 +119,7 @@ public class CapaciteSpeciale {
 				joueur.setSacrifice(true);
 				joueur.sacrifierCroyant(croyant, partie);
 			}
-		}
+		}else
 		if (id == 12) {
 			// guide revient dans sa main et croyant lie revient au centre de la
 			// table
@@ -146,15 +146,15 @@ public class CapaciteSpeciale {
 					}
 				}
 			}
-		}
+		}else
 		if (id == 13||id == 35) {
 			// relancer de de cosmonogie
 			partie.lancerDe();
-		}
+		}else
 		if (id > 13 && id < 19) {
 			// donner une point d'action de nuit
 			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Nuit()+1);
-		}
+		}else
 		if (id == 19) {
 			boolean choix=true;
 			while(choix){
@@ -170,7 +170,7 @@ public class CapaciteSpeciale {
 					choix=false;
 				}
 			}
-		}
+		}else
 		if (id == 20) {
 			boolean choix=true;
 			while(choix){
@@ -186,7 +186,7 @@ public class CapaciteSpeciale {
 					choix=false;
 				}
 			}
-		}
+		}else
 		//id 21=8
 		//id 22, 23=9
 		if (id == 24) {
@@ -210,7 +210,7 @@ public class CapaciteSpeciale {
 
 			}
 			
-		}
+		}else
 		if (id == 25) {
 			// prender pt Action
 			System.out.println("Choisir Divinité pour prendre ses points d'action");
@@ -246,7 +246,7 @@ public class CapaciteSpeciale {
 				}
 
 			}
-		}
+		}else
 		if (id == 26) {
 			// benificier une capacite speciale dune carte croyant appartenant a
 			// un autre joueur
@@ -269,7 +269,7 @@ public class CapaciteSpeciale {
 					choix=false;
 				}
 			}
-		}
+		}else
 		if (id == 33) {
 			boolean choix=true;
 			while(choix){
@@ -285,7 +285,7 @@ public class CapaciteSpeciale {
 					choix=false;
 				}
 			}
-		}
+		}else
 		//id 34 piocher 2 cartes id=8
 		//id =35 lancer le de id=13
 		//id== 36 imposer la sacrifice =9
@@ -296,10 +296,10 @@ public class CapaciteSpeciale {
 			while(it.hasNext()){
 				it.next().setpointAction(false);
 			}
-		}
+		}else
 		if(id>37 && id< 41){
 			//apocalyse
-		}
+		}else
 		if(id>40 && id<49){
 			//gagner point action en fonction de carte croyant attache
 			for (int i=1; i<= partie.getListeJoueurs().size();i++){
@@ -320,7 +320,7 @@ public class CapaciteSpeciale {
 				}
 			}
 			
-		}
+		}else
 		if(id==49){
 			//sacrifie tous les cartes croyant Neant  d'une Divinité Humain
 			joueur=partie.getListeJoueurs().get(this.choisirlaDivinite());
@@ -336,7 +336,7 @@ public class CapaciteSpeciale {
 					}
 				}
 			}
-		}
+		}else
 		if(id==50){
 			//sacrifie Guide Spirituel si lui ou sa Divinite ne croit pas au dogme Chaos
 			boolean choix=false;
@@ -366,7 +366,7 @@ public class CapaciteSpeciale {
 			}
 			joueur.sacrifierGuideSpirit(joueur.getLaMain().getListeGuideSpirituelGuider().get(Guide-1).getId(), partie);
 			
-		}
+		}else
 		if(id==51){
 			//defausser tous les cartes croyant Origine Nuit ou Neant; et Dogme Nature
 		for (int i=0; i<partie.getEspaceCommun().getListeCartesPret().size();i++){

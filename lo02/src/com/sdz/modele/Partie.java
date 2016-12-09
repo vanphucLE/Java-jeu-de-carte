@@ -69,14 +69,14 @@ public class Partie {
 		// les cartes croyants posées dans le dernier tour va être prêt à être
 		// guidée
 		this.espaceCommun.preterCartes();
-		// while (!this.estFini) {
-		// if (numCom < this.getListeJoueurs().size()-1){
-		// numCom++;
-		// }else{
-		// numCom=0;
-		// }
-		// this.tourDeJeu(numCom);
-		// }
+		while (!this.estFini) {
+			if (numCom < this.getListeJoueurs().size() - 1) {
+				numCom++;
+			} else {
+				numCom = 0;
+			}
+			this.tourDeJeu(numCom);
+		}
 		this.tourDeJeu(0);
 
 	}
@@ -103,8 +103,8 @@ public class Partie {
 	// Déscrire les actions des joueurs dans chaque tour
 	// numCom: numéro du joueur dans listJoueurs qui commence ce tour
 	private void tourDeJeu(int numCom) {
-		Iterator<Joueur> it= this.listeJoueurs.iterator();
-		while(it.hasNext()){
+		Iterator<Joueur> it = this.listeJoueurs.iterator();
+		while (it.hasNext()) {
 			it.next().setpointAction(true);
 			it.next().setSacrifice(true);
 		}
@@ -195,6 +195,5 @@ public class Partie {
 	public Joueur getJoueurEncours() {
 		return joueurEncours;
 	}
-
 
 }
