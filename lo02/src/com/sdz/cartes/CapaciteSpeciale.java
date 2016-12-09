@@ -7,10 +7,37 @@ import com.sdz.modele.Joueur;
 import com.sdz.modele.Partie;
 
 public class CapaciteSpeciale {
-	public CapaciteSpeciale(){
-		
+	public int id;
+	public Partie partie;
+	Joueur joueur;
+	public CapaciteSpeciale(int id, Partie partie){
+		this.id=id;
+		this.partie=partie;
 	}
-	public void capacite(int id,Partie partie) {
+	public int choisirlaDivinite(){
+		int Divine;
+		if(!partie.getJoueurEncours().estBot()){
+			System.out.print("Choisir une Divinité pour effectuer la capacite");
+			int i=1;
+			Iterator<Joueur> it=partie.getListeJoueurs().iterator();
+			while(it.hasNext()){
+				System.out.println(i+":"+it.next());
+				i++;
+			}
+			Scanner sc=new Scanner(System.in);
+			Divine= sc.nextInt();
+			while(Divine>partie.getListeJoueurs().size() || partie.getListeJoueurs().get(Divine-1).getId()==partie.getJoueurEncours().getId()){
+				System.out.println("Retapez le numero de Divinite");
+				Divine=sc.nextInt();
+			}
+		}
+		else {
+			do {Divine= (int) Math.ceil((partie.getListeJoueurs().size()-1)*Math.random());}
+			while (partie.getListeJoueurs().get(Divine-1).getId()==partie.getJoueurEncours().getId());
+		}
+		return Divine;
+	};
+	public void capacite() {
 		if (id < 6) {
 			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour()+1);
 		}
@@ -73,13 +100,7 @@ public class CapaciteSpeciale {
 		}
 		if (id >= 9 && id <=11 || id==23||id==22||id==9) {
 			//imposer la sacrifice un croyant d'un joueur
-			System.out.println("Choisir Divinité pour lui imposer sa sacrifice");
-			for (int i=1;i<=partie.getListeJoueurs().size();i++){
-				System.out.print("id "+i+" nom "+partie.getListeJoueurs().get(i-1).getNom()+" Dogme "+partie.getListeJoueurs().get(i).getLaMain().getCarteDivinite().getDogme());
-			}
-			Scanner sc=new Scanner(System.in);
-			int Divine= sc.nextInt();
-			Joueur joueur=partie.getListeJoueurs().get(Divine-1);
+			joueur=partie.getListeJoueurs().get(this.choisirlaDivinite());
 			LinkedList<Croyant> carte= new LinkedList();
 			System.out.println("Choisir id carte croyant a sacrifier");
 			for (int i=1;i<=joueur.getLaMain().getListeCroyantGuidee().size();i++){
@@ -93,7 +114,7 @@ public class CapaciteSpeciale {
 				joueur.setSacrifice(true);
 				joueur.sacrifierCroyant(carte.pop().getId(), partie);
 			}
-			else {
+			else {Scanner sc=new Scanner(System.in);
 				int croyant=sc.nextInt();
 				joueur.setSacrifice(true);
 				joueur.sacrifierCroyant(croyant, partie);
@@ -194,18 +215,27 @@ public class CapaciteSpeciale {
 			// prender pt Action
 			System.out.println("Choisir Divinité pour prendre ses points d'action");
 			boolean choix = true;
+			int Divine;
 			while (choix) {
-				System.out.print("Choisir id de la Divinité");
+				if(!partie.getJoueurEncours().estBot()){
+				System.out.print("Choisir la Divinité");
 				Iterator<Joueur> it = partie.getListeJoueurs().iterator();
+				int i=1;
 				while (it.hasNext()) {
-					if (it.next().getId() > partie.getJoueurEncours().getId()) {
-						System.out.println("id" + it.next().getId() + it.next().getNom());
+					if (it.next().getId() != partie.getJoueurEncours().getId()) {
+						System.out.println(i+":" + it.next());
+						i++;
 					}
 				}
 				Scanner sc = new Scanner(System.in);
-				int Divine;
-				Divine = sc.nextInt();
-				if (Divine > partie.getJoueurEncours().getId() && Divine < partie.getListeJoueurs().size()) {
+				
+				Divine = sc.nextInt();}
+				else {
+					
+					do {Divine= (int) Math.ceil((partie.getListeJoueurs().size()-1)*Math.random());}
+					while (partie.getListeJoueurs().get(Divine-1).getId()==partie.getJoueurEncours().getId());
+				}
+				if (partie.getListeJoueurs().get(Divine-1).getId() != partie.getJoueurEncours().getId() && Divine < partie.getListeJoueurs().size()) {
 					partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour()+partie.getListeJoueurs().get(Divine-1).getPtAction_Jour());
 					partie.getListeJoueurs().get(Divine-1).setPtAction_Jour(0);
 					partie.getJoueurEncours().setPtAction_Nuit(partie.getJoueurEncours().getPtAction_Nuit()+partie.getListeJoueurs().get(Divine-1).getPtAction_Nuit());
@@ -291,6 +321,65 @@ public class CapaciteSpeciale {
 			}
 			
 		}
-		
+		if(id==49){
+			//sacrifie tous les cartes croyant Neant  d'une Divinité Humain
+			joueur=partie.getListeJoueurs().get(this.choisirlaDivinite());
+			while(joueur.getLaMain().getCarteDivinite().getId()>82 &&joueur.getLaMain().getCarteDivinite().getId()<87){
+				System.out.println("Choisir la Divinité Humain");
+				joueur=partie.getListeJoueurs().get(this.choisirlaDivinite());
+			}
+			for(int i=0;i<joueur.getLaMain().getListeCroyantGuidee().size();i++){
+				for (int j=0;i<joueur.getLaMain().getListeCroyantGuidee().get(i).size();j++){
+					CarteAction carte = joueur.getLaMain().getListeCroyantGuidee().get(i).get(j);
+					if(carte.getOrigine()=="Neant"){
+						joueur.sacrifierCroyant(carte.getId(), partie);
+					}
+				}
+			}
+		}
+		if(id==50){
+			//sacrifie Guide Spirituel si lui ou sa Divinite ne croit pas au dogme Chaos
+			boolean choix=false;
+			int Guide;
+			while(!choix){
+			joueur=partie.getListeJoueurs().get(this.choisirlaDivinite());
+						for(int i=0; i<3;i++){
+				if (joueur.getLaMain().getCarteDivinite().getDogme()[i]=="Chaos"){
+					choix=true;
+				}
+			}}
+			System.out.println("Choisir la guide Spirituel");
+			Iterator<CarteAction> it= joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			while (it.hasNext()){
+				int i=1;
+				System.out.println(i+":"+it.next());
+			}
+			if(partie.getJoueurEncours().estBot()){
+				Guide= (int) Math.ceil((joueur.getLaMain().getListeGuideSpirituelGuider().size())*Math.random());
+			}else{
+				Scanner sc=new Scanner(System.in);
+				Guide= sc.nextInt();
+				while (Guide<1 || Guide>joueur.getLaMain().getListeGuideSpirituelGuider().size()){
+					System.out.println("Rechoisir la Guide Spirituel");
+					Guide= sc.nextInt();
+				}
+			}
+			joueur.sacrifierGuideSpirit(joueur.getLaMain().getListeGuideSpirituelGuider().get(Guide-1).getId(), partie);
+			
+		}
+		if(id==51){
+			//defausser tous les cartes croyant Origine Nuit ou Neant; et Dogme Nature
+		for (int i=0; i<partie.getEspaceCommun().getListeCartesPret().size();i++){
+			CarteAction carte= partie.getEspaceCommun().getListeCartesPret().get(i);
+			if(carte.getOrigine()=="Nuit"|| carte.getOrigine()=="Neant"){
+				for(int j=0;j<3;j++){
+					if(carte.getDogme()[j]=="Nature"){
+						partie.getJeuDeCartes().getListeCartesAction().add(partie.getEspaceCommun().getListeCartesPret().remove(i));
+					}
+				}
+			}
+		}
+		}
+		if(id==52){}
 	}
 }

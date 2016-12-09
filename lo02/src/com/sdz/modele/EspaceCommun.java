@@ -53,7 +53,10 @@ public class EspaceCommun {
 		return sb.toString();
 	}
 	public LinkedList<CarteAction> getListeCartesPret() {
-		return listeCartesPret;
+		return this.listeCartesPret;
+	}
+	public LinkedList<CarteAction> getlisteCartesPoseRecent() {
+		return this.listeCartesPoseRecent;
 	}
 	
 	

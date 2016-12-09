@@ -56,7 +56,7 @@ public class Croyant extends CarteAction {
 
 	public void effectuerCapaciteSpecial(Partie partie) {
 		
-		CapaciteSpeciale a=new CapaciteSpeciale();
+		CapaciteSpeciale a=new CapaciteSpeciale(this.id,partie);
 
 	}
 
