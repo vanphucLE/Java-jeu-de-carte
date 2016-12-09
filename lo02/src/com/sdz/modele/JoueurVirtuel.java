@@ -78,7 +78,7 @@ public class JoueurVirtuel extends Joueur {
 				break;
 			}
 		}
-
+		System.out.println(this.nom+ "a joué la carte: "+carteChoisi);
 		switch (carteChoisi.getType()) {
 		case "Croyant":
 			this.jouerCroyant(carteChoisi, partie.getEspaceCommun());

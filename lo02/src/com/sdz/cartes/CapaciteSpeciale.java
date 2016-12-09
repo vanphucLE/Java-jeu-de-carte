@@ -294,7 +294,7 @@ public class CapaciteSpeciale {
 			//ne recevoir pas pt actions
 			Iterator<Joueur> it= partie.getListeJoueurs().iterator();
 			while(it.hasNext()){
-				it.next().setpointAction(false);
+				it.next().setEstSetPointAction(false);
 			}
 		}else
 		if(id>37 && id< 41){
