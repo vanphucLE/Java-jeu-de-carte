@@ -75,57 +75,64 @@ public class JoueurPhysique extends Joueur {
 
 	@Override
 	public void choisirCarte(Partie partie) {
-		partie.getEspaceCommun();
 		System.out.println(partie.getEspaceCommun());
 		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
 				+ this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")");
 		Boolean continu = true;
 		while ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0 && continu) {
-			String idChoisi = "";
 			Scanner sc = new Scanner(System.in);
-			int idChoisirInt = 0;
-			CarteAction carteChoisi;
+			String commande = "";
 			do {
+				System.out.println("Vous voulez choisir la carte pour jouer (Y/N)? : ");
+				commande = sc.nextLine();
+			} while (!commande.equals("Y") && !commande.equals("N"));
+			if (commande.equals("Y")) {
+				String idChoisi = "";
+				int idChoisirInt = 0;
+				CarteAction carteChoisi;
 				do {
-					System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
-					idChoisi = sc.nextLine();
-				} while (!this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
-				idChoisirInt = Integer.parseInt(idChoisi);
-				carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
-			} while (!testGuideSpirituelEntree(carteChoisi, partie.getEspaceCommun()));
+					do {
+						System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
+						idChoisi = sc.nextLine();
+					} while (!this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
+					idChoisirInt = Integer.parseInt(idChoisi);
+					carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
+				} while (!testGuideSpirituelEntree(carteChoisi, partie.getEspaceCommun()));
 
-			System.out.println("Vous avez choisi la carte: " + carteChoisi);
+				System.out.println("Vous avez choisi la carte: " + carteChoisi);
 
-			Boolean test = this.setPtAction(carteChoisi);
-			if (!test) {
-				// Si la choice de joueur n'est pas valide, la main va récupérer
-				// la carte qui se sont défaussé.
-				this.laMain.completerCarteAction(carteChoisi);
-			} else {
-				switch (carteChoisi.getType()) {
-				case "Croyant":
-					this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
-					break;
-				case "GuideSpirituel":
-					this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
-					break;
-				case "DeusEx":
-					this.jouerDeusEx(partie);
-					break;
-				case "Apocalypse":
-					this.jouerApocalypse(carteChoisi, partie);
-					break;
+				Boolean test = this.setPtAction(carteChoisi);
+				if (!test) {
+					// Si la choice de joueur n'est pas valide, la main va
+					// récupérer
+					// la carte qui se sont défaussé.
+					this.laMain.completerCarteAction(carteChoisi);
+				} else {
+					switch (carteChoisi.getType()) {
+					case "Croyant":
+						this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
+						break;
+					case "GuideSpirituel":
+						this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
+						break;
+					case "DeusEx":
+						this.jouerDeusEx(partie);
+						break;
+					case "Apocalypse":
+						this.jouerApocalypse(carteChoisi, partie);
+						break;
+					}
 				}
-			}
-			if ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0) {
-				System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
-						+ this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
-				String commande="";
-				do {
-					System.out.print("Vous voulez continuer à jouer l'autre cartes (Y/N) ?    ");
-					 commande= sc.nextLine();
-				} while (!commande.equals("Y") && !commande.equals("N"));
-				continu = (commande.equals("Y")) ? true : false;
+				if ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0) {
+					System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | "
+							+ "(Nuit: " + this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
+					commande = "";
+					do {
+						System.out.print("Vous voulez continuer à jouer l'autre cartes (Y/N) ?    ");
+						commande = sc.nextLine();
+					} while (!commande.equals("Y") && !commande.equals("N"));
+					continu = (commande.equals("Y")) ? true : false;
+				}
 			}
 		}
 

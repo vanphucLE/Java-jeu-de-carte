@@ -33,6 +33,16 @@ public class Croyant extends CarteAction {
 			{ "Humain", "Symboles", "Chaos" }, { "Symboles", "Mystique", "Chaos" } };
 	public static final int[] nbCroyants = { 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 4,
 										4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 4 };
+	
+	public static final String[] Capa={"Donne un point d'Action d'Origine Jour.", "Donne un point d'Action d'Origine Jour.","Donne un point d'Action d'Origine Jour.",
+										"Donne un point d'Action d'Origine Jour.","Donne un point d'Action d'Origine Jour.","Empêche une Divinité possédant le Dogme Nature ou Mystique de sacrifier une de ses cartes de Croyants durant ce tour.",
+										"Empêche une Divinité possédant le Dogme Chaos ou Mystique de sacrifier un de ses Guides Spirituels durant ce tour.","Vous piochez deux cartes au hasard dans la main d'une autre Divinité","Impose le sacrifice d'un Croyant d'un autre joueur, qui choisit la carte. La capacité spéciale du sacrifice est jouée.",
+										"Impose le sacrifice d'un Croyant d'un autre joueur, qui choisit la carte. La capacité spéciale du sacrifice est jouée.", "Impose le sacrifice d'un Guide Spirituel d'un autre joueur, qui choisit la carte. La capacité spéciale du sacrifice est jouée.","Un Guide Spirituel revient dans la main de sa Divinité. Ses Croyants reviennent au centre de la table.",
+										"Relancez le dé de Cosmogonie. Le tour se finit normalement sous la nouvelle influence.","Donne un point d'Action d'Origine Nuit.", "Donne un point d'Action d'Origine Nuit.",
+										"Donne un point d'Action d'Origine Nuit.","Donne un point d'Action d'Origine Nuit.","Donne un point d'Action d'Origine Nuit.",
+										"Empêche une Divinité possédant le Dogme Humain ou Mystique de sacrifier une de ses cartes de Croyants durant ce tour de jeu.","Empêche une Divinité possédant le Dogme Humain ou Symboles de sacrifier un de ses Guides Spirituels durant ce tour de jeu.","Vous piochez deux cartes au hasard dans la main d'une autre Divinité. ",
+										"Impose le sacrifice d'un Croyant d'un autre joueur. Celui-ci choisit le sacrifié. La capacité spéciale du sacrifice est jouée.","Impose le sacrifice d'un Croyant d'un autre joueur. Celui-ci choisit le sacrifié. La capacité spéciale du sacrifice est jouée.", "Retirez tous les Croyants attachés à l'un des Guides Spirituels d'une autre Divinité. Les Croyants reviennent au milieu de la table, le Guide Spirituel est défaussé.",
+										"Récupérez les points d'Action d'une Divinité n'ayant pas encore joué durant ce tour. Les points d'Action gardent leur Origine. La Divinité perd ses points.","Illusionnistes Vous bénéficiez de la capacité spéciale de sacrifice d'une carte de Croyants appartenant à une autre Divinité. La carte en question reste en jeu.","Donne un point d'Action d'Origine Néant "};
 
 	public Croyant(int id) {
 		this.id = id;

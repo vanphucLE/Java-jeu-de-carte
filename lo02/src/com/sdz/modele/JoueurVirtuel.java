@@ -16,8 +16,8 @@ public class JoueurVirtuel extends Joueur {
 
 	@Override
 	public void jouer(Partie partie) {
-		System.out.println("Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit
-				+ ") " + "(Néant: " + this.ptAction_Neant + ")");
+		System.out.println("Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit + ") "
+				+ "(Néant: " + this.ptAction_Neant + ")");
 		this.seDefausserCartesEtCompleter(partie.getJeuDeCartes());
 		this.choisirCarte(partie);
 		if (this.sacrifice && this.laMain.getListeCroyantGuidee().size() != 0) {
@@ -41,9 +41,10 @@ public class JoueurVirtuel extends Joueur {
 			ids.add(carteA.getId());
 		}
 		System.out.println("Il a défaussé les cartes qui ont les Id en : " + ids);
-		//jeuDeCartes recupére les cartes action après le joueur compléte 7 cartes.
+		// jeuDeCartes recupére les cartes action après le joueur compléte 7
+		// cartes.
 		this.Compeleter7Carte(jeuDeCartes);
-		for (CarteAction carte: cartesRecupere) {
+		for (CarteAction carte : cartesRecupere) {
 			jeuDeCartes.recupererCarteAction(carte);
 		}
 	}
@@ -74,11 +75,13 @@ public class JoueurVirtuel extends Joueur {
 					this.ptAction_Jour -= 2;
 				}
 			}
-			if (carteChoisi.equals(carteA)) {
+			if (carteChoisi.estEgal(carteA)) {
 				break;
 			}
 		}
-		System.out.println(this.nom+ "a joué la carte: "+carteChoisi);
+		if (carteChoisi.getId() != 0) {
+			System.out.println(this.nom + " a joué la carte: " + carteChoisi);
+		}
 		switch (carteChoisi.getType()) {
 		case "Croyant":
 			this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
