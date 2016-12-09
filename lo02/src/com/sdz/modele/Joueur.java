@@ -22,7 +22,7 @@ public class Joueur {
 	protected boolean sacrifice = true;
 	protected boolean bot;
 	// chua xu li bien setpointAction
-	protected boolean setpointAction;
+	protected boolean estSetPointAction=true;
 
 	public Joueur(int id, String nom, int age) {
 		this.id = id;
@@ -34,8 +34,12 @@ public class Joueur {
 		return this.bot;
 	}
 
-	public void setpointAction(boolean setpointAction) {
-		this.setpointAction = setpointAction;
+	public boolean getEstSetPointAction() {
+		return estSetPointAction;
+	}
+
+	public void setEstSetPointAction(boolean estSetPointAction) {
+		this.estSetPointAction = estSetPointAction;
 	}
 
 	public int getidCarteDivinite() {
@@ -55,7 +59,7 @@ public class Joueur {
 	}
 
 	public void setPtAction_Jour(int ptAction) {
-		if (this.setpointAction) {
+		if (this.estSetPointAction) {
 			this.ptAction_Jour = ptAction;
 		}
 	}
@@ -65,7 +69,7 @@ public class Joueur {
 	}
 
 	public void setPtAction_Nuit(int ptAction) {
-		if (this.setpointAction) {
+		if (this.estSetPointAction) {
 			this.ptAction_Nuit = ptAction;
 		}
 	}
@@ -75,7 +79,7 @@ public class Joueur {
 	}
 
 	public void setPtAction_Neant(int ptAction) {
-		if (this.setpointAction) {
+		if (this.estSetPointAction) {
 			this.ptAction_Neant = ptAction;
 		}
 	}

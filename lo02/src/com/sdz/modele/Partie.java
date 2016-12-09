@@ -104,7 +104,7 @@ public class Partie {
 				"\t----------------------------------------------NOUVELLE TOUR----------------------------------------------");
 		Iterator<Joueur> it = this.listeJoueurs.iterator();
 		while (it.hasNext()) {
-			it.next().setpointAction(true);
+			it.next().setEstSetPointAction(true);
 			it.next().setSacrifice(true);
 		}
 		this.joueurEncours = this.listeJoueurs.get(numCom);
