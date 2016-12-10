@@ -22,7 +22,7 @@ public class Joueur {
 	protected boolean sacrifice = true;
 	protected boolean bot;
 	// chua xu li bien setpointAction
-	protected boolean estSetPointAction=true;
+	protected boolean estSetPointAction = true;
 
 	public Joueur(int id, String nom, int age) {
 		this.id = id;
@@ -92,7 +92,7 @@ public class Joueur {
 		int sumPtPriere = 0;
 		for (LinkedList<CarteAction> listeCarte : laMain.getListeCroyantGuidee()) {
 			for (CarteAction carte : listeCarte) {
-				Croyant c=(Croyant)carte;
+				Croyant c = (Croyant) carte;
 				sumPtPriere += c.getNbCroyant();
 			}
 		}
@@ -142,10 +142,19 @@ public class Joueur {
 	// Choisir carte pour jouer
 	public void choisirCarte(Partie partie) {
 	}
-	public void sacrifierCarte(Partie partie){
-		
+
+	public void sacrifierCarte(Partie partie) {
+
 	}
 
+	public Boolean estEqual(Joueur j) {
+		if (this.id == j.id) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public void jouerCroyant(CarteAction carte, EspaceCommun espaceCommun) {
 		System.out.println("Cette carte est transmis à l'espace commun!");
 		espaceCommun.ajouterCarte((Croyant) carte);

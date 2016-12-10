@@ -49,11 +49,10 @@ public class CapaciteSpeciale {
 			boolean choix = true;
 			while (choix) {
 				System.out.println(
-						"Choisir id Divinité origine Nature ou Mystique pour empecher sa sacrifice la carte croyant");
-				for (int i = 1; i <= partie.getListeJoueurs().size(); i++) {
-					System.out.print("id " + i + " nom " + partie.getListeJoueurs().get(i).getNom() + " Dogme "
-							+ partie.getListeJoueurs().get(i).getLaMain().getCarteDivinite().getDogme());
-				}
+						"Choisir id Divinité possédant le dogme Nature ou Mystique pour empêcher sa sacrifice la carte croyant parmi les joueur suivant: ");
+				for (Joueur j: partie.getListeJoueurs()) {
+					System.out.print("  +"+j);
+				} 
 				Scanner sc = new Scanner(System.in);
 				int Divine = sc.nextInt();
 				Joueur joueur = partie.getListeJoueurs().get(Divine - 1);

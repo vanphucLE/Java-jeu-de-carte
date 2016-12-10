@@ -27,9 +27,8 @@ public class Partie {
 		String[] de = { "", "Jour", "Nuit", "Néant" };
 		int num = (int) Math.ceil(3 * Math.random());
 		String FaceDe = de[num];
-		System.out.println("Face du dé: " + FaceDe);
+		System.out.println("******Face du dé: " + FaceDe);
 		if (FaceDe.equals("Jour")) {
-			System.out.println("********JOUR");
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Jour")) {
 					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 2);
@@ -39,7 +38,6 @@ public class Partie {
 				}
 			}
 		} else if (FaceDe.equals("Nuit")) {
-			System.out.println("********NUIT");
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Nuit")) {
 					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 2);
@@ -48,7 +46,6 @@ public class Partie {
 				}
 			}
 		} else if (FaceDe.equals("Néant")) {
-			System.out.println("********NÉANT");
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Aube")) {
 					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
