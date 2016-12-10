@@ -16,9 +16,17 @@ public class CarteDivinite extends Carte {
 			{ "Humain", "Mystique", "Symboles" }, { "Humain", "Mystique", "Chaos" }, { "Humain", "Symboles", "Chaos" },
 			{ "Nature", "Humain", "Chaos" } };
 	
-	public static final String[] CapaDivinite={"Peut empêcher l'utilisation d'une carte Apocalypse. La carte est défaussée.","Peut imposer le sacrifice d'un Guide Spirituel ayant le Dogme Symboles ou Nature.","Peut obliger un joueur à poser une carte Apocalypse s'il en possède une","Peut empêcher le sacrifice d'un des Guides Spirituels de n'importe quel joueur.",
-			"Peut récupérer les points d'Action d'une autre Divinité en plus des siens. L'autre Divinité ne reçoit aucun point d'Action ce tour-ci.","Peut détruire toutes les cartes de Croyants au centre de la table d'Origine Jour.","Peut détruire toutes les cartes de Croyants au centre de la table d'Origine Néant.",
-			"Peut empêcher un jour de créer un Guide Spirituel. La carte est défaussée.","Récupère autant de points d'Action supplémentaires d'Origine Néant que le nombre de Guides Spirituels que la Divinité possède.","Peut obliger un joueur à poser une carte Apocalypse s'il en possède une."}; 
+	public static final String[] CapaDivinite={"Peut empêcher l'utilisation d'une carte Apocalypse. La carte est défaussée.",
+			"Peut empêcher le sacrifice d'un des Guides Spirituels de n'importe quel joueur.",
+			"Peut détruire toutes les cartes de Croyants au centre de la table d'Origine Néant.",
+			"Peut obliger un joueur à poser une carte Apocalypse s'il en possède une.",
+			"Peut obliger un joueur à poser une carte Apocalypse s'il en possède une.",
+			"Peut détruire toutes les cartes de Croyants au centre de la table d'Origine Jour.",
+			"Récupère autant de points d'Action supplémentaires d'Origine Néant que le nombre de Guides Spirituels que la Divinité possède.",
+			"Peut imposer le sacrifice d'un Guide Spirituel ayant le Dogme Symboles ou Nature.",
+			"Peut récupérer les points d'Action d'une autre Divinité en plus des siens. L'autre Divinité ne reçoit aucun point d'Action ce tour-ci.",
+			"Peut empêcher un jour de créer un Guide Spirituel. La carte est défaussée.",
+			}; 
 
 	public CarteDivinite(int id){
 		this.id=id;

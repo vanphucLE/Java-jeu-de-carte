@@ -11,10 +11,10 @@ public class CapaciteSpeciale {
 	private Partie partie;
 	private Joueur joueur;
 
-	public CapaciteSpeciale(int id, Partie partie, Joueur joueurEnCours) {
+	public CapaciteSpeciale(int id, Partie partie) {
 		this.id = id;
 		this.partie = partie;
-		this.joueur = joueurEnCours;
+		this.joueur = partie.getJoueurEncours();
 	}
 
 	public int choisirlaDivinite() {
@@ -42,29 +42,61 @@ public class CapaciteSpeciale {
 		return Divine;
 	};
 
+	// convertir et tester valeur entrée
+	private int convertIdsEntree(String str) {
+		Boolean test = true;
+		str = str.trim();
+		int idReturn = 0;
+		if (str.matches("\\d+")) {
+			idReturn = Integer.parseInt(str);
+		}
+		return idReturn;
+	}
+
 	public void capacite() {
 		if (this.id < 6) {
 			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour() + 1);
 		}
 		if (this.id == 6) {
-			boolean choix = true;
-			while (choix) {
-				System.out.println(
-						"Choisir id Divinité possédant le dogme Nature ou Mystique pour empêcher sa sacrifice la carte croyant parmi les joueur suivant: ");
-				for (Joueur j : partie.getListeJoueurs()) {
-					if (this.joueur.estEqual(j)) {
-						if (j.getLaMain().getCarteDivinite().getDogme())
-							System.out.print("  +" + j);
+			LinkedList<Integer> listeIdJoueurs = new LinkedList<Integer>();
+			System.out.println("Les divinité possédant le dogme Nature ou Mystique: ");
+			for (Joueur j : partie.getListeJoueurs()) {
+				if (!this.joueur.estEqual(j)) {
+					Boolean test = false;
+					for (String str : j.getLaMain().getCarteDivinite().getDogme()) {
+						if (str.equals("Nature") || str.equals("Mystique")) {
+							test = true;
+							break;
+						}
+					}
+					if (test == true) {
+						System.out.println("  +" + j + "\n   ." + j.getLaMain().getCarteDivinite());
+						listeIdJoueurs.add(j.getId());
 					}
 				}
-				Scanner sc = new Scanner(System.in);
-				int Divine = sc.nextInt();
-				Joueur joueur = partie.getListeJoueurs().get(Divine - 1);
-				if (!joueur.equals(partie.getJoueurEncours()) && joueur.getLaMain().getCarteDivinite().id != 89) {
-					joueur.setSacrifice(false);
-					choix = false;
-				}
 			}
+			if (listeIdJoueurs.size() == 0) {
+				System.out.println("Il n'y a aucun divinité possédant le dogme Nature ou Mystique!");
+			} else {
+				Scanner sc = new Scanner(System.in);
+				String Divine = "";
+				boolean choix = false;
+				int idChoisi=0;
+				do {
+					System.out.print(
+							"Choisir id Divinité possédant le dogme Nature ou Mystique pour empêcher sa sacrifice la carte croyant: ");
+					Divine = sc.nextLine();
+					idChoisi=this.convertIdsEntree(Divine);
+					if(idChoisi!=0){
+						choix=true;
+					}
+				} while (!choix);
+				partie.getListeJoueurs().get(idChoisi-1).setSacrifice(false);
+			}
+			/*
+			 * && joueur.getLaMain(). getCarteDivinite().id != 89 ???????
+			 */
+			
 		} else if (this.id == 7) {
 			boolean choix = true;
 			while (choix) {

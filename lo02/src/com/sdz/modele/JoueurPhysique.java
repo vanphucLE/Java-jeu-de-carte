@@ -10,11 +10,9 @@ import com.sdz.cartes.GuideSpirituel;
 
 public class JoueurPhysique extends Joueur {
 
-	// Id du joueur phisique est 1 par défault;
-	private static final int id = 1;
 
 	public JoueurPhysique(String nom, int age) {
-		super(id, nom, age);
+		super(1,nom, age);
 		this.laMain = new LaMain();
 		this.bot = false;
 	}
