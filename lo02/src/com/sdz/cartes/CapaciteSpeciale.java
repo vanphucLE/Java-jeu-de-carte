@@ -444,12 +444,216 @@ public class CapaciteSpeciale {
 			}
 		}
 		if (this.id == 52) {
+			//sacrifier 2 croyant de la Divinite Humain ou Sympboles
+			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			while(joueur.getLaMain().getCarteDivinite().getId()==84||joueur.getLaMain().getCarteDivinite().getId()==85){
+				System.out.println("Choisir la divinite d'origine Humain ou Symboles");
+				joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			}
+			System.out.println("Voici la liste des guides spirituel, choisir 2 carte croyant a sacrifier");
+			LinkedList<CarteAction> carte = null;
+			Iterator<LinkedList<CarteAction>> it=joueur.getLaMain().getListeCroyantGuidee().iterator();
+			int i=1;
+			while(it.hasNext()){
+				for(int k=0; k<it.next().size();i++){
+					System.out.println(i+":"+it.next());
+					i++;
+					carte.add(it.next().get(k));
+				}
+			}
+						int croyant;
+			if (partie.getJoueurEncours().estBot()) {
+				croyant = (int) Math.ceil(carte.size() * Math.random());
+			} else {
+				Scanner sc = new Scanner(System.in);
+				croyant = sc.nextInt();
+				while (croyant < 1 || croyant > carte.size()) {
+					System.out.println("Rechoisir la Guide Spirituel");
+					croyant = sc.nextInt();
+				}
+			}
+			joueur.sacrifierCroyant(carte.get(croyant-1).getId(),partie);
+			carte.remove(croyant-1);
+			if (partie.getJoueurEncours().estBot()) {
+				croyant = (int) Math.ceil(carte.size() * Math.random());
+			} else {
+				Scanner sc = new Scanner(System.in);
+				croyant = sc.nextInt();
+				while (croyant < 1 || croyant > carte.size()) {
+					System.out.println("Rechoisir la Guide Spirituel");
+					croyant = sc.nextInt();
+				}
+			}
+			joueur.sacrifierCroyant(carte.get(croyant-1).getId(),partie);
+			carte.remove(croyant-1);
 		}
-		if (id == 82) {
+		else if (id==53){
+			//oblige une Divinite Nature ou Mystique sacrifier une de ses Guide
+			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			while(joueur.getLaMain().getCarteDivinite().getId()==89||joueur.getLaMain().getCarteDivinite().getId()==90){
+				System.out.println("Choisir la divinite d'origine Nature ou Mystique");
+				joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			}
+			System.out.println("Voici la liste des guides spirituels");
+			LinkedList<CarteAction> carte = null;
+			Iterator<CarteAction> it=joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			int i=1;
+			int Guide;
+			while(it.hasNext()){
+					System.out.println(i+":"+it.next());
+					i++;
+					carte.add(it.next());
+			}
+			if (partie.getJoueurEncours().estBot()) {
+				Guide = (int) Math.ceil((carte.size()) * Math.random());
+			} else {
+				Scanner sc = new Scanner(System.in);
+				Guide = sc.nextInt();
+				while (Guide < 1 || Guide > carte.size()) {
+					System.out.println("Rechoisir la Guide Spirituel");
+					Guide = sc.nextInt();
+				}
+			}
+			joueur.sacrifierGuideSpirit(carte.get(Guide-1).getId(),partie);
+		}
+		else if(id==54){
+			//reprende dans sa main un de ses Guides
+			//Divinite origine nuit ou dogme Mystique ou Chaos
+			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			while(!((joueur.getLaMain().getCarteDivinite().getId()>82&&joueur.getLaMain().getCarteDivinite().getId()<87)||joueur.getLaMain().getCarteDivinite().getId()==88)){
+				joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			}
+			System.out.println("Voici la liste des guides spirituels");
+			LinkedList<CarteAction> carte = null;
+			Iterator<CarteAction> it=joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			int i=1;
+			int Guide;
+			while(it.hasNext()){
+					System.out.println(i+":"+it.next());
+					i++;
+					carte.add(it.next());
+			}
+			if (partie.getJoueurEncours().estBot()) {
+				Guide = (int) Math.ceil((carte.size()) * Math.random());
+			} else {
+				Scanner sc = new Scanner(System.in);
+				Guide = sc.nextInt();
+				while (Guide < 1 || Guide > carte.size()) {
+					System.out.println("Rechoisir la Guide Spirituel");
+					Guide = sc.nextInt();
+				}
+			}
+			joueur.getLaMain().getListeCarteA().add(joueur.getLaMain().getListeGuideSpirituelGuider().remove(Guide-1));
+			partie.getJeuDeCartes().getListeCartesAction().addAll(joueur.getLaMain().getListeCroyantGuidee().get(Guide-1));
+		}
+		else if(id==55){
+			//echanger 2 guide
+			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			System.out.println("Voici votre liste des guides spirituels");
+			LinkedList<CarteAction> carte = null;
+			Iterator<CarteAction> it=partie.getJoueurEncours().getLaMain().getListeGuideSpirituelGuider().iterator();
+			int i=1;
+			int Guide1;
+			while(it.hasNext()){
+					System.out.println(i+":"+it.next());
+					i++;
+					carte.add(it.next());
+			}
+			if (partie.getJoueurEncours().estBot()) {
+				Guide1 = (int) Math.ceil((carte.size()) * Math.random());
+			} else {
+				Scanner sc = new Scanner(System.in);
+				Guide1 = sc.nextInt();
+				while (Guide1 < 1 || Guide1 > carte.size()) {
+					System.out.println("Rechoisir la Guide Spirituel");
+					Guide1 = sc.nextInt();
+				}
+			}
+			System.out.println("Voici la liste des guides spirituels");
+			LinkedList<CarteAction> carte2 = null;
+			Iterator<CarteAction> it2=joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			i=1;
+			int Guide2;
+			while(it2.hasNext()){
+					System.out.println(i+":"+it2.next());
+					i++;
+					carte2.add(it2.next());
+			}
+			if (partie.getJoueurEncours().estBot()) {
+				Guide2 = (int) Math.ceil((carte2.size()) * Math.random());
+			} else {
+				Scanner sc = new Scanner(System.in);
+				Guide2 = sc.nextInt();
+				while (Guide2 < 1 || Guide2 > carte2.size()) {
+					System.out.println("Rechoisir la Guide Spirituel");
+					Guide2 = sc.nextInt();
+				}
+			}
+			partie.getJoueurEncours().getLaMain().getListeGuideSpirituelGuider().add(joueur.getLaMain().getListeGuideSpirituelGuider().remove(Guide2-1));
+			partie.getJoueurEncours().getLaMain().getListeCroyantGuidee().add(joueur.getLaMain().getListeCroyantGuidee().remove(Guide2-1));
+			joueur.getLaMain().getListeGuideSpirituelGuider().add(partie.getJoueurEncours().getLaMain().getListeGuideSpirituelGuider().remove(Guide1-1));
+			joueur.getLaMain().getListeCroyantGuidee().add(partie.getJoueurEncours().getLaMain().getListeCroyantGuidee().remove(Guide1-1));
+		}
+		else if(id==56){
+			//defausser tous les cartes croyants Mystique au centre la table
+			for (int i = 0; i < partie.getEspaceCommun().getListeCartesPret().size(); i++) {
+				CarteAction carte = partie.getEspaceCommun().getListeCartesPret().get(i);
+						for (int j = 0; j < 3; j++) {
+						if (carte.getDogme()[j] == "Mystique") {
+							partie.getJeuDeCartes().getListeCartesAction().add(partie.getEspaceCommun().getListeCartesPret().remove(i));
+						}
+					
+				}
+			}
+		}
+		else if(id==57){
+			//poser le de en face qu'il veut
+			if(partie.getJoueurEncours().estBot()){
+				partie.lancerDe();
+			}else{
+				System.out.println("Choisir le face de De:");
+				System.out.println("1:Nuit");
+				System.out.println("2:Nuit");
+				System.out.println("3:Neant");
+				Scanner sc= new Scanner(System.in);
+				int FaceDe = sc.nextInt();
+				while(FaceDe>3||FaceDe<1){
+					System.out.println("Choisir le face de De, par exemple 1");
+					FaceDe=sc.nextInt();
+				}
+				if (FaceDe==1) {
+					for (Joueur joueur : partie.getListeJoueurs()) {
+						if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Jour")) {
+							joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 2);
+						} else if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Aube")) {
+							joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 1);
+
+						}
+					}
+				} else if (FaceDe==2) {
+					for (Joueur joueur : partie.getListeJoueurs()) {
+						if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Nuit")) {
+							joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 2);
+						} else if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Crépuscule")) {
+							joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 1);
+						}
+					}
+				} else if (FaceDe==3) {
+					for (Joueur joueur : partie.getListeJoueurs()) {
+						if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Aube")) {
+							joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
+						} else if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Crépuscule")) {
+							joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
+						}
+					}
+				}
+			}
+		}
+		else if (id == 82) {
 			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			joueur.setSacrifice(false);
 		}
-		if (id == 83) {
+		else if (id == 83) {
 			for (int i = 0; i < partie.getEspaceCommun().getListeCartesPret().size(); i++) {
 				CarteAction carte = partie.getEspaceCommun().getListeCartesPret().get(i);
 				if (carte.getOrigine() == "Neant") {
@@ -485,6 +689,36 @@ public class CapaciteSpeciale {
 					.setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant() + ptActionNeantajouer);
 
 		}
+		else if(id ==88){
+			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			int Guide;
+			System.out.println("Voici la liste des guides ayant le dogme Symboles ou Nature");
+			LinkedList<CarteAction> carte = null;
+			Iterator<CarteAction> it=joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			int i=1;
+			while(it.hasNext()){
+				for(int j=0;j<2;j++){
+					if(it.next().getDogme()[j]=="Nature"||it.next().getDogme()[j]=="Nature"){
+						System.out.println(i+":"+it.next());
+						i++;
+						carte.add(it.next());
+					}
+				}
+			}
+			if (partie.getJoueurEncours().estBot()) {
+				Guide = (int) Math.ceil((carte.size()) * Math.random());
+			} else {
+				Scanner sc = new Scanner(System.in);
+				Guide = sc.nextInt();
+				while (Guide < 1 || Guide > carte.size()) {
+					System.out.println("Rechoisir la Guide Spirituel");
+					Guide = sc.nextInt();
+				}
+			}
+			joueur.sacrifierGuideSpirit(carte.get(Guide-1).getId(),
+					partie);
+		}
+		else
 		if (id == 89) {
 			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			partie.getJoueurEncours()
