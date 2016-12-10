@@ -52,68 +52,63 @@ public class CapaciteSpeciale {
 		}
 		return idReturn;
 	}
-
-	public void capacite() {
-		if (this.id < 6) {
-			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour() + 1);
-		}
-		if (this.id == 6) {
-			LinkedList<Integer> listeIdJoueurs = new LinkedList<Integer>();
-			System.out.println("Les divinité possédant le dogme Nature ou Mystique: ");
-			for (Joueur j : partie.getListeJoueurs()) {
-				if (!this.joueur.estEqual(j)) {
-					Boolean test = false;
-					for (String str : j.getLaMain().getCarteDivinite().getDogme()) {
-						if (str.equals("Nature") || str.equals("Mystique")) {
-							test = true;
-							break;
-						}
-					}
-					if (test == true) {
-						System.out.println("  +" + j + "\n   ." + j.getLaMain().getCarteDivinite());
-						listeIdJoueurs.add(j.getId());
+	public Boolean empecherSacrifice(String dogme1, String dogme2){
+		LinkedList<Integer> listeIdJoueurs = new LinkedList<Integer>();
+		System.out.println("Les divinité possédant le dogme Nature ou Mystique: ");
+		for (Joueur j : partie.getListeJoueurs()) {
+			if (!this.joueur.estEqual(j)) {
+				Boolean test = false;
+				for (String str : j.getLaMain().getCarteDivinite().getDogme()) {
+					if (str.equals(dogme1) || str.equals(dogme2)) {
+						test = true;
+						break;
 					}
 				}
+				if (test == true) {
+					System.out.println("  +" + j + "\n   ." + j.getLaMain().getCarteDivinite());
+					listeIdJoueurs.add(j.getId());
+				}
 			}
-			if (listeIdJoueurs.size() == 0) {
-				System.out.println("Il n'y a aucun divinité possédant le dogme Nature ou Mystique!");
-			} else {
+		}
+		if (listeIdJoueurs.size() == 0) {
+			System.out.println("Il n'y a aucun divinité possédant le dogme Nature ou Mystique!");
+			return false;
+		} else {
+			if (!joueur.estBot()) {
 				Scanner sc = new Scanner(System.in);
 				String Divine = "";
 				boolean choix = false;
-				int idChoisi=0;
+				int idChoisi = 0;
 				do {
 					System.out.print(
 							"Choisir id Divinité possédant le dogme Nature ou Mystique pour empêcher sa sacrifice la carte croyant: ");
 					Divine = sc.nextLine();
-					idChoisi=this.convertIdsEntree(Divine);
-					if(idChoisi!=0){
-						choix=true;
+					idChoisi = this.convertIdsEntree(Divine);
+					if (idChoisi != 0) {
+						choix = true;
 					}
 				} while (!choix);
-				partie.getListeJoueurs().get(idChoisi-1).setSacrifice(false);
+				partie.getListeJoueurs().get(idChoisi - 1).setSacrifice(false);
+			} else {
+				partie.getListeJoueurs().get(listeIdJoueurs.get(0) - 1).setSacrifice(false);
 			}
+			return true;
+		}
+		
+	}
+	public Boolean capacite() {
+		Boolean testGlobal = false;
+		if (this.id < 6) {
+			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour() + 1);
+		}
+		if (this.id == 6) {
+			this.empecherSacrifice("Nature", "Mystique");
 			/*
 			 * && joueur.getLaMain(). getCarteDivinite().id != 89 ???????
 			 */
-			
 		} else if (this.id == 7) {
-			boolean choix = true;
-			while (choix) {
-				System.out.println(
-						"Choisir id Divinité origine Chaos ou Mystique pour empecher sa sacrifice la carte croyant");
-				for (int i = 1; i <= partie.getListeJoueurs().size(); i++) {
-					System.out.print("id " + i + " nom " + partie.getListeJoueurs().get(i).getNom() + " Dogme "
-							+ partie.getListeJoueurs().get(i).getLaMain().getCarteDivinite().getDogme());
-				}
-				Scanner sc = new Scanner(System.in);
-				int Divine = sc.nextInt();
-				Joueur joueur = partie.getListeJoueurs().get(Divine - 1);
-				if (!joueur.equals(partie.getJoueurEncours()) && joueur.getLaMain().getCarteDivinite().id != 82) {
-					joueur.setSacrifice(false);
-					choix = false;
-				}
-			}
+			this.empecherSacrifice("Chaos", "Mystique");
+			//joueur.getLaMain().getCarteDivinite().id != 82
 		} else if (this.id == 8 || this.id == 21 || this.id == 34) {
 			System.out.println("Choisir Divinité pour prendre ses 2 cartes");
 			boolean choix = true;
@@ -135,8 +130,7 @@ public class CapaciteSpeciale {
 						partie.getJoueurEncours().getLaMain().getListeCarteA()
 								.add(it.next().getLaMain().getListeCarteA().pop());
 						choix = false;
-					}
-					;
+					};
 				}
 
 			}
@@ -447,5 +441,7 @@ public class CapaciteSpeciale {
 		}
 		if (this.id == 52) {
 		}
+		
+		return testGlobal;
 	}
 }
