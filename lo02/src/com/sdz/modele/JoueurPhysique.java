@@ -252,13 +252,21 @@ public class JoueurPhysique extends Joueur {
 		}
 		Scanner sc = new Scanner(System.in);
 		String idChoisi = "";
-
+		Boolean choice = false;
+		int idSacrifice = 0;
 		do {
-			System.out.print("Choissiez la carte pour sacrifier (Entrez l'id, comme: 1): ");
-			idChoisi = sc.nextLine();
-		} while (!this.testEntrer(idChoisi, liste));
-		int idSacrifice = Integer.parseInt(idChoisi);
-		
+			do {
+				System.out.print("Choissiez la carte pour sacrifier (Entrez l'id, comme: 1): ");
+				idChoisi = sc.nextLine();
+			} while (!this.testEntrer(idChoisi, liste));
+			idSacrifice = Integer.parseInt(idChoisi);
+			for (CarteAction carte : liste) {
+				if (idSacrifice == carte.getId() && carte.getEstSacrifie()) {
+					choice = true;
+					System.out.println("Cette carte ne peut pas être sacifiée!");
+				}
+			}
+		} while (!choice);
 		/*
 		 * Carte Croyant: id :1 -->37 Carte Guide Spirituel: 38-->57 Carte Deus
 		 * Ex : 58 --> 75 Carte Apocalypse: 76 --> 80 Carte Divinite: 81 -->90

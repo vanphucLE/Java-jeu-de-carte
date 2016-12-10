@@ -106,12 +106,8 @@ public class CapaciteSpeciale {
 		}
 		if (this.id == 6) {
 			this.empecherSacrifice("Nature", "Mystique");
-			/*
-			 * && joueur.getLaMain(). getCarteDivinite().id != 89 ???????
-			 */
 		} else if (this.id == 7) {
 			this.empecherSacrifice("Chaos", "Mystique");
-			// joueur.getLaMain().getCarteDivinite().id != 82 ????
 		} else if (this.id == 8 || this.id == 21 || this.id == 34) {
 			System.out.println("Choisir Divinité pour prendre ses 2 cartes");
 			boolean choix = true;
@@ -458,7 +454,7 @@ public class CapaciteSpeciale {
 				}
 			}
 
-		} else if (id == 84 || id == 85) { //thêm effectuer vô 
+		} else if (id == 84 || id == 85) { // thêm effectuer vô
 			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			Apocalypse carte;
 			Iterator<CarteAction> it = joueur.getLaMain().getListeCarteA().iterator();
@@ -470,7 +466,7 @@ public class CapaciteSpeciale {
 					joueur.getLaMain().getListeCarteA().remove(carte);
 				}
 			}
-		} else if (id == 86) { 
+		} else if (id == 86) {
 			for (int i = 0; i < partie.getEspaceCommun().getListeCartesPret().size(); i++) {
 				CarteAction carte = partie.getEspaceCommun().getListeCartesPret().get(i);
 				if (carte.getOrigine() == "Jour") {

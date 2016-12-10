@@ -32,7 +32,7 @@ public class LaMain {
 		this.listeCroyantGuidee.add(listeCroyant);
 		this.listeGuideSpirituelGuider.add(guideSpirituel);
 	}
-
+	
 	public CarteDivinite getCarteDivinite() {
 		return carteDivinite;
 	}
