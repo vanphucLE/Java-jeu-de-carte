@@ -258,7 +258,7 @@ public class JoueurPhysique extends Joueur {
 			idChoisi = sc.nextLine();
 		} while (!this.testEntrer(idChoisi, liste));
 		int idSacrifice = Integer.parseInt(idChoisi);
-
+		
 		/*
 		 * Carte Croyant: id :1 -->37 Carte Guide Spirituel: 38-->57 Carte Deus
 		 * Ex : 58 --> 75 Carte Apocalypse: 76 --> 80 Carte Divinite: 81 -->90
