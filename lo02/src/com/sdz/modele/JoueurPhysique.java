@@ -12,7 +12,6 @@ public class JoueurPhysique extends Joueur {
 
 	// Id du joueur phisique est 1 par défault;
 	private static final int id = 1;
-	
 
 	public JoueurPhysique(String nom, int age) {
 		super(id, nom, age);
@@ -39,7 +38,7 @@ public class JoueurPhysique extends Joueur {
 
 	@Override
 	public void seDefausserCartesEtCompleter(Partie partie) {
-		JeuDeCartes jeuDeCartes=partie.getJeuDeCartes();
+		JeuDeCartes jeuDeCartes = partie.getJeuDeCartes();
 		System.out.println("Votre Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit
 				+ ") " + "(Néant: " + this.ptAction_Neant + ")");
 		System.out.println("Les cartes actions tenu dans vôtre main:");
@@ -306,6 +305,7 @@ public class JoueurPhysique extends Joueur {
 		return true;
 	}
 
+	// convertir et tester valeur entrée
 	private LinkedList<Integer> convertIdsEntree(String str) {
 		Boolean test = true;
 		str = str.trim();
@@ -351,6 +351,7 @@ public class JoueurPhysique extends Joueur {
 		return test;
 	}
 
+	// tester valeur entree si la carte est guide spirituel
 	private Boolean testGuideSpirituelEntree(CarteAction carteD, EspaceCommun espaceCommun) {
 		if (carteD.getType().equals("GuideSpirituel")) {
 			Boolean test = false;
