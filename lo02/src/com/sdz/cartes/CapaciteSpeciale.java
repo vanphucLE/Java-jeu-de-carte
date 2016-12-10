@@ -465,9 +465,9 @@ public class CapaciteSpeciale {
 			while (it.hasNext()) {
 				if (it.next().getId() < 81 && it.next().getId() > 75) {
 					carte = (Apocalypse) it.next();
-					break;
 					carte.effectuerCapaciteSpecial();
 					joueur.getLaMain().getListeCarteA().remove(carte);
+					break;
 				}
 			}
 		} else if (id == 86) { 
