@@ -22,7 +22,7 @@ public class JoueurPhysique extends Joueur {
 
 	@Override
 	public void jouer(Partie partie) {
-		this.seDefausserCartesEtCompleter(partie.getJeuDeCartes());
+		this.seDefausserCartesEtCompleter(partie);
 		this.choisirCarte(partie);
 		String commande = "";
 		if (this.laMain.getListeGuideSpirituelGuider().size() > 0) {
@@ -38,7 +38,8 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	@Override
-	public void seDefausserCartesEtCompleter(JeuDeCartes jeuDeCartes) {
+	public void seDefausserCartesEtCompleter(Partie partie) {
+		JeuDeCartes jeuDeCartes=partie.getJeuDeCartes();
 		System.out.println("Votre Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit
 				+ ") " + "(Néant: " + this.ptAction_Neant + ")");
 		System.out.println("Les cartes actions tenu dans vôtre main:");

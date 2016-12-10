@@ -123,7 +123,7 @@ public class Joueur {
 	}
 
 	// Un joueur veut défausser un plusieur Cartes
-	public void seDefausserCartesEtCompleter(JeuDeCartes jeuDeCartes) {
+	public void seDefausserCartesEtCompleter(Partie partie) {
 
 	}
 
