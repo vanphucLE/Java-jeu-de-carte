@@ -7,11 +7,14 @@ import com.sdz.cartes.Croyant;
 import com.sdz.cartes.GuideSpirituel;
 
 public class JoueurVirtuel extends Joueur {
+	Stategie stategie;
+	
 	// private Stategie stagie;
-	public JoueurVirtuel(int id, String nom, int age) {
+	public JoueurVirtuel(int id, String nom, int age,Stategie stategie) {
 		super(id, nom, age);
 		this.laMain = new LaMain();
 		this.bot = true;
+		this.stategie=stategie;
 	}
 
 	@Override

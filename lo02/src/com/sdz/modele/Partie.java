@@ -61,12 +61,7 @@ public class Partie {
 
 	// un partie va commencer par appeller cette méthode
 	public void jouer() {
-		this.estApocalypseAvant++;
-		this.commencerPartie();
 		int numCom = -1;
-		// les cartes croyants posées dans le dernier tour va être prêt à être
-		// guidée
-		this.espaceCommun.preterCartes();
 		while (!this.estFini) {
 			if (numCom < this.getListeJoueurs().size() - 1) {
 				numCom++;
@@ -102,6 +97,11 @@ public class Partie {
 	private void tourDeJeu(int numCom) {
 		System.out.println(
 				"\t----------------------------------------------NOUVELLE TOUR----------------------------------------------");
+		this.estApocalypseAvant++;
+		this.commencerPartie();
+		// les cartes croyants posées dans le dernier tour va être prêt à être
+		// guidée
+		this.espaceCommun.preterCartes();
 		Iterator<Joueur> it = this.listeJoueurs.iterator();
 		while (it.hasNext()) {
 			it.next().setEstSetPointAction(true);
