@@ -25,6 +25,7 @@ public class DeusEx extends CarteAction {
 		this.origine=origineDeusEx[id-58];
 		this.type="DeusEx";
 		this.capaciteSpecial=CapaDeusEx[id-58];
+		this.estSacrifie=true;
 	}
 	public void effectuerCapaciteSpecial() {
 

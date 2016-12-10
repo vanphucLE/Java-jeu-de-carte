@@ -59,6 +59,7 @@ public class Partie {
 	// un partie va commencer par appeller cette méthode
 	public void jouer() {
 		int numCom = -1;
+		this.commencerPartie();
 		while (!this.estFini) {
 			if (numCom < this.getListeJoueurs().size() - 1) {
 				numCom++;
@@ -95,7 +96,10 @@ public class Partie {
 		System.out.println(
 				"\t----------------------------------------------NOUVELLE TOUR----------------------------------------------");
 		this.estApocalypseAvant++;
-		this.commencerPartie();
+		// set les carte coyants guidées peuvent être sacrifíe
+		for (Joueur j : this.listeJoueurs) {
+			j.getLaMain().setTrueSacifice();
+		}
 		// les cartes croyants posées dans le dernier tour va être prêt à être
 		// guidée
 		this.espaceCommun.preterCartes();

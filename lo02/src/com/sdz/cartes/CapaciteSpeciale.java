@@ -52,6 +52,8 @@ public class CapaciteSpeciale {
 		}
 		return idReturn;
 	}
+	
+	//empecher un joueur Sacrifier la carde
 	public Boolean empecherSacrifice(String dogme1, String dogme2){
 		LinkedList<Integer> listeIdJoueurs = new LinkedList<Integer>();
 		System.out.println("Les divinité possédant le dogme Nature ou Mystique: ");
@@ -108,7 +110,7 @@ public class CapaciteSpeciale {
 			 */
 		} else if (this.id == 7) {
 			this.empecherSacrifice("Chaos", "Mystique");
-			//joueur.getLaMain().getCarteDivinite().id != 82
+			//joueur.getLaMain().getCarteDivinite().id != 82 ????
 		} else if (this.id == 8 || this.id == 21 || this.id == 34) {
 			System.out.println("Choisir Divinité pour prendre ses 2 cartes");
 			boolean choix = true;

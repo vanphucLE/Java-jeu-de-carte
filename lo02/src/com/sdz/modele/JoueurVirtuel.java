@@ -101,6 +101,7 @@ public class JoueurVirtuel extends Joueur {
 
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
+		carteG.setEstSacrifie(true);
 		LinkedList<CarteAction> listeCroyantsGuidee = new LinkedList<CarteAction>();
 		int indice = 0;
 		for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
@@ -115,6 +116,7 @@ public class JoueurVirtuel extends Joueur {
 			}
 			if (test == true && indice < carteG.getNbGuider()) {
 				indice++;
+				carteA.setEstSacrifie(true);
 				listeCroyantsGuidee.add(carteA);
 			}
 		}
