@@ -26,5 +26,7 @@ public class test {
 			str = sc.nextLine();
 		} while (!str.equals("Lancer"));
 	}
-
+	
+	//,
+	//Croyant
 }

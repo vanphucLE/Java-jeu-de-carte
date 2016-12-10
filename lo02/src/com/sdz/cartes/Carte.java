@@ -7,8 +7,8 @@ public abstract class Carte {
 	protected String[] dogme = {};
 	protected String origine = "";
 	protected String capaciteSpecial = "";
-	protected Boolean estCapaciteSpecialUtilise = false;
 	protected String type = "";
+	
 
 	public String getType() {
 		return type;
@@ -46,12 +46,11 @@ public abstract class Carte {
 	public String toString() {
 		//on conserve les dogme dans un chain
 		StringBuffer sb = new StringBuffer();
-		sb.append("Carte " + this.type + ": "+this.nom + " \t| ");
-		sb.append("Id: " + this.id+ " | ");
-		sb.append("Dogme: " + Arrays.toString(dogme) + " | ");
-		sb.append("Origine: " + this.origine + " | ");
-		sb.append("Capacité speciale (" + this.capaciteSpecial);
-		sb.append(") est utilisée: " + this.capaciteSpecial + " | ");
+		sb.append("Carte " + this.type + ": "+this.nom + " \t ");
+		sb.append("[Id: " + this.id+ "] ");
+		sb.append("[Dogme: " + Arrays.toString(dogme) + "] ");
+		sb.append("[Origine: " + this.origine + "] \n ");
+		sb.append("      +[Capacité speciale: " + this.capaciteSpecial+"] \n");
 		return sb.toString();
 	}
 }

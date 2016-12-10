@@ -1,7 +1,10 @@
 package com.sdz.cartes;
 
+import java.util.Arrays;
+
 public class CarteDivinite extends Carte {
 	//Carte Divinite: 81 -->90
+	private Boolean estCapaciteSpecialUtilise = false;
 	
 	public static final String[] nomDivinite = { "Brewalen", "Drinded", "Yarstur", "Kilinstred", "Llewalla",
 			"Pui-Tara", "Gwenghelen", "Shingva", "Gorpa", "Romtec" };
@@ -13,14 +16,38 @@ public class CarteDivinite extends Carte {
 			{ "Humain", "Mystique", "Symboles" }, { "Humain", "Mystique", "Chaos" }, { "Humain", "Symboles", "Chaos" },
 			{ "Nature", "Humain", "Chaos" } };
 	
+	public static final String[] CapaDivinite={"Peut empêcher l'utilisation d'une carte Apocalypse. La carte est défaussée.","Peut imposer le sacrifice d'un Guide Spirituel ayant le Dogme Symboles ou Nature.","Peut obliger un joueur à poser une carte Apocalypse s'il en possède une","Peut empêcher le sacrifice d'un des Guides Spirituels de n'importe quel joueur.",
+			"Peut récupérer les points d'Action d'une autre Divinité en plus des siens. L'autre Divinité ne reçoit aucun point d'Action ce tour-ci.","Peut détruire toutes les cartes de Croyants au centre de la table d'Origine Jour.","Peut détruire toutes les cartes de Croyants au centre de la table d'Origine Néant.",
+			"Peut empêcher un jour de créer un Guide Spirituel. La carte est défaussée.","Récupère autant de points d'Action supplémentaires d'Origine Néant que le nombre de Guides Spirituels que la Divinité possède.","Peut obliger un joueur à poser une carte Apocalypse s'il en possède une."}; 
+
 	public CarteDivinite(int id){
 		this.id=id;
 		this.nom=nomDivinite[id-81];
 		this.origine=origineDivinite[id-81];
 		this.dogme=dogmeDivinite[id-81];
 		this.type = "Divnité";
+		this.capaciteSpecial=CapaDivinite[id-81];
 	}
 	public void effectuerCapaciteSpecial() {
 
+	}
+	
+	public Boolean getEstCapaciteSpecialUtilise() {
+		return estCapaciteSpecialUtilise;
+	}
+	public void setEstCapaciteSpecialUtilise(Boolean estCapaciteSpecialUtilise) {
+		this.estCapaciteSpecialUtilise = estCapaciteSpecialUtilise;
+	}
+	@Override
+	public String toString() {
+		//on conserve les dogme dans un chain
+		StringBuffer sb = new StringBuffer();
+		sb.append("Carte " + this.type + ": "+this.nom + " \t ");
+		sb.append("[Id: " + this.id+ "] ");
+		sb.append("[Dogme: " + Arrays.toString(dogme) + "] ");
+		sb.append("[Origine: " + this.origine + "] \n ");
+		sb.append("      +[Capacité speciale: " + this.capaciteSpecial+"] \n");
+		sb.append("      est utilisée: " + this.estCapaciteSpecialUtilise);
+		return sb.toString();
 	}
 }
