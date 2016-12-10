@@ -25,6 +25,7 @@ public class test {
 			System.out.print("Entrez 'Lancer' pour lancer le dé! ");
 			str = sc.nextLine();
 		} while (!str.equals("Lancer"));
+	int a=Integer.parseInt("a");
 	}
 	
 	//,
