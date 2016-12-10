@@ -52,9 +52,9 @@ public class CapaciteSpeciale {
 		}
 		return idReturn;
 	}
-	
-	//empecher un joueur Sacrifier la carde
-	public Boolean empecherSacrifice(String dogme1, String dogme2){
+
+	// empecher un joueur Sacrifier la carde
+	public Boolean empecherSacrifice(String dogme1, String dogme2) {
 		LinkedList<Integer> listeIdJoueurs = new LinkedList<Integer>();
 		System.out.println("Les divinité possédant le dogme Nature ou Mystique: ");
 		for (Joueur j : partie.getListeJoueurs()) {
@@ -96,8 +96,9 @@ public class CapaciteSpeciale {
 			}
 			return true;
 		}
-		
+
 	}
+
 	public Boolean capacite() {
 		Boolean testGlobal = false;
 		if (this.id < 6) {
@@ -110,7 +111,7 @@ public class CapaciteSpeciale {
 			 */
 		} else if (this.id == 7) {
 			this.empecherSacrifice("Chaos", "Mystique");
-			//joueur.getLaMain().getCarteDivinite().id != 82 ????
+			// joueur.getLaMain().getCarteDivinite().id != 82 ????
 		} else if (this.id == 8 || this.id == 21 || this.id == 34) {
 			System.out.println("Choisir Divinité pour prendre ses 2 cartes");
 			boolean choix = true;
@@ -132,7 +133,8 @@ public class CapaciteSpeciale {
 						partie.getJoueurEncours().getLaMain().getListeCarteA()
 								.add(it.next().getLaMain().getListeCarteA().pop());
 						choix = false;
-					};
+					}
+					;
 				}
 
 			}
@@ -443,7 +445,60 @@ public class CapaciteSpeciale {
 		}
 		if (this.id == 52) {
 		}
-		
+		if (id == 82) {
+			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			joueur.setSacrifice(false);
+		}
+		if (id == 83) {
+			for (int i = 0; i < partie.getEspaceCommun().getListeCartesPret().size(); i++) {
+				CarteAction carte = partie.getEspaceCommun().getListeCartesPret().get(i);
+				if (carte.getOrigine() == "Neant") {
+					partie.getJeuDeCartes().getListeCartesAction()
+							.add(partie.getEspaceCommun().getListeCartesPret().remove(i));
+				}
+			}
+
+		} else if (id == 84 || id == 85) { //thêm effectuer vô 
+			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			Apocalypse carte;
+			Iterator<CarteAction> it = joueur.getLaMain().getListeCarteA().iterator();
+			while (it.hasNext()) {
+				if (it.next().getId() < 81 && it.next().getId() > 75) {
+					carte = (Apocalypse) it.next();
+					break;
+					carte.effectuerCapaciteSpecial();
+					joueur.getLaMain().getListeCarteA().remove(carte);
+				}
+			}
+		} else if (id == 86) { 
+			for (int i = 0; i < partie.getEspaceCommun().getListeCartesPret().size(); i++) {
+				CarteAction carte = partie.getEspaceCommun().getListeCartesPret().get(i);
+				if (carte.getOrigine() == "Jour") {
+					partie.getJeuDeCartes().getListeCartesAction()
+							.add(partie.getEspaceCommun().getListeCartesPret().remove(i));
+				}
+			}
+
+		} else if (id == 87) {
+			int ptActionNeantajouer = partie.getJoueurEncours().getLaMain().getListeGuideSpirituelGuider().size();
+			partie.getJoueurEncours()
+					.setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant() + ptActionNeantajouer);
+
+		}
+		if (id == 89) {
+			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			partie.getJoueurEncours()
+					.setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour() + joueur.getPtAction_Jour());
+			partie.getJoueurEncours()
+					.setPtAction_Nuit(partie.getJoueurEncours().getPtAction_Nuit() + joueur.getPtAction_Nuit());
+			partie.getJoueurEncours()
+					.setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant() + joueur.getPtAction_Neant());
+			joueur.setPtAction_Jour(0);
+			joueur.setPtAction_Nuit(0);
+			joueur.setPtAction_Neant(0);
+			joueur.setEstSetPointAction(false);
+		}
+
 		return testGlobal;
 	}
 }
