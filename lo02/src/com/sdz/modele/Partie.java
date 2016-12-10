@@ -99,6 +99,8 @@ public class Partie {
 		// set les carte coyants guidées peuvent être sacrifíe
 		for (Joueur j : this.listeJoueurs) {
 			j.getLaMain().setTrueSacifice();
+			j.setEstSetPointAction(true);
+			j.setSacrifice(true);
 		}
 		// les cartes croyants posées dans le dernier tour va être prêt à être
 		// guidée

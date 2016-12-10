@@ -10,9 +10,8 @@ import com.sdz.cartes.GuideSpirituel;
 
 public class JoueurPhysique extends Joueur {
 
-
 	public JoueurPhysique(String nom, int age) {
-		super(1,nom, age);
+		super(1, nom, age);
 		this.laMain = new LaMain();
 		this.bot = false;
 	}
@@ -176,8 +175,11 @@ public class JoueurPhysique extends Joueur {
 			}
 		} while (idCartesGuidee.size() > carteG.getNbGuider());
 		for (int elem : idCartesGuidee) {
-			listeCroyantsGuidee.add(espaceCommun.supprimerCarte(elem));
+			CarteAction carteA = espaceCommun.supprimerCarte(elem);
+			carteA.setEstSacrifie(true);
+			listeCroyantsGuidee.add(carteA);
 		}
+		carteG.setEstSacrifie(true);
 		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
 	}
 
@@ -250,8 +252,9 @@ public class JoueurPhysique extends Joueur {
 		}
 		Scanner sc = new Scanner(System.in);
 		String idChoisi = "";
+
 		do {
-			System.out.print("Choissiez la carte pour sacrifier les cartes suivants (Entrez l'id, comme: 1): ");
+			System.out.print("Choissiez la carte pour sacrifier (Entrez l'id, comme: 1): ");
 			idChoisi = sc.nextLine();
 		} while (!this.testEntrer(idChoisi, liste));
 		int idSacrifice = Integer.parseInt(idChoisi);
