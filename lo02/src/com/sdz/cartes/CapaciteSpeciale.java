@@ -76,6 +76,7 @@ public class CapaciteSpeciale {
 			System.out.println("Il n'y a aucun divinité possédant le dogme Nature ou Mystique!");
 			return false;
 		} else {
+			// on distingu joueur physique et joueur virtuel
 			if (!joueur.estBot()) {
 				Scanner sc = new Scanner(System.in);
 				String Divine = "";
@@ -83,16 +84,48 @@ public class CapaciteSpeciale {
 				int idChoisi = 0;
 				do {
 					System.out.print(
-							"Choisir id Divinité possédant le dogme Nature ou Mystique pour empêcher sa sacrifice la carte croyant: ");
+							"Choisir id Divinité possédant le dogme Nature ou Mystique pour empêcher sa sacrifice à la carte croyant: ");
 					Divine = sc.nextLine();
 					idChoisi = this.convertIdsEntree(Divine);
 					if (idChoisi != 0) {
 						choix = true;
 					}
 				} while (!choix);
-				partie.getListeJoueurs().get(idChoisi - 1).setSacrifice(false);
+				if (this.partie.getListeJoueurs().get(idChoisi - 1).getLaMain().getListeCroyantGuidee().size() > 0) {
+					System.out.println("Leurs cartes Croyants peuvent être sacrifiée:  ");
+					for (LinkedList<CarteAction> cartes : partie.getListeJoueurs().get(idChoisi - 1).getLaMain()
+							.getListeCroyantGuidee()) {
+						for (CarteAction carte : cartes) {
+							System.out.println("    + " + carte);
+						}
+					}
+					boolean choix2 = false;
+					int idChoisi2 = 0;
+					String commande = "";
+					do {
+						System.out.print("Choisir id de la carte Croyant pour empêcher sa sacrifice : ");
+						commande = sc.nextLine();
+						idChoisi2 = this.convertIdsEntree(commande);
+						if (idChoisi2 != 0) {
+							choix2 = true;
+						}
+					} while (!choix2);
+					for (LinkedList<CarteAction> cartes : partie.getListeJoueurs().get(idChoisi - 1).getLaMain()
+							.getListeCroyantGuidee()) {
+						for (CarteAction carte : cartes) {
+							if (carte.getId() == idChoisi2) {
+								carte.setEstSacrifie(false);
+								break;
+							}
+						}
+					}
+				} else {
+					System.out.println("Il n'y a aucun carte croyant à sacrifier");
+				}
 			} else {
-				partie.getListeJoueurs().get(listeIdJoueurs.get(0) - 1).setSacrifice(false);
+				if (this.partie.getListeJoueurs().get(listeIdJoueurs.get(0) - 1).getLaMain().getListeCroyantGuidee().size() > 0) {
+					partie.getListeJoueurs().get(listeIdJoueurs.get(0) - 1).getLaMain().getListeCroyantGuidee().get(0).get(0).setEstSacrifie(false);
+				}
 			}
 			return true;
 		}
