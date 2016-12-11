@@ -14,7 +14,6 @@ public class CapaciteSpeciale {
 
 	public CapaciteSpeciale(int id) {
 		this.id = id;
-
 	}
 
 	public int choisirlaDivinite() {
@@ -210,22 +209,23 @@ public class CapaciteSpeciale {
 					choix = false;
 				}
 			}
+			testGlobal=true;
 		} else if (this.id >= 9 && this.id <= 11 || this.id == 23 || this.id == 22 || this.id == 9) {
 			// imposer la sacrifice un croyant d'un joueur
 			this.joueur = partie.getListeJoueurs().get(this.choisirlaDivinite()-1);
 			partie.setJoueurEncours(this.joueur);
-			LinkedList<Croyant> carte = new LinkedList();
+			LinkedList<CarteAction> cartes = new LinkedList();
 			System.out.println("Choisir id dont les cartes croyants suivant: ");
-			for (int i = 1; i <= joueur.getLaMain().getListeCroyantGuidee().size(); i++) {
-				for (int j = 1; j <= joueur.getLaMain().getListeCroyantGuidee().get(i - 1).size(); j++) {
-					carte.add((Croyant) joueur.getLaMain().getListeCroyantGuidee().get(i - 1).get(j - 1));
-					System.out.println(carte);
+			for (LinkedList<CarteAction> carteAs: this.joueur.getLaMain().getListeCroyantGuidee()) {
+				for (CarteAction carteA: carteAs) {
+					cartes.add(carteA);
+					System.out.println(carteA);
 				}
 			}
 			if (this.joueur.estBot()) {
-				Collections.shuffle(carte);
+				Collections.shuffle(cartes);
 				this.joueur.setSacrifice(true);
-				this.joueur.sacrifierCroyant(carte.pop().getId(), partie);
+				this.joueur.sacrifierCroyant(cartes.pop().getId(), partie);
 			} else {
 				System.out.println("Choisir id carte croyant à sacrifier: ");
 				Scanner sc = new Scanner(System.in);
@@ -233,6 +233,7 @@ public class CapaciteSpeciale {
 				this.joueur.setSacrifice(true);
 				this.joueur.sacrifierCroyant(croyant, partie);
 			}
+			testGlobal=true;
 		} else if (this.id == 12) {
 			// guide revient dans sa main et croyant lie revient au centre de la
 			// table

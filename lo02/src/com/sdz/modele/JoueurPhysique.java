@@ -133,7 +133,6 @@ public class JoueurPhysique extends Joueur {
 				}
 			}
 		}
-
 	}
 
 	// Jouer Carte GuideSpirituel
