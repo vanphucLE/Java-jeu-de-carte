@@ -27,8 +27,9 @@ public class Main {
 		int nombreJoueur = Integer.parseInt(nb);
 
 		listeJoueurs.add(new JoueurPhysique("Phuc", 21));
-
+		String difficulte="";
 		if (commande.equals("D")) {
+			difficulte="Debutant";
 			ArrayList<Joueur> listeJoueursVirtuel = new ArrayList<Joueur>();
 			listeJoueursVirtuel.add(new JoueurVirtuel(2, "ALBERT", 21,new Debutant()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(3, "ANZAR", 22,new Debutant()));
@@ -42,6 +43,7 @@ public class Main {
 				listeJoueurs.add(listeJoueursVirtuel.get(i - 1));
 			}
 		}else{
+			difficulte="Expert";
 			ArrayList<Joueur> listeJoueursVirtuel = new ArrayList<Joueur>();
 			listeJoueursVirtuel.add(new JoueurVirtuel(2, "ALBERT", 21,new Expert()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(3, "ANZAR", 22,new Expert()));
@@ -53,7 +55,7 @@ public class Main {
 			listeJoueursVirtuel.add(new JoueurVirtuel(9, "NEULAT", 21,new Expert()));
 		}
 
-		Partie partie = new Partie(listeJoueurs);
+		Partie partie = new Partie(listeJoueurs,difficulte);
 
 		// for (Joueur j:partie.getListeJoueurs()){
 		// System.out.println(j);

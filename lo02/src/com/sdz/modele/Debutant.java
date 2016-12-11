@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import com.sdz.cartes.CarteAction;
 
 public class Debutant implements Stategie {
-	
-	public LinkedList<CarteAction> choisirCartesDefausser(Partie partie){
-		Joueur joueurEnCours=partie.getJoueurEncours();
-		LinkedList<CarteAction> cartesRecupere=new LinkedList<CarteAction>();
+
+	public LinkedList<CarteAction> choisirCartesDefausser(Partie partie) {
+		Joueur joueurEnCours = partie.getJoueurEncours();
+		LinkedList<CarteAction> cartesRecupere = new LinkedList<CarteAction>();
 		int nbDe = (int) Math.ceil(Math.random() * 7);
 		for (int i = nbDe; i >= 1; i--) {
 			// Choisir au hasard les carte défaussée.
@@ -18,10 +18,20 @@ public class Debutant implements Stategie {
 		}
 		return cartesRecupere;
 	}
-	public void choisirCartes(){
+
+	public int choisirIdDivinite(Partie partie) {
+		int idChoisi=0;
+		do{
+		 idChoisi = (int) Math.ceil(Math.random() * partie.getListeJoueurs().size());
+		}while (idChoisi==partie.getJoueurEncours().getId());
+		return idChoisi;
 	}
-	public void jouerCapaciteSpecial(){
-		
+
+	public void choisirCartes() {
+	}
+
+	public void jouerCapaciteSpecial() {
+
 	};
-	
+
 }

@@ -19,8 +19,9 @@ public class Partie {
 	// cette attribute pour valider si le carteApocalypse peut-être joué
 	private int estApocalypseAvant = -1;
 
-	public Partie(ArrayList<Joueur> listeJoueurs) {
+	public Partie(ArrayList<Joueur> listeJoueurs,String difficulte) {
 		this.listeJoueurs = listeJoueurs;
+		this.difficulte=difficulte;
 	}
 
 	public void lancerDe() {
@@ -202,5 +203,10 @@ public class Partie {
 	public Joueur getJoueurEncours() {
 		return joueurEncours;
 	}
+
+	public String getDifficulte() {
+		return difficulte;
+	}
+	
 
 }

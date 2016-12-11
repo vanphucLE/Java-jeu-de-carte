@@ -10,14 +10,17 @@ public class CapaciteSpeciale {
 	private int id;
 	private Partie partie;
 	private Joueur joueur;
+	Stategie stategie;
 
 	public CapaciteSpeciale(int id) {
 		this.id = id;
-		
+
 	}
-	public void setPartie(Partie partie){
-		
+
+	public void setPartie(Partie partie) {
+
 	}
+
 	public int choisirlaDivinite() {
 		int Divine;
 		if (!partie.getJoueurEncours().estBot()) {
@@ -174,36 +177,39 @@ public class CapaciteSpeciale {
 		} else if (this.id == 7) {
 			testGlobal = this.empecherSacrifice("Chaos", "Mystique");
 		} else if (this.id == 8 || this.id == 21 || this.id == 34) {
-			System.out.println("Choisir Divinité pour prendre ses 2 cartes");
-			boolean choix = true;
-			while (choix) {
+			int idChoisi = 0;
+			if (!joueur.estBot()) {
+				System.out.println("Choisir Divinité pour prendre ses 2 cartes");
 				Iterator<Joueur> it = this.partie.getListeJoueurs().iterator();
 				while (it.hasNext()) {
 					Joueur j = it.next();
 					System.out.println("[id : " + j.getId() + " " + j.getNom() + "] ");
 				}
 				Scanner sc = new Scanner(System.in);
-				int idChoisi = 0;
 				String Divine = "";
 				do {
 					System.out.print("Choisir id de la Divinité: ");
 					Divine = sc.nextLine();
 					idChoisi = Integer.parseInt(Divine);
 				} while (!this.testIdDivinite(Divine));
-				it = this.partie.getListeJoueurs().iterator();
-				while (it.hasNext()) {
-					Joueur j = it.next();
-					if (j.getId() == idChoisi && !j.equals(partie.getJoueurEncours())
-							&& j.getLaMain().getListeCarteA().size() > 2) {
-						Collections.shuffle(it.next().getLaMain().getListeCarteA());
-						partie.getJoueurEncours().getLaMain().getListeCarteA()
-								.add(it.next().getLaMain().getListeCarteA().pop());
-						partie.getJoueurEncours().getLaMain().getListeCarteA()
-								.add(it.next().getLaMain().getListeCarteA().pop());
-						choix = false;
-					}
+			} else {
+				if(partie.getDifficulte().equals("Debutant")){
+					this.stategie=new Debutant();
+				}else{
+					this.stategie=new Expert();
 				}
-
+				idChoisi=this.stategie.choisirIdDivinite(partie);
+			}
+			Iterator<Joueur> it = this.partie.getListeJoueurs().iterator();
+			boolean choix = true;
+			while (it.hasNext() && choix) {
+				Joueur j = it.next();
+				if (j.getId() == idChoisi && j.getLaMain().getListeCarteA().size() > 2) {
+					Collections.shuffle(it.next().getLaMain().getListeCarteA());
+					partie.getJoueurEncours().getLaMain().completerCarteAction(j.getLaMain().getListeCarteA().pop());
+					partie.getJoueurEncours().getLaMain().completerCarteAction(j.getLaMain().getListeCarteA().pop());
+					choix = false;
+				}
 			}
 		} else if (this.id >= 9 && this.id <= 11 || this.id == 23 || this.id == 22 || this.id == 9) {
 			// imposer la sacrifice un croyant d'un joueur

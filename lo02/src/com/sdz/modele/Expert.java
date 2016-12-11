@@ -24,4 +24,11 @@ public class Expert implements Stategie {
 		}
 		return cartesRecupere;
 	}
+	public int choisirIdDivinite(Partie partie) {
+		int idChoisi=0;
+		do{
+		 idChoisi = (int) Math.ceil(Math.random() * partie.getListeJoueurs().size());
+		}while (idChoisi==partie.getJoueurEncours().getId());
+		return idChoisi;
+	}
 }
