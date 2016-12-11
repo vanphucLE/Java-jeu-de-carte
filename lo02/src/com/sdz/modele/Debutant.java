@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import com.sdz.cartes.CarteAction;
 
 public class Debutant implements Stategie {
+	
 	public LinkedList<CarteAction> choisirCartesDefausser(Partie partie){
 		Joueur joueurEnCours=partie.getJoueurEncours();
 		LinkedList<CarteAction> cartesRecupere=new LinkedList<CarteAction>();
@@ -22,4 +23,5 @@ public class Debutant implements Stategie {
 	public void jouerCapaciteSpecial(){
 		
 	};
+	
 }

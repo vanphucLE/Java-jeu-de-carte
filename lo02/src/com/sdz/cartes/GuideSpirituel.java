@@ -37,6 +37,7 @@ public class GuideSpirituel extends CarteAction {
 		this.dogme=dogmeGuideSpirituels[id-38];
 		this.type = "GuideSpirituel";
 		this.nbGuider=nbGuiders[id-38];
+		this.capaciteSpecial= CapaGuideSpirituel[id-38];
 	}
 	public void effectuerCapaciteSpecial() {
 		

@@ -57,7 +57,7 @@ public abstract class Carte {
 		sb.append("[Id: " + this.id + "] ");
 		sb.append("[Dogme: " + Arrays.toString(dogme) + "] ");
 		sb.append("[Origine: " + this.origine + "] \n ");
-		sb.append("      +[Capacité speciale: " + this.capaciteSpecial + "] \n");
+		sb.append("     +[Capacité speciale: " + this.capaciteSpecial + "] \n");
 		return sb.toString();
 	}
 }

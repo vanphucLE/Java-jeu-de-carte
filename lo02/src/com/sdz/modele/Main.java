@@ -14,7 +14,8 @@ public class Main {
 
 		String commande = "";
 		do {
-			System.out.println("Quel niveau voulez jouer (Débutant/Expert) (D/E): ");
+			System.out.print("Quel niveau voulez jouer (Débutant/Expert) (D/E): ");
+			commande=sc.nextLine();
 		} while (!commande.equals("D") && !commande.equals("E"));
 
 		String nb = "";

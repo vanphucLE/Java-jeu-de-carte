@@ -81,7 +81,7 @@ public class JoueurPhysique extends Joueur {
 			Scanner sc = new Scanner(System.in);
 			String commande = "";
 			do {
-				System.out.println("Vous voulez choisir la carte pour jouer (Y/N)? : ");
+				System.out.print("Vous voulez choisir la carte pour jouer (Y/N)? : ");
 				commande = sc.nextLine();
 			} while (!commande.equals("Y") && !commande.equals("N"));
 			if (commande.equals("Y")) {
@@ -195,11 +195,12 @@ public class JoueurPhysique extends Joueur {
 			this.laMain.completerCarteAction(carte);
 		} else {
 			partie.setEstApocalypseAvant(-1);
-			int[] arPriere = {};
+			int[] arPriere = new int[partie.getListeJoueurs().size()];
 			int indice = -1;
 			for (Joueur j : partie.getListeJoueurs()) {
 				j.setPtPriere();
-				arPriere[indice++] = j.getPtPriere();
+				indice++;
+				arPriere[indice] = j.getPtPriere();
 			}
 			for (int i = 0; i <= indice - 1; i++) {
 				for (int j = i + 1; j <= indice; j++) {

@@ -98,6 +98,12 @@ public class vidu {
 			System.out.println(it);
 		}
 		//
+		int[] arPriere=new int[6];
+		int indice = -1;
+		for (int i=1;i<=5;i++) {
+			indice++;
+			arPriere[indice] = i;
+		}
 		
 	}
 }
