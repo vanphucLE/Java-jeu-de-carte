@@ -330,7 +330,10 @@ public class CapaciteSpeciale {
 			// un autre joueur
 			int idDivine=this.choisirlaDivinite();
 			System.out.println("Choisiez un carte Croyant: ");
-			for(CarteAction carte: this.partie.getListeJoueurs().get(idDivine-1))
+			for(LinkedList<CarteAction> cartesA: this.partie.getListeJoueurs().get(idDivine-1).getLaMain().getListeCroyantGuidee())
+				for(CarteAction carte:cartesA){
+					
+				}
 		}
 		if (this.id > 26 && this.id < 32) {
 			partie.getJoueurEncours().setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant() + 1);
