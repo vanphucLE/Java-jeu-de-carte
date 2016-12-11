@@ -215,11 +215,11 @@ public class CapaciteSpeciale {
 			this.joueur = partie.getListeJoueurs().get(this.choisirlaDivinite()-1);
 			partie.setJoueurEncours(this.joueur);
 			LinkedList<Croyant> carte = new LinkedList();
-			System.out.println("Choisir id carte croyant a sacrifier");
+			System.out.println("Choisir id dont les cartes croyants suivant: ");
 			for (int i = 1; i <= joueur.getLaMain().getListeCroyantGuidee().size(); i++) {
 				for (int j = 1; j <= joueur.getLaMain().getListeCroyantGuidee().get(i - 1).size(); j++) {
 					carte.add((Croyant) joueur.getLaMain().getListeCroyantGuidee().get(i - 1).get(j - 1));
-					System.out.println(carte.toString());
+					System.out.println(carte);
 				}
 			}
 			if (this.joueur.estBot()) {
@@ -227,6 +227,7 @@ public class CapaciteSpeciale {
 				this.joueur.setSacrifice(true);
 				this.joueur.sacrifierCroyant(carte.pop().getId(), partie);
 			} else {
+				System.out.println("Choisir id carte croyant à sacrifier: ");
 				Scanner sc = new Scanner(System.in);
 				int croyant = sc.nextInt();
 				this.joueur.setSacrifice(true);
