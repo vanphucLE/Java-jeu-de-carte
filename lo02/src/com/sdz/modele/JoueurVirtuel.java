@@ -197,6 +197,12 @@ public class JoueurVirtuel extends Joueur {
 		}
 	}
 
+	@Override
+	public void sacrifierCarte(Partie partie) {
+		if(this.laMain.getListeCroyantGuidee().size()>0){
+			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), partie);
+		}
+	}
 	public LaMain getLaMain() {
 		return laMain;
 	}

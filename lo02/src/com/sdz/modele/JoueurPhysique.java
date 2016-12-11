@@ -255,7 +255,7 @@ public class JoueurPhysique extends Joueur {
 		Boolean choice = false;
 		int idSacrifice = 0;
 		Joueur joueurEnCours = partie.getJoueurEncours();
-		Boolean continu = false;
+		Boolean continu ;
 		do {
 			partie.setJoueurEncours(joueurEnCours);
 			do {
@@ -272,7 +272,8 @@ public class JoueurPhysique extends Joueur {
 				}
 			} while (!choice);
 			String commande = "";
-			if (joueurEnCours.getLaMain().getListeCroyantGuidee().size() > 0) {
+			continu=false;
+			if (joueurEnCours.getLaMain().getListeCroyantGuidee().size() > 0 && !partie.getFiniTour()) {
 				do {
 					System.out.print("Vous voulez continuer à sacrifier l'autre cartes (Y/N) ?    ");
 					commande = sc.nextLine();

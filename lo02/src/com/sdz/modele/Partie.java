@@ -16,12 +16,13 @@ public class Partie {
 	private Boolean estFini = false;
 	private EspaceCommun espaceCommun = new EspaceCommun();
 	private String difficulte;
+	private Boolean finiTour = false;
 	// cette attribute pour valider si le carteApocalypse peut-être joué
 	private int estApocalypseAvant = -1;
 
-	public Partie(ArrayList<Joueur> listeJoueurs,String difficulte) {
+	public Partie(ArrayList<Joueur> listeJoueurs, String difficulte) {
 		this.listeJoueurs = listeJoueurs;
-		this.difficulte=difficulte;
+		this.difficulte = difficulte;
 	}
 
 	public void lancerDe() {
@@ -96,6 +97,7 @@ public class Partie {
 	private void tourDeJeu(int numCom) {
 		System.out.println(
 				"\t----------------------------------------------NOUVELLE TOUR----------------------------------------------");
+		this.finiTour = false;
 		this.estApocalypseAvant++;
 		// set les carte coyants guidées peuvent être sacrifíe
 		for (Joueur j : this.listeJoueurs) {
@@ -130,14 +132,18 @@ public class Partie {
 		}
 
 		for (int i = numCom + 1; i < this.listeJoueurs.size(); i++) {
-			this.joueurEncours = this.listeJoueurs.get(i);
-			System.out.println("\nLe tour de :" + joueurEncours);
-			this.listeJoueurs.get(i).jouer(this);
+			if (!this.finiTour) {
+				this.joueurEncours = this.listeJoueurs.get(i);
+				System.out.println("\nLe tour de :" + joueurEncours);
+				this.listeJoueurs.get(i).jouer(this);
+			}
 		}
 		for (int i = 0; i < numCom; i++) {
-			this.joueurEncours = this.listeJoueurs.get(i);
-			System.out.println("\nLe tour de :" + joueurEncours);
-			this.listeJoueurs.get(i).jouer(this);
+			if (!this.finiTour) {
+				this.joueurEncours = this.listeJoueurs.get(i);
+				System.out.println("\nLe tour de :" + joueurEncours);
+				this.listeJoueurs.get(i).jouer(this);
+			}
 		}
 	}
 
@@ -211,6 +217,13 @@ public class Partie {
 	public void setJoueurEncours(Joueur joueurEncours) {
 		this.joueurEncours = joueurEncours;
 	}
-	
+
+	public Boolean getFiniTour() {
+		return finiTour;
+	}
+
+	public void setFiniTour(Boolean finiTour) {
+		this.finiTour = finiTour;
+	}
 
 }
