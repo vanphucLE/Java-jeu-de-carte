@@ -93,32 +93,42 @@ public class CapaciteSpeciale {
 				} while (!choix);
 				if (this.partie.getListeJoueurs().get(idChoisi - 1).getLaMain().getListeCroyantGuidee().size() > 0) {
 					System.out.println("Leurs cartes Croyants peuvent être sacrifiée:  ");
+					LinkedList<CarteAction> listeCroyantSacrifice = new LinkedList<CarteAction>();
 					for (LinkedList<CarteAction> cartes : partie.getListeJoueurs().get(idChoisi - 1).getLaMain()
 							.getListeCroyantGuidee()) {
 						for (CarteAction carte : cartes) {
 							System.out.println("    + " + carte);
+							listeCroyantSacrifice.add(carte);
 						}
 					}
-					boolean choix2 = false;
-					int idChoisi2 = 0;
-					String commande = "";
+					boolean testC = false;
 					do {
-						System.out.print("Choisir id de la carte Croyant pour empêcher sa sacrifice : ");
-						commande = sc.nextLine();
-						idChoisi2 = this.convertIdsEntree(commande);
-						if (idChoisi2 != 0) {
-							choix2 = true;
-						}
-					} while (!choix2);
-					for (LinkedList<CarteAction> cartes : partie.getListeJoueurs().get(idChoisi - 1).getLaMain()
-							.getListeCroyantGuidee()) {
-						for (CarteAction carte : cartes) {
-							if (carte.getId() == idChoisi2) {
-								carte.setEstSacrifie(false);
-								break;
+						boolean choix2 = false;
+						int idChoisi2 = 0;
+						String commande = "";
+
+						do {
+							System.out.print("Choisir id de la carte Croyant pour empêcher sa sacrifice : ");
+							commande = sc.nextLine();
+							idChoisi2 = this.convertIdsEntree(commande);
+							if (idChoisi2 != 0) {
+								choix2 = true;
+							}
+						} while (!choix2);
+						for (LinkedList<CarteAction> cartes : partie.getListeJoueurs().get(idChoisi - 1).getLaMain()
+								.getListeCroyantGuidee()) {
+							for (CarteAction carte : cartes) {
+								if (carte.getId() == idChoisi2) {
+									carte.setEstSacrifie(false);
+									testC=true;
+									break;
+								
+								}
 							}
 						}
-					}
+						if (!testC)
+							System.out.println("Eurreur Entrée!");
+					} while (!testC);
 				} else {
 					System.out.println("Il n'y a aucun carte croyant à sacrifier");
 				}
