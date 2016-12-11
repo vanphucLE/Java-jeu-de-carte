@@ -2,6 +2,8 @@ package com.sdz.cartes;
 
 import java.util.Arrays;
 
+import com.sdz.modele.Partie;
+
 public class GuideSpirituel extends CarteAction {
 	private int nbGuider;
 
@@ -39,8 +41,10 @@ public class GuideSpirituel extends CarteAction {
 		this.nbGuider=nbGuiders[id-38];
 		this.capaciteSpecial= CapaGuideSpirituel[id-38];
 	}
-	public void effectuerCapaciteSpecial() {
-		
+	
+	@Override
+	public void effectuerCapaciteSpecial(Partie partie) {
+		this.capacite.effectuerCapacite(partie);
 	}
 	
 	public int getNbGuider() {

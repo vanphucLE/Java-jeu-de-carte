@@ -1,5 +1,7 @@
 package com.sdz.cartes;
 
+import com.sdz.modele.Partie;
+
 public class CarteAction extends Carte {
 	protected Boolean estJouee;
 	public CarteAction() {
@@ -14,9 +16,12 @@ public class CarteAction extends Carte {
 		}
 	}
 
-	public void effectuerCapaciteSpecial(){
+	public void effectuerCapaciteSpecial(Partie partie){
 		
 	};
+	public void setPartieCarte(Partie partie){
+		
+	}
 	public void setEstJouee(Boolean estJouee) {
 		this.estJouee = estJouee;
 	}

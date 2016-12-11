@@ -58,6 +58,7 @@ public class Croyant extends CarteAction {
 		this.type = "Croyant";
 		this.nbCroyant=nbCroyants[id-1];
 		this.capaciteSpecial=CapaCroyant[id-1];
+		this.capacite= new CapaciteSpeciale(this.id);
 	}
 	public Croyant(){
 		
@@ -70,11 +71,10 @@ public class Croyant extends CarteAction {
 	public Boolean getEstJouee() {
 		return this.estJouee;
 	}
-
+	
+	@Override
 	public void effectuerCapaciteSpecial(Partie partie) {
-		
-		CapaciteSpeciale a=new CapaciteSpeciale(this.id,partie);
-
+		this.capacite.effectuerCapacite(partie);
 	}
 
 	public int getNbCroyant() {

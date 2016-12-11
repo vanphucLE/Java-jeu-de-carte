@@ -2,6 +2,8 @@ package com.sdz.cartes;
 
 import java.util.Arrays;
 
+import com.sdz.modele.Partie;
+
 public abstract class Carte {
 	protected String nom;
 	protected String[] dogme = {};
@@ -9,6 +11,7 @@ public abstract class Carte {
 	protected String capaciteSpecial = "";
 	protected String type = "";
 	protected Boolean estSacrifie = false;
+	protected CapaciteSpeciale capacite;
 
 	public String getType() {
 		return type;
@@ -28,7 +31,7 @@ public abstract class Carte {
 		this.id = id;
 	}
 
-	public abstract void effectuerCapaciteSpecial();
+	public abstract void effectuerCapaciteSpecial(Partie partie);
 
 	public String getNom() {
 		return this.nom;

@@ -178,7 +178,7 @@ public class Joueur {
 				for (int j = 0; j < this.getLaMain().getListeCroyantGuidee().get(i).size(); j++) {
 					if (id == this.getLaMain().getListeCroyantGuidee().get(i).get(j).getId()) {
 						this.sacrifice = false;
-						this.getLaMain().getListeCroyantGuidee().get(i).get(j).effectuerCapaciteSpecial();
+						this.getLaMain().getListeCroyantGuidee().get(i).get(j).effectuerCapaciteSpecial(partie);
 						partie.getJeuDeCartes().getListeCartesAction()
 								.add(this.getLaMain().getListeCroyantGuidee().get(i).remove(j));
 						if (this.getLaMain().getListeCroyantGuidee().get(i).size() == 0) {
@@ -199,7 +199,7 @@ public class Joueur {
 			for (int i = 0; i < this.getLaMain().getListeGuideSpirituelGuider().size(); i++) {
 				if (guide == (this.getLaMain().getListeGuideSpirituelGuider().get(i).getId())) {
 					this.sacrifice = false;
-					this.getLaMain().getListeGuideSpirituelGuider().get(i).effectuerCapaciteSpecial();
+					this.getLaMain().getListeGuideSpirituelGuider().get(i).effectuerCapaciteSpecial(partie);
 					partie.getJeuDeCartes().getListeCartesAction()
 							.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
 					partie.getEspaceCommun().getListeCartesPret()

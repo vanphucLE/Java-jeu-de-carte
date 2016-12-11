@@ -2,6 +2,8 @@ package com.sdz.cartes;
 
 import java.util.Arrays;
 
+import com.sdz.modele.Partie;
+
 public class CarteDivinite extends Carte {
 	//Carte Divinite: 81 -->90
 	private Boolean estCapaciteSpecialUtilise = false;
@@ -36,7 +38,7 @@ public class CarteDivinite extends Carte {
 		this.type = "Divnité";
 		this.capaciteSpecial=CapaDivinite[id-81];
 	}
-	public void effectuerCapaciteSpecial() {
+	public void effectuerCapaciteSpecial(Partie partie) {
 
 	}
 	
