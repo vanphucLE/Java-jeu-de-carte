@@ -207,6 +207,10 @@ public class Partie {
 	public String getDifficulte() {
 		return difficulte;
 	}
+
+	public void setJoueurEncours(Joueur joueurEncours) {
+		this.joueurEncours = joueurEncours;
+	}
 	
 
 }

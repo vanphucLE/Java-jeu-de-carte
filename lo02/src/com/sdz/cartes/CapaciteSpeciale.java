@@ -17,13 +17,9 @@ public class CapaciteSpeciale {
 
 	}
 
-	public void setPartie(Partie partie) {
-
-	}
-
 	public int choisirlaDivinite() {
-		int Divine;
-		if (!partie.getJoueurEncours().estBot()) {
+		int divine;
+		if (!this.partie.getJoueurEncours().estBot()) {
 			System.out.print("Choisir une Divinité pour effectuer la capacite");
 			int i = 1;
 			Iterator<Joueur> it = partie.getListeJoueurs().iterator();
@@ -32,18 +28,21 @@ public class CapaciteSpeciale {
 				i++;
 			}
 			Scanner sc = new Scanner(System.in);
-			Divine = sc.nextInt();
-			while (Divine > partie.getListeJoueurs().size()
-					|| partie.getListeJoueurs().get(Divine - 1).getId() == partie.getJoueurEncours().getId()) {
-				System.out.println("Retapez le numero de Divinite");
-				Divine = sc.nextInt();
-			}
-		} else {
+			String commande = "";
 			do {
-				Divine = (int) Math.ceil((partie.getListeJoueurs().size() - 1) * Math.random());
-			} while (partie.getListeJoueurs().get(Divine - 1).getId() == partie.getJoueurEncours().getId());
+				System.out.print("Choisir id de la Divinité: ");
+				commande = sc.nextLine();
+				divine = Integer.parseInt(commande);
+			} while (!this.testIdDivinite(commande));
+		} else {
+			if(partie.getDifficulte().equals("Debutant")){
+				this.stategie=new Debutant();
+			}else{
+				this.stategie=new Expert();
+			}
+			divine=this.stategie.choisirIdDivinite(partie);
 		}
-		return Divine;
+		return divine;
 	};
 
 	// tester valeur entrée - id de divinité
@@ -205,7 +204,7 @@ public class CapaciteSpeciale {
 			while (it.hasNext() && choix) {
 				Joueur j = it.next();
 				if (j.getId() == idChoisi && j.getLaMain().getListeCarteA().size() > 2) {
-					Collections.shuffle(it.next().getLaMain().getListeCarteA());
+					Collections.shuffle(j.getLaMain().getListeCarteA());
 					partie.getJoueurEncours().getLaMain().completerCarteAction(j.getLaMain().getListeCarteA().pop());
 					partie.getJoueurEncours().getLaMain().completerCarteAction(j.getLaMain().getListeCarteA().pop());
 					choix = false;
@@ -213,7 +212,7 @@ public class CapaciteSpeciale {
 			}
 		} else if (this.id >= 9 && this.id <= 11 || this.id == 23 || this.id == 22 || this.id == 9) {
 			// imposer la sacrifice un croyant d'un joueur
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite()-1);
 			LinkedList<Croyant> carte = new LinkedList();
 			System.out.println("Choisir id carte croyant a sacrifier");
 			for (int i = 1; i <= joueur.getLaMain().getListeCroyantGuidee().size(); i++) {

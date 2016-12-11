@@ -255,19 +255,32 @@ public class JoueurPhysique extends Joueur {
 		String idChoisi = "";
 		Boolean choice = false;
 		int idSacrifice = 0;
+		Joueur joueurEnCours = partie.getJoueurEncours();
+		Boolean continu = false;
 		do {
+			partie.setJoueurEncours(joueurEnCours);
 			do {
-				System.out.print("Choissiez la carte pour sacrifier (Entrez l'id, comme: 1): ");
-				idChoisi = sc.nextLine();
-			} while (!this.testEntrer(idChoisi, liste));
-			idSacrifice = Integer.parseInt(idChoisi);
-			for (CarteAction carte : liste) {
-				if (idSacrifice == carte.getId() && carte.getEstSacrifie()) {
-					choice = true;
-					System.out.println("Cette carte ne peut pas être sacifiée!");
+				do {
+					System.out.print("Choissiez la carte pour sacrifier (Entrez l'id, comme: 1): ");
+					idChoisi = sc.nextLine();
+				} while (!this.testEntrer(idChoisi, liste));
+				idSacrifice = Integer.parseInt(idChoisi);
+				for (CarteAction carte : liste) {
+					if (idSacrifice == carte.getId() && carte.getEstSacrifie()) {
+						choice = true;
+						System.out.println("Cette carte ne peut pas être sacifiée!");
+					}
 				}
+			} while (!choice);
+			String commande = "";
+			if (joueurEnCours.getLaMain().getListeCroyantGuidee().size() > 0) {
+				do {
+					System.out.print("Vous voulez continuer à sacrifier l'autre cartes (Y/N) ?    ");
+					commande = sc.nextLine();
+				} while (!commande.equals("Y") && !commande.equals("N"));
+				continu = (commande.equals("Y")) ? true : false;
 			}
-		} while (!choice);
+		} while (joueurEnCours.getLaMain().getListeCroyantGuidee().size() > 0 && continu);
 		/*
 		 * Carte Croyant: id :1 -->37 Carte Guide Spirituel: 38-->57 Carte Deus
 		 * Ex : 58 --> 75 Carte Apocalypse: 76 --> 80 Carte Divinite: 81 -->90
