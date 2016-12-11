@@ -154,7 +154,7 @@ public class Joueur {
 			return false;
 		}
 	}
-	
+
 	public void jouerCroyant(CarteAction carte, EspaceCommun espaceCommun) {
 		System.out.println("Cette carte est transmis à l'espace commun!");
 		espaceCommun.ajouterCarte((Croyant) carte);
@@ -175,9 +175,9 @@ public class Joueur {
 	public void sacrifierCroyant(int croyant, Partie partie) {
 		if (this.sacrifice) {
 			for (int i = 0; i < this.getLaMain().getListeCroyantGuidee().size(); i++) {
+				Boolean test = false;
 				for (int j = 0; j < this.getLaMain().getListeCroyantGuidee().get(i).size(); j++) {
-					if (id == this.getLaMain().getListeCroyantGuidee().get(i).get(j).getId()) {
-						this.sacrifice = false;
+					if (croyant == this.getLaMain().getListeCroyantGuidee().get(i).get(j).getId()) {
 						this.getLaMain().getListeCroyantGuidee().get(i).get(j).effectuerCapaciteSpecial(partie);
 						partie.getJeuDeCartes().getListeCartesAction()
 								.add(this.getLaMain().getListeCroyantGuidee().get(i).remove(j));
@@ -185,9 +185,12 @@ public class Joueur {
 							partie.getJeuDeCartes().getListeCartesAction()
 									.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
 						}
+						test = true;
 						break;
 					}
 				}
+				if (test)
+					break;
 			}
 
 		} else
@@ -198,7 +201,6 @@ public class Joueur {
 		if (this.sacrifice) {
 			for (int i = 0; i < this.getLaMain().getListeGuideSpirituelGuider().size(); i++) {
 				if (guide == (this.getLaMain().getListeGuideSpirituelGuider().get(i).getId())) {
-					this.sacrifice = false;
 					this.getLaMain().getListeGuideSpirituelGuider().get(i).effectuerCapaciteSpecial(partie);
 					partie.getJeuDeCartes().getListeCartesAction()
 							.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));

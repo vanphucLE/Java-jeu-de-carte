@@ -212,7 +212,8 @@ public class CapaciteSpeciale {
 			}
 		} else if (this.id >= 9 && this.id <= 11 || this.id == 23 || this.id == 22 || this.id == 9) {
 			// imposer la sacrifice un croyant d'un joueur
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite()-1);
+			this.joueur = partie.getListeJoueurs().get(this.choisirlaDivinite()-1);
+			partie.setJoueurEncours(this.joueur);
 			LinkedList<Croyant> carte = new LinkedList();
 			System.out.println("Choisir id carte croyant a sacrifier");
 			for (int i = 1; i <= joueur.getLaMain().getListeCroyantGuidee().size(); i++) {
@@ -221,15 +222,15 @@ public class CapaciteSpeciale {
 					System.out.println(carte.toString());
 				}
 			}
-			if (joueur.estBot()) {
+			if (this.joueur.estBot()) {
 				Collections.shuffle(carte);
-				joueur.setSacrifice(true);
-				joueur.sacrifierCroyant(carte.pop().getId(), partie);
+				this.joueur.setSacrifice(true);
+				this.joueur.sacrifierCroyant(carte.pop().getId(), partie);
 			} else {
 				Scanner sc = new Scanner(System.in);
 				int croyant = sc.nextInt();
-				joueur.setSacrifice(true);
-				joueur.sacrifierCroyant(croyant, partie);
+				this.joueur.setSacrifice(true);
+				this.joueur.sacrifierCroyant(croyant, partie);
 			}
 		} else if (this.id == 12) {
 			// guide revient dans sa main et croyant lie revient au centre de la

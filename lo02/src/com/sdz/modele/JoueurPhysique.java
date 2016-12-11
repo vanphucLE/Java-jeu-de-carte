@@ -278,7 +278,7 @@ public class JoueurPhysique extends Joueur {
 					System.out.print("Vous voulez continuer à sacrifier l'autre cartes (Y/N) ?    ");
 					commande = sc.nextLine();
 				} while (!commande.equals("Y") && !commande.equals("N"));
-				continu = (commande.equals("Y")) ? true : false;
+				continu = commande.equals("Y");
 			}
 		} while (joueurEnCours.getLaMain().getListeCroyantGuidee().size() > 0 && continu);
 		/*
