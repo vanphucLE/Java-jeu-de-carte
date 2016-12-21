@@ -186,8 +186,8 @@ public class JoueurPhysique extends Joueur {
 
 	}
 
-	// Jouer carteApocalypse
-	private void jouerApocalypse(CarteAction carte, Partie partie) {
+	@Override
+	public void jouerApocalypse(CarteAction carte, Partie partie) {
 		//
 		if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1) {
 			System.out.println("Vous ne pouvez pas jouer la carte Apocalypse en ce tour");

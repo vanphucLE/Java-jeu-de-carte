@@ -151,8 +151,9 @@ public class JoueurVirtuel extends Joueur {
 	private void jouerDeusEx(Partie partie) {
 
 	}
-
-	private void jouerApocalypse(CarteAction carte, Partie partie) {
+	
+	@Override
+	public void jouerApocalypse(CarteAction carte, Partie partie) {
 		partie.setEstApocalypseAvant(-1);
 		int[] arPriere = {};
 		int indice = -1;
@@ -210,4 +211,9 @@ public class JoueurVirtuel extends Joueur {
 	public void setLaMain(LaMain laMain) {
 		this.laMain = laMain;
 	}
+
+	public Stategie getStategie() {
+		return stategie;
+	}
+	
 }

@@ -1,8 +1,10 @@
 package com.sdz.cartes;
 
+import com.sdz.modele.Partie;
+
 public class DeusEx extends CarteAction {
 
-	
+	protected Boolean estSacrifie = true;
 	
 	private static final String[] nomDeusEx = { "Colère Divinie", "Colère Divinie", "Stase", "Ordre Céleste",
 			"Fourberie", "Diversion", "Concentration", "Trou Noir", "Phoenix", "Influence Jour", "Influence Nuit",
@@ -26,8 +28,5 @@ public class DeusEx extends CarteAction {
 		this.type="DeusEx";
 		this.capaciteSpecial=CapaDeusEx[id-58];
 		this.estSacrifie=true;
-	}
-	public void effectuerCapaciteSpecial() {
-
 	}
 }

@@ -12,6 +12,7 @@ public abstract class Carte {
 	protected String type = "";
 	protected Boolean estSacrifie = false;
 	protected CapaciteSpeciale capacite;
+	protected Boolean peutUtiliserCapacite = true;
 
 	public String getType() {
 		return type;
@@ -31,7 +32,11 @@ public abstract class Carte {
 		this.id = id;
 	}
 
-	public abstract void effectuerCapaciteSpecial(Partie partie);
+	public void effectuerCapaciteSpecial(Partie partie) {
+		if (peutUtiliserCapacite) {
+			this.capacite.effectuerCapacite(partie);
+		}
+	}
 
 	public String getNom() {
 		return this.nom;

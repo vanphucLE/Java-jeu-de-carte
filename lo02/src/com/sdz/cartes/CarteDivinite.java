@@ -38,9 +38,6 @@ public class CarteDivinite extends Carte {
 		this.type = "Divnité";
 		this.capaciteSpecial=CapaDivinite[id-81];
 	}
-	public void effectuerCapaciteSpecial(Partie partie) {
-
-	}
 	
 	public Boolean getEstCapaciteSpecialUtilise() {
 		return estCapaciteSpecialUtilise;

@@ -99,7 +99,8 @@ public class Partie {
 				"\t----------------------------------------------NOUVELLE TOUR----------------------------------------------");
 		this.finiTour = false;
 		this.estApocalypseAvant++;
-		// set les carte coyants guidées peuvent être sacrifíe
+		// set les carte coyants guidées peuvent être sacrifié
+		// les joueurs peuvent gargner le point d'Action
 		for (Joueur j : this.listeJoueurs) {
 			j.getLaMain().setTrueSacifice();
 			j.setEstSetPointAction(true);

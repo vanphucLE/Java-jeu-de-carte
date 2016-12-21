@@ -72,11 +72,6 @@ public class Croyant extends CarteAction {
 		return this.estJouee;
 	}
 	
-	@Override
-	public void effectuerCapaciteSpecial(Partie partie) {
-		this.capacite.effectuerCapacite(partie);
-	}
-
 	public int getNbCroyant() {
 		return nbCroyant;
 	}

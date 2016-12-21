@@ -160,6 +160,8 @@ public class Joueur {
 		espaceCommun.ajouterCarte((Croyant) carte);
 	}
 
+	public void jouerApocalypse(CarteAction carte, Partie partie){
+	};
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Joueur n." + this.id + " : ");
@@ -173,18 +175,20 @@ public class Joueur {
 	}
 
 	public void sacrifierCroyant(int croyant, Partie partie) {
+		CarteAction carteCroyant;
 		if (this.sacrifice) {
 			for (int i = 0; i < this.getLaMain().getListeCroyantGuidee().size(); i++) {
 				Boolean test = false;
 				for (int j = 0; j < this.getLaMain().getListeCroyantGuidee().get(i).size(); j++) {
 					if (croyant == this.getLaMain().getListeCroyantGuidee().get(i).get(j).getId()) {
-						this.getLaMain().getListeCroyantGuidee().get(i).get(j).effectuerCapaciteSpecial(partie);
+						carteCroyant=this.getLaMain().getListeCroyantGuidee().get(i).remove(j);
 						partie.getJeuDeCartes().getListeCartesAction()
-								.add(this.getLaMain().getListeCroyantGuidee().get(i).remove(j));
+								.add(carteCroyant);
 						if (this.getLaMain().getListeCroyantGuidee().get(i).size() == 0) {
 							partie.getJeuDeCartes().getListeCartesAction()
 									.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
 						}
+						carteCroyant.effectuerCapaciteSpecial(partie);
 						test = true;
 						break;
 					}
@@ -198,17 +202,19 @@ public class Joueur {
 	}
 
 	public void sacrifierGuideSpirit(int guide, Partie partie) {
+		CarteAction carteGuide;
 		if (this.sacrifice) {
 			for (int i = 0; i < this.getLaMain().getListeGuideSpirituelGuider().size(); i++) {
 				if (guide == (this.getLaMain().getListeGuideSpirituelGuider().get(i).getId())) {
-					this.getLaMain().getListeGuideSpirituelGuider().get(i).effectuerCapaciteSpecial(partie);
-					partie.getJeuDeCartes().getListeCartesAction()
-							.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
+					carteGuide=this.getLaMain().getListeGuideSpirituelGuider().remove(i);
+					partie.getJeuDeCartes().getListeCartesAction().add(carteGuide);
 					partie.getEspaceCommun().getListeCartesPret()
-							.addAll(this.getLaMain().getListeCroyantGuidee().get(i));
+							.addAll(this.getLaMain().getListeCroyantGuidee().remove(i));
+					carteGuide.effectuerCapaciteSpecial(partie);
 					break;
 				}
 			}
+			
 
 		}
 	}
