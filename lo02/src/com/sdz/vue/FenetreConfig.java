@@ -106,25 +106,25 @@ public class FenetreConfig extends JFrame {
 		panel.add(comboBox);
 		
 		JButton btnOK = new JButton("OK");
-//		btnOK.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				setVisible(false);
-//				if(rdRapide.isSelected()){
-//					type=rdRapide.getText();
-//				} else {
-//					type=rdAvance.getText();
-//				}
-//				if(rdDebutant.isSelected()){
-//					niveau=rdDebutant.getText();
-//				} else {
-//					niveau=rdMedium.getText();
-//				}
-//				FramePrincipal frame = new FramePrincipal();
-//				frame.setVisible(true);
-//				Jeu jeu = new Jeu(txtNom.getText(),cbBox.getSelectedIndex()+2,type,niveau,frame);    	
-//				jeu.getTypeJeu().lancer(jeu);
-//			}
-//		});
+		btnOK.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setVisible(false);
+				if(rdRapide.isSelected()){
+					type=rdRapide.getText();
+				} else {
+					type=rdAvance.getText();
+				}
+				if(rdDebutant.isSelected()){
+					niveau=rdDebutant.getText();
+				} else {
+					niveau=rdMedium.getText();
+				}
+				FramePrincipal frame = new FramePrincipal();
+				frame.setVisible(true);
+				Jeu jeu = new Jeu(txtNom.getText(),cbBox.getSelectedIndex()+2,type,niveau,frame);    	
+				jeu.getTypeJeu().lancer(jeu);
+			}
+		});
 		btnOK.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnOK.setBounds(84, 211, 99, 27);
 		contentPane.add(btnOK);
