@@ -2,27 +2,28 @@ package com.sdz.modele;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.Scanner;
 
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;
 
-public class Partie {
+public class Partie extends Observable{
 	private int nbJoueur;
 	private Joueur Joueurgagnant;
 	private Joueur joueurEncours;
-	private ArrayList<Joueur> listeJoueurs = new ArrayList();
+	private ArrayList<Joueur> listeJoueurs;
 	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
 	private Boolean estFini = false;
 	private EspaceCommun espaceCommun = new EspaceCommun();
-	private String difficulte;
+	private String niveau;
 	private Boolean finiTour = false;
 	// cette attribute pour valider si le carteApocalypse peut-être joué
 	private int estApocalypseAvant = -1;
 
-	public Partie(ArrayList<Joueur> listeJoueurs, String difficulte) {
+	public Partie(ArrayList<Joueur> listeJoueurs, String niveau) {
 		this.listeJoueurs = listeJoueurs;
-		this.difficulte = difficulte;
+		this.niveau = niveau;
 	}
 
 	public void lancerDe() {
@@ -211,8 +212,8 @@ public class Partie {
 		return joueurEncours;
 	}
 
-	public String getDifficulte() {
-		return difficulte;
+	public String getNiveau() {
+		return this.niveau;
 	}
 
 	public void setJoueurEncours(Joueur joueurEncours) {

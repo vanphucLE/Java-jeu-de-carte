@@ -188,7 +188,7 @@ public class CapaciteSpeciale {
 					idChoisi = Integer.parseInt(Divine);
 				} while (!this.testIdDivinite(Divine));
 			} else {
-				if (partie.getDifficulte().equals("Debutant")) {
+				if (partie.getNiveau().equals("Debutant")) {
 					this.stategie = new Debutant();
 				} else {
 					this.stategie = new Expert();

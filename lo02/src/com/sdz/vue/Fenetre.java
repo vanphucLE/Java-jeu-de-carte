@@ -1,11 +1,12 @@
 package com.sdz.vue;
 
-import java.awt.Button;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,9 +18,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
-public class Fenetre extends JFrame implements ActionListener {
+import com.sdz.controler.Controler;
+import com.sdz.modele.Partie;
+
+public class Fenetre extends JFrame implements Observer {
 
 	public static final String strImagePathEntree = "images/fenetreEntree.PNG";
+	public static final String strImagePathTable = "images/table.jpg";
 
 	private FenetreConfig fenetreConfig;
 	private JMenuItem mntmNouveau;
@@ -27,6 +32,7 @@ public class Fenetre extends JFrame implements ActionListener {
 	private JMenuItem mntmPropos;
 	private ImageIcon bg;
 	private JPanel jpanel;
+	private Controler controler;
 
 	/**
 	 * Launch the application.
@@ -60,14 +66,14 @@ public class Fenetre extends JFrame implements ActionListener {
 		menuBar.add(mnFiche);
 
 		this.mntmNouveau = new JMenuItem("Nouveau");
-		mntmNouveau.addActionListener(this);
+		mntmNouveau.addActionListener(new NouveauListener());
 		mnFiche.add(mntmNouveau);
 
 		JSeparator separator = new JSeparator();
 		mnFiche.add(separator);
 
 		this.mntmFermer = new JMenuItem("Fermer");
-		mntmFermer.addActionListener(this);
+		mntmFermer.addActionListener(new FermerListener());
 		mnFiche.add(mntmFermer);
 
 		JMenu mnAide = new JMenu("Aide");
@@ -75,16 +81,24 @@ public class Fenetre extends JFrame implements ActionListener {
 		menuBar.add(mnAide);
 
 		this.mntmPropos = new JMenuItem("À propos");
-		mntmPropos.addActionListener(this);
+		mntmPropos.addActionListener(new ProposListener());
 		mnAide.add(mntmPropos);
 
-		fenetreConfig = new FenetreConfig();
+		fenetreConfig = new FenetreConfig(this);
 		this.setPanelEntree();
+	}
+	
+
+	public Controler getControler() {
+		return controler;
+	}
+
+	public void setControler(Partie partie) {
+		this.controler = new Controler(partie);
 	}
 
 	public void setPanelEntree() {
-
-		this.setBgEntree(new ImageIcon(strImagePathEntree));
+		this.setBg(new ImageIcon(strImagePathEntree));
 		ImageIcon bPlay = new ImageIcon("images/bplay.gif");
 		JButton button = new JButton(bPlay);
 		button.setBounds(748, 837, 418, 80);
@@ -96,7 +110,14 @@ public class Fenetre extends JFrame implements ActionListener {
 		});
 	}
 
-	public void setBgEntree(ImageIcon bg) {
+	public void setPanelJeu(){
+		this.getContentPane().removeAll();
+		this.setBg(new ImageIcon(this.strImagePathTable));
+		this.repaint();
+		this.validate();
+	}
+	
+	public void setBg(ImageIcon bg) {
 		this.bg = bg;
 		jpanel = new JPanel() {
 			@Override
@@ -111,16 +132,47 @@ public class Fenetre extends JFrame implements ActionListener {
 		this.setContentPane(jpanel);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JMenuItem item = (JMenuItem) e.getSource();
-		if (item == mntmNouveau) {
-			JOptionPane.showMessageDialog(null, "Vous voulez ouvrir un nouveau?");
-		} else if (item == mntmFermer) {
-			System.exit(0);
-		} else if (item == mntmPropos) {
+	class NouveauListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
 			JOptionPane.showMessageDialog(null, "Vous voulez ouvrir un nouveau?");
 		}
+	}
+
+	class FermerListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
+		}
+	}
+
+	class ProposListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String mess = "<html><h2>Présentation du jeu</h2>"
+					+ "Vous incarnez des Divinités, qui sontcaractérisées parleurOrigine (Jour, Nuit,\n"
+					+ "Aube ou Crépuscule) qui exprime leur filiation, et leurs Dogmes (3 parmi :\n"
+					+ "Nature, Humain, Symboles, Mystique, Chaos) qui définissent leurs croyances.\n"
+					+ "Chaque Divinité possèdent une capacité spéciale, un pouvoir utilisable une\n"
+					+ "unique fois pendantlapartie.\n"
+					+ "Le but du jeu est d’éliminer les autres Divinités et de prendre la place du Haut\n"
+					+ "Dieuenrécupérantles prières d’unmaximumde Croyants.\n"
+					+ "Pour cela, les joueurs vont créer des Croyants, qui seront mis en commun au\n"
+					+ "milieu de la table. Par la suite, les joueurs pourront créer des Guides Spirituels,\n"
+					+ "dont le rôle est d’amener à une Divinité un nombre variable de cartes de\n"
+					+ "Croyants. A cela s’ajoute des cartes Deus Ex qui modifient les rapports de force\n"
+					+ "encours de partie.\n"
+					+ "Lorsqu’une carte Apocalypse est posée, un joueur est éliminé (4 joueurs ou\n"
+					+ "plus) ouun joueurgagne lapartie (2 ou3 joueurs) en fonction des points de Prière\n"
+					+ "apportés parles Croyants de chaque Divinité.\n\n"
+					+ "<html><p><b>Auteurs: </b><i>LE Van Phuc - TRAN Hoang Doan Hung</i></p>"
+					+ "<p>Version 1.0 - Projet LO02 A16 - Université de Technologie de Troyes";
+
+			JOptionPane.showMessageDialog(null, mess, "À propos", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
