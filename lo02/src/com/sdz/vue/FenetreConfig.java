@@ -186,6 +186,7 @@ public class FenetreConfig extends JFrame {
 		this.partie = new Partie(listeJoueurs, niveau);
 		this.fenetrePrincipal.setControler(this.partie);
 		this.fenetrePrincipal.setPanelJeu();
+
 	}
 
 	public static void main(String[] args) {
