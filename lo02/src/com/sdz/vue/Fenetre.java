@@ -55,8 +55,9 @@ public class Fenetre extends JFrame implements Observer {
 	 */
 	public Fenetre() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 753, 540);
+//		setBounds(100, 100, 753, 540);
 		this.setSize(this.getMaximumSize());
+//		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 
@@ -114,6 +115,9 @@ public class Fenetre extends JFrame implements Observer {
 
 	public void setPanelJeu(){
 		this.getContentPane().removeAll();
+//		this.setBg(new ImageIcon(this.strImagePathTable));
+		System.out.println(this.getWidth());
+		System.out.println(this.getHeight());
 		PanelJeu panelJeu=new PanelJeu(this);
 		this.setContentPane(panelJeu);
 		this.repaint();

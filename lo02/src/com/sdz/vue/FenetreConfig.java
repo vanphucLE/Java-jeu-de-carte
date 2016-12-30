@@ -56,7 +56,6 @@ public class FenetreConfig extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("image/mt.PNG"));
 		this.setTitle("Configuration");
 		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBounds(100, 100, 419, 289);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -182,7 +181,6 @@ public class FenetreConfig extends JFrame {
 				listeJoueurs.add(listeJoueursVirtuel.get(i - 1));
 			}
 		}
-
 		this.partie = new Partie(listeJoueurs, niveau);
 		this.fenetrePrincipal.setControler(this.partie);
 		this.fenetrePrincipal.setPanelJeu();

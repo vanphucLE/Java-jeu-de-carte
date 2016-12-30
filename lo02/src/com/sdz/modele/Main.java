@@ -28,9 +28,9 @@ public class Main {
 
 		listeJoueurs.add(new JoueurPhysique("Phuc", 21));
 		String difficulte="";
+		ArrayList<Joueur> listeJoueursVirtuel = new ArrayList<Joueur>();
 		if (commande.equals("D")) {
 			difficulte="Debutant";
-			ArrayList<Joueur> listeJoueursVirtuel = new ArrayList<Joueur>();
 			listeJoueursVirtuel.add(new JoueurVirtuel(2, "ALBERT", 21,new Debutant()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(3, "ANZAR", 22,new Debutant()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(4, "DIOUF", 21,new Debutant()));
@@ -39,12 +39,9 @@ public class Main {
 			listeJoueursVirtuel.add(new JoueurVirtuel(7, "GUILLOUX", 25,new Debutant()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(8, "LINARD", 20,new Debutant()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(9, "NEULAT", 21,new Debutant()));
-			for (int i = 1; i < nombreJoueur; i++) {
-				listeJoueurs.add(listeJoueursVirtuel.get(i - 1));
-			}
 		}else{
 			difficulte="Expert";
-			ArrayList<Joueur> listeJoueursVirtuel = new ArrayList<Joueur>();
+			
 			listeJoueursVirtuel.add(new JoueurVirtuel(2, "ALBERT", 21,new Expert()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(3, "ANZAR", 22,new Expert()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(4, "DIOUF", 21,new Expert()));
@@ -53,6 +50,9 @@ public class Main {
 			listeJoueursVirtuel.add(new JoueurVirtuel(7, "GUILLOUX", 25,new Expert()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(8, "LINARD", 20,new Expert()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(9, "NEULAT", 21,new Expert()));
+		}
+		for (int i = 1; i < nombreJoueur; i++) {
+			listeJoueurs.add(listeJoueursVirtuel.get(i - 1));
 		}
 
 		Partie partie = new Partie(listeJoueurs,difficulte);
