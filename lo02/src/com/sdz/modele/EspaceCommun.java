@@ -2,10 +2,11 @@ package com.sdz.modele;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Observable;
 
 import com.sdz.cartes.CarteAction;
 
-public class EspaceCommun {
+public class EspaceCommun extends Observable{
 	private LinkedList<CarteAction> listeCartesPret=new LinkedList<CarteAction>();
 	private LinkedList<CarteAction> listeCartesPoseRecent =new LinkedList<CarteAction>();
 	

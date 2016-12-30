@@ -5,10 +5,9 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 import com.sdz.cartes.CarteAction;
-import com.sdz.cartes.Croyant;
 import com.sdz.cartes.GuideSpirituel;
 
-public class JoueurPhysique extends Joueur {
+public class JoueurPhysique extends Joueur{
 
 	public JoueurPhysique(String nom, int age) {
 		super(1, nom, age);

@@ -8,30 +8,38 @@ import java.util.Scanner;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;
 
-public class Partie extends Observable{
+public class Partie extends Observable {
 	private int nbJoueur;
 	private Joueur Joueurgagnant;
 	private Joueur joueurEncours;
 	private ArrayList<Joueur> listeJoueurs;
-	private JeuDeCartes jeuDeCartes = new JeuDeCartes();
-	private Boolean estFini = false;
-	private EspaceCommun espaceCommun = new EspaceCommun();
+	private JeuDeCartes jeuDeCartes;
+	private Boolean estFini;
+	private EspaceCommun espaceCommun;
 	private String niveau;
-	private Boolean finiTour = false;
-	// cette attribute pour valider si le carteApocalypse peut-être joué
-	private int estApocalypseAvant = -1;
+	private Boolean finiTour;
+	private int estApocalypseAvant;// cette attribute pour valider si le
+									// carteApocalypse peut-être joué
+	private String faceDe;
 
 	public Partie(ArrayList<Joueur> listeJoueurs, String niveau) {
 		this.listeJoueurs = listeJoueurs;
 		this.niveau = niveau;
+		this.espaceCommun = new EspaceCommun();
+		this.jeuDeCartes = new JeuDeCartes();
+		this.estFini = false;
+		this.finiTour = false;
+		this.estApocalypseAvant = -1;
+		this.faceDe = "";
+		this.nbJoueur = this.listeJoueurs.size();
 	}
 
 	public void lancerDe() {
 		String[] de = { "", "Jour", "Nuit", "Néant" };
 		int num = (int) Math.ceil(3 * Math.random());
-		String FaceDe = de[num];
-		System.out.println("******Face du dé: " + FaceDe);
-		if (FaceDe.equals("Jour")) {
+		faceDe = de[num];
+		System.out.println("******Face du dé: " + faceDe);
+		if (faceDe.equals("Jour")) {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Jour")) {
 					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 2);
@@ -40,7 +48,7 @@ public class Partie extends Observable{
 
 				}
 			}
-		} else if (FaceDe.equals("Nuit")) {
+		} else if (faceDe.equals("Nuit")) {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Nuit")) {
 					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 2);
@@ -48,7 +56,7 @@ public class Partie extends Observable{
 					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 1);
 				}
 			}
-		} else if (FaceDe.equals("Néant")) {
+		} else if (faceDe.equals("Néant")) {
 			for (Joueur joueur : this.listeJoueurs) {
 				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Aube")) {
 					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
@@ -226,6 +234,10 @@ public class Partie extends Observable{
 
 	public void setFiniTour(Boolean finiTour) {
 		this.finiTour = finiTour;
+	}
+
+	public String getFaceDe() {
+		return faceDe;
 	}
 
 }

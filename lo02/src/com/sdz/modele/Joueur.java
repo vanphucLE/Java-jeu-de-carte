@@ -1,14 +1,12 @@
 package com.sdz.modele;
 
 import java.util.LinkedList;
-
-import javax.print.attribute.standard.RequestingUserName;
+import java.util.Observable;
 
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.Croyant;
-import com.sdz.cartes.GuideSpirituel;
 
-public class Joueur {
+public class Joueur extends Observable{
 	protected int id;
 	protected String nom;
 	protected int age;

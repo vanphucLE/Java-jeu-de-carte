@@ -118,7 +118,7 @@ public class Fenetre extends JFrame implements Observer {
 //		this.setBg(new ImageIcon(this.strImagePathTable));
 		System.out.println(this.getWidth());
 		System.out.println(this.getHeight());
-		PanelJeu panelJeu=new PanelJeu(this);
+		PanelJeu panelJeu=new PanelJeu(this,this.controler);
 		this.setContentPane(panelJeu);
 		this.repaint();
 		this.validate();

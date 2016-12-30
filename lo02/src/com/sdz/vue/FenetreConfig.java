@@ -154,37 +154,27 @@ public class FenetreConfig extends JFrame {
 	public void creerPartie(String nomJP, int ageJP, int nbJoueurs, String niveau) {
 		ArrayList<Joueur> listeJoueurs = new ArrayList<Joueur>();
 		listeJoueurs.add(new JoueurPhysique(nomJP, ageJP));
+		ArrayList<Joueur> listeJoueursVirtuel = new ArrayList<Joueur>();
 		if (niveau.equals("Débutant")) {
-			ArrayList<Joueur> listeJoueursVirtuel = new ArrayList<Joueur>();
 			listeJoueursVirtuel.add(new JoueurVirtuel(2, "ALBERT", 21, new Debutant()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(3, "ANZAR", 22, new Debutant()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(4, "DIOUF", 21, new Debutant()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(5, "GALANTE", 23, new Debutant()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(6, "GENIN", 21, new Debutant()));
-			listeJoueursVirtuel.add(new JoueurVirtuel(7, "GUILLOUX", 25, new Debutant()));
-			listeJoueursVirtuel.add(new JoueurVirtuel(8, "LINARD", 20, new Debutant()));
-			listeJoueursVirtuel.add(new JoueurVirtuel(9, "NEULAT", 21, new Debutant()));
-			for (int i = 1; i < nbJoueurs; i++) {
-				listeJoueurs.add(listeJoueursVirtuel.get(i - 1));
-			}
 		} else {
-			ArrayList<Joueur> listeJoueursVirtuel = new ArrayList<Joueur>();
 			listeJoueursVirtuel.add(new JoueurVirtuel(2, "ALBERT", 21, new Expert()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(3, "ANZAR", 22, new Expert()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(4, "DIOUF", 21, new Expert()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(5, "GALANTE", 23, new Expert()));
 			listeJoueursVirtuel.add(new JoueurVirtuel(6, "GENIN", 21, new Expert()));
-			listeJoueursVirtuel.add(new JoueurVirtuel(7, "GUILLOUX", 25, new Expert()));
-			listeJoueursVirtuel.add(new JoueurVirtuel(8, "LINARD", 20, new Expert()));
-			listeJoueursVirtuel.add(new JoueurVirtuel(9, "NEULAT", 21, new Expert()));
-			for (int i = 1; i < nbJoueurs; i++) {
-				listeJoueurs.add(listeJoueursVirtuel.get(i - 1));
-			}
 		}
+		for (int i = 0; i < nbJoueurs; i++) {
+			listeJoueurs.add(listeJoueursVirtuel.get(i));
+		}
+		//Créer nouvel jeu de carte
 		this.partie = new Partie(listeJoueurs, niveau);
 		this.fenetrePrincipal.setControler(this.partie);
 		this.fenetrePrincipal.setPanelJeu();
-
 	}
 
 	public static void main(String[] args) {
