@@ -59,6 +59,14 @@ public class PanelJeu extends JPanel {
 		panel_1.setLocation(220, 222);
 		add(panel_1);
 		
+		JPanel panel_3 = new PanelLancerDe();
+		panel_3.setLocation(1500, 222);
+		add(panel_3);
+		
+		JPanel panel_2 = new PanelCarteJouee();
+		panel_2.setLocation(1500, 359);
+		add(panel_2);
+		
 		
 	}
 
