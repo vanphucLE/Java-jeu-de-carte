@@ -47,7 +47,7 @@ public class PanelJP extends JPanel implements Observer {
 		this.fenetreGuidee.setLocation(200, 50);
 
 		this.setLayout(null);
-		this.setSize(1248, 247);
+		this.setSize(1390, 247);
 		Border lineBorder = BorderFactory.createLineBorder(Color.blue);
 		this.setBorder(lineBorder);
 		this.setBackground(Color.GREEN);
@@ -70,11 +70,11 @@ public class PanelJP extends JPanel implements Observer {
 		add(btnAfficherLesCartes);
 
 		JButton carteDivin = new JButton("Carte Divinité");
-		carteDivin.setBounds(6, 32, 150, 210);
+		carteDivin.setBounds(6, 32, 292, 210);
 		try {
 			BufferedImage image = ImageIO
-					.read(new File("cartes/" + this.jP.getLaMain().getCarteDivinite().getId() + ".PNG"));
-			ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
+					.read(new File("cartes/" + this.jP.getLaMain().getCarteDivinite().getId() + ".PNG"));//
+			ImageIcon icon = new ImageIcon(image.getScaledInstance(292, 210, image.SCALE_SMOOTH));
 			carteDivin.setIcon(icon);
 			carteDivin.setMargin(new Insets(0, 10, 0, 0));
 			add(carteDivin);
@@ -86,18 +86,12 @@ public class PanelJP extends JPanel implements Observer {
 		} catch (IOException ex) {
 			Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 		}
-
+		this.dessinerCarteAction();
 		// this.creerVu();
 	}
 
 	public void updateFenetreGuidee() {
 
-	}
-
-	public void creerVu() {
-		for (CarteAction carte : this.jP.getLaMain().getListeCarteA()) {
-
-		}
 	}
 
 	public void dessinerCarteAction() {
@@ -106,7 +100,7 @@ public class PanelJP extends JPanel implements Observer {
 		for (CarteAction carte : this.jP.getLaMain().getListeCarteA()) {
 			indice++;
 			JButton button = new JButton("New button");
-			button.setBounds(28 + 152 * indice, 32, 150, 210);
+			button.setBounds(158 + 152 * indice, 32, 150, 210);
 			try {
 				BufferedImage image = ImageIO.read(new File("cartes/" + carte.getId() + ".PNG"));
 				ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
@@ -127,11 +121,11 @@ public class PanelJP extends JPanel implements Observer {
 		// this.validate();
 	}
 
-	// public static void main(String[] args) {
-	// JFrame j = new JFrame();
-	// j.setSize(j.getMaximumSize());
-	// j.getContentPane().add(new PanelJP());
-	// j.setVisible(true);
-	// j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	// }
+//	public static void main(String[] args) {
+//		JFrame j = new JFrame();
+//		j.setSize(j.getMaximumSize());
+//		j.getContentPane().add(new PanelJP());
+//		j.setVisible(true);
+//		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//	}
 }

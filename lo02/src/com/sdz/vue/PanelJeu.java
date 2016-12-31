@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import com.sdz.controler.Controler;
 import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.JoueurVirtuel;
+import com.sdz.modele.Partie;
 
 public class PanelJeu extends JPanel {
 	private Fenetre fenetrePc;
@@ -22,8 +23,10 @@ public class PanelJeu extends JPanel {
 	private PanelJVFace panelJVFaceD;
 	private PanelEspaceCommun panelEC;
 	private PanelCarteJouee panelC;
+	private Partie partie;
 
 	public PanelJeu(Fenetre fenetrePc, Controler ctr) {
+		this.partie=ctr.getPartie();
 		this.ctr = ctr;
 		Border lineBorder = BorderFactory.createLineBorder(Color.blue);
 
@@ -41,7 +44,7 @@ public class PanelJeu extends JPanel {
 		// joueur physique
 		System.out.println(this.ctr.getPartie().getListeJoueurs());
 		this.panelJP = new PanelJP((JoueurPhysique) this.ctr.getPartie().getListeJoueurs().get(0));
-		panelJP.setLocation(338, this.fenetrePc.getHeight() - 310);
+		panelJP.setLocation(268, this.fenetrePc.getHeight() - 310);
 		add(panelJP);
 		this.ctr.getPartie().getListeJoueurs().get(0).addObserver(this.panelJP);
 
@@ -90,10 +93,11 @@ public class PanelJeu extends JPanel {
 			break;
 		}
 
-		this.panelEC = new PanelEspaceCommun();
+		this.panelEC = new PanelEspaceCommun(this.partie.getEspaceCommun());
 		this.ctr.getPartie().getEspaceCommun().addObserver(this.panelEC);
 		panelEC.setLocation(220, 222);
 		add(panelEC);
+		this.partie.getEspaceCommun().addObserver(this.panelEC);
 
 		this.panelLancerDe = new PanelLancerDe(this.ctr);
 		this.panelLancerDe.setLocation(1500, 222);
@@ -108,7 +112,7 @@ public class PanelJeu extends JPanel {
 
 	public void dessinerJoueurFC(JoueurVirtuel jV) {
 		this.panelJVFaceC = new PanelJVFace(jV);
-		panelJVFaceC.setLocation(this.fenetrePc.getWidth() / 2 - 296, 6);
+		panelJVFaceC.setLocation(this.fenetrePc.getWidth() / 2 - 316, 6);
 		add(panelJVFaceC);
 	}
 
@@ -118,17 +122,17 @@ public class PanelJeu extends JPanel {
 		add(panelJVFaceG);
 
 		this.panelJVFaceD = new PanelJVFace(jV2);
-		panelJVFaceD.setLocation(this.fenetrePc.getWidth() - 608, 6);
+		panelJVFaceD.setLocation(this.fenetrePc.getWidth() - 638, 6);
 		add(panelJVFaceD);
 	}
 
 	public void dessinerJoueursCote(JoueurVirtuel jV1, JoueurVirtuel jV2) {
 		this.panelJVCoteG = new PanelJVCote(jV1);
-		panelJVCoteG.setLocation(6, 218);
+		panelJVCoteG.setLocation(6, 226);
 		add(panelJVCoteG);
 
 		this.panelJVCoteD = new PanelJVCote(jV2);
-		panelJVCoteD.setLocation(this.fenetrePc.getWidth() - 220, 218);
+		panelJVCoteD.setLocation(this.fenetrePc.getWidth() - 220, 226);
 		add(panelJVCoteD);
 
 	}

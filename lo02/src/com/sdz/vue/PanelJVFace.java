@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import com.sdz.cartes.CarteAction;
 import com.sdz.modele.JoueurVirtuel;
 import javax.swing.SwingConstants;
 
@@ -39,7 +40,7 @@ public class PanelJVFace extends PanelJV {
 		this.fenetreGuidee.setLocation(200, 50);
 
 		this.setLayout(null);
-		this.setSize(595, 208);
+		this.setSize(626, 208);
 		Border lineBorder = BorderFactory.createLineBorder(Color.blue);
 		this.setBorder(lineBorder);
 		this.setBackground(Color.GREEN);
@@ -53,7 +54,7 @@ public class PanelJVFace extends PanelJV {
 		add(lblPointDaction);
 
 		JButton btnAfficherLesCartes = new JButton("Cartes Guid\u00E9es");
-		btnAfficherLesCartes.setBounds(464, 177, 127, 25);
+		btnAfficherLesCartes.setBounds(487, 177, 127, 25);
 		btnAfficherLesCartes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fenetreGuidee.setVisible(true);
@@ -61,40 +62,47 @@ public class PanelJVFace extends PanelJV {
 		});
 		add(btnAfficherLesCartes);
 
-		JButton button = new JButton("New button");
-		button.setBounds(6 , 6, 114, 160);
+		JButton button = new JButton("Carte Divinité");
+		button.setBounds(6, 6, 222, 160);
 		try {
-			BufferedImage image = ImageIO.read(new File("cartes/1.PNG"));
-			ImageIcon icon = new ImageIcon(image.getScaledInstance(114, 160, image.SCALE_SMOOTH));
+			BufferedImage image = ImageIO
+					.read(new File("cartes/" + this.jV.getLaMain().getCarteDivinite().getId() + ".PNG"));
+			ImageIcon icon = new ImageIcon(image.getScaledInstance(222,160, image.SCALE_SMOOTH));
 			button.setIcon(icon);
 			button.setMargin(new Insets(0, 10, 0, 0));
 			add(button);
 		} catch (IOException ex) {
 			Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
-		for (int i = 0; i < 7; i++) {
-			button = new JButton("New button");
-			button.setBounds(120 + 60 * i, 6, 114, 160);
+		this.dessinerCarteAction();
+
+	}
+
+	@Override
+	public void dessinerCarteAction() {
+		int indice = -1;
+		for (CarteAction carte:this.jV.getLaMain().getListeCarteA()) {
+			indice++;
+			JButton button = new JButton("");
+			button.setBounds(228 + 46 * indice, 6, 114, 160);
 			try {
 				BufferedImage image = ImageIO.read(new File("cartes/derriereVerticale.PNG"));
 				ImageIcon icon = new ImageIcon(image.getScaledInstance(114, 160, image.SCALE_SMOOTH));
 				button.setIcon(icon);
-				button.setMargin(new Insets(0, 10, 0, 0));
+				button.setMargin(new Insets(0, 0, 0, 0));
 				add(button);
 			} catch (IOException ex) {
 				Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		}
 	}
-	
-//	public static void main(String[] args) {
-//		JFrame j = new JFrame();
-//		j.setSize(j.getMaximumSize());
-//		j.setResizable(false);
-//		j.getContentPane().add(new PanelJVFace());
-//		j.setVisible(true);
-//
-//	}
+	// public static void main(String[] args) {
+	// JFrame j = new JFrame();
+	// j.setSize(j.getMaximumSize());
+	// j.setResizable(false);
+	// j.getContentPane().add(new PanelJVFace());
+	// j.setVisible(true);
+	//
+	// }
 
 }

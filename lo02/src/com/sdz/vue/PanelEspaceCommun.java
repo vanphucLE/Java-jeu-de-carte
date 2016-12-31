@@ -14,17 +14,18 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class PanelEspaceCommun extends JPanel implements Observer{
+import com.sdz.modele.EspaceCommun;
 
-	/**
-	 * Create the panel.
-	 */
-	public PanelEspaceCommun() {
+public class PanelEspaceCommun extends JPanel implements Observer {
+
+	private EspaceCommun espaceCM;
+
+	public PanelEspaceCommun(EspaceCommun espaceCM) {
+		this.espaceCM = espaceCM;
 		this.setLayout(null);
 		this.setSize(1270, 546);
 		Border lineBorder = BorderFactory.createLineBorder(Color.blue);
@@ -34,11 +35,12 @@ public class PanelEspaceCommun extends JPanel implements Observer{
 		lblEspaceCommun.setBounds(572, 241, 145, 68);
 		add(lblEspaceCommun);
 		// this.setBackground(Color.GRAY);
-		this.peindreEspace(2);
+		this.peindreEspace();
 
 	}
 
-	public void peindreEspace(int nbCartes) {
+	public void peindreEspace() {
+		int nbCartes = this.espaceCM.getListeCartesPret().size();
 		int val = 9;
 		if (val >= nbCartes) {
 			val = nbCartes;
@@ -47,10 +49,11 @@ public class PanelEspaceCommun extends JPanel implements Observer{
 			nbCartes = nbCartes - 9;
 		}
 		for (int i = 0; i < val; i++) {
-			JButton button = new JButton("New button");
+			JButton button = new JButton("");
 			button.setBounds(10 + 140 * i, 0, 130, 182);
 			try {
-				BufferedImage image = ImageIO.read(new File("cartes/1.PNG"));
+				BufferedImage image = ImageIO
+						.read(new File("cartes/" + this.espaceCM.getListeCartesPret().get(i) + ".PNG"));
 				ImageIcon icon = new ImageIcon(image.getScaledInstance(130, 182, image.SCALE_SMOOTH));
 				button.setIcon(icon);
 				button.setMargin(new Insets(0, 10, 0, 0));
@@ -67,10 +70,11 @@ public class PanelEspaceCommun extends JPanel implements Observer{
 			nbCartes = nbCartes - 9;
 		}
 		for (int i = 0; i < val; i++) {
-			JButton button = new JButton("New button");
+			JButton button = new JButton("");
 			button.setBounds(10 + 140 * i, 182, 130, 182);
 			try {
-				BufferedImage image = ImageIO.read(new File("cartes/1.PNG"));
+				BufferedImage image = ImageIO
+						.read(new File("cartes/" + this.espaceCM.getListeCartesPret().get(9 + i) + ".PNG"));
 				ImageIcon icon = new ImageIcon(image.getScaledInstance(130, 182, image.SCALE_SMOOTH));
 				button.setIcon(icon);
 				button.setMargin(new Insets(0, 10, 0, 0));
@@ -90,7 +94,8 @@ public class PanelEspaceCommun extends JPanel implements Observer{
 			JButton button = new JButton("New button");
 			button.setBounds(10 + 140 * i, 364, 130, 182);
 			try {
-				BufferedImage image = ImageIO.read(new File("cartes/1.PNG"));
+				BufferedImage image = ImageIO
+						.read(new File("cartes/" + this.espaceCM.getListeCartesPret().get(18 + i) + ".PNG"));
 				ImageIcon icon = new ImageIcon(image.getScaledInstance(130, 182, image.SCALE_SMOOTH));
 				button.setIcon(icon);
 				button.setMargin(new Insets(0, 10, 0, 0));
@@ -103,18 +108,16 @@ public class PanelEspaceCommun extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		this.peindreEspace();
+		this.repaint();
 	}
-	
-	
-//	public static void main(String[] args) {
-//		JFrame j = new JFrame();
-//		j.setSize(j.getMaximumSize());
-//		j.getContentPane().add(new PanelEspaceCommun());
-//		j.setVisible(true);
-//		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//	}
 
-	
+	// public static void main(String[] args) {
+	// JFrame j = new JFrame();
+	// j.setSize(j.getMaximumSize());
+	// j.getContentPane().add(new PanelEspaceCommun());
+	// j.setVisible(true);
+	// j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	// }
+
 }

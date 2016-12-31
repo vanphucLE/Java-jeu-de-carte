@@ -11,7 +11,7 @@ public class EspaceCommun extends Observable{
 	private LinkedList<CarteAction> listeCartesPoseRecent =new LinkedList<CarteAction>();
 	
 	public EspaceCommun(){
-		
+		super();
 	}
 	// Un fois que la carte croyant est posé, elle ne peut pas être guidée
 	public void ajouterCarte(CarteAction carte) {
