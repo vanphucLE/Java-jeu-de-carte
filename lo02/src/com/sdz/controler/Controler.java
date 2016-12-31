@@ -9,6 +9,10 @@ public class Controler {
 		this.partie = partie;
 	}
 	
+	public void CommencerPartie(){
+		
+	}
+	
 	public void lancerDe(){
 		this.partie.lancerDe();
 		

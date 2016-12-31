@@ -173,8 +173,11 @@ public class FenetreConfig extends JFrame {
 		}
 		//Créer nouvel jeu de carte
 		this.partie = new Partie(listeJoueurs, niveau);
-		this.fenetrePrincipal.setControler(this.partie);
+		this.fenetrePrincipal.setCtrl(this.partie);
 		this.fenetrePrincipal.setPanelJeu();
+		
+		//Commencer le partie
+		this.fenetrePrincipal.commencerPartie();
 	}
 
 	public static void main(String[] args) {

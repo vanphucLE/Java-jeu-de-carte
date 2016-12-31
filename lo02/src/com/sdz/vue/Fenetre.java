@@ -21,18 +21,20 @@ import javax.swing.JSeparator;
 import com.sdz.controler.Controler;
 import com.sdz.modele.Partie;
 
-public class Fenetre extends JFrame implements Observer {
+public class Fenetre extends JFrame implements Observer, Runnable {
 
 	public static final String strImagePathEntree = "images/fenetreEntree.PNG";
 	public static final String strImagePathTable = "images/table.jpg";
 
+	private Thread thread;
 	private FenetreConfig fenetreConfig;
 	private JMenuItem mntmNouveau;
 	private JMenuItem mntmFermer;
 	private JMenuItem mntmPropos;
 	private ImageIcon bg;
 	private JPanel jpanel;
-	private Controler controler;
+	private Controler ctrl;
+	private Partie partie;
 
 	/**
 	 * Launch the application.
@@ -53,11 +55,12 @@ public class Fenetre extends JFrame implements Observer {
 	/**
 	 * Create the frame.
 	 */
+
 	public Fenetre() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		setBounds(100, 100, 753, 540);
+		// setBounds(100, 100, 753, 540);
 		this.setSize(this.getMaximumSize());
-//		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		// this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 
@@ -90,14 +93,25 @@ public class Fenetre extends JFrame implements Observer {
 		fenetreConfig = new FenetreConfig(this);
 		this.setPanelEntree();
 	}
-	
 
-	public Controler getControler() {
-		return controler;
+	public void commencerPartie() {
+		this.thread = new Thread(this);
+		this.thread.start();
 	}
 
-	public void setControler(Partie partie) {
-		this.controler = new Controler(partie);
+	@Override
+	public void run() {
+		this.partie.commencer();
+	}
+
+	
+	public Controler getCtrl() {
+		return ctrl;
+	}
+
+	public void setCtrl(Partie partie) {
+		this.ctrl = new Controler(partie);
+		this.partie=partie;
 	}
 
 	public void setPanelEntree() {
@@ -113,17 +127,17 @@ public class Fenetre extends JFrame implements Observer {
 		});
 	}
 
-	public void setPanelJeu(){
+	public void setPanelJeu() {
 		this.getContentPane().removeAll();
-//		this.setBg(new ImageIcon(this.strImagePathTable));
+		// this.setBg(new ImageIcon(this.strImagePathTable));
 		System.out.println(this.getWidth());
 		System.out.println(this.getHeight());
-		PanelJeu panelJeu=new PanelJeu(this,this.controler);
+		PanelJeu panelJeu = new PanelJeu(this, this.ctrl);
 		this.setContentPane(panelJeu);
 		this.repaint();
 		this.validate();
 	}
-	
+
 	public void setBg(ImageIcon bg) {
 		this.bg = bg;
 		jpanel = new JPanel() {
