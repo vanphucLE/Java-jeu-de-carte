@@ -32,6 +32,7 @@ public class Partie extends Observable {
 		this.estApocalypseAvant = -1;
 		this.faceDe = "";
 		this.nbJoueur = this.listeJoueurs.size();
+		this.commencerPartie();
 	}
 
 	public void lancerDe() {
@@ -66,23 +67,7 @@ public class Partie extends Observable {
 			}
 		}
 	}
-
-	// un partie va commencer par appeller cette méthode
-	public void jouer() {
-		int numCom = -1;
-		this.commencerPartie();
-		while (!this.estFini) {
-			if (numCom < this.getListeJoueurs().size() - 1) {
-				numCom++;
-			} else {
-				numCom = 0;
-			}
-			this.tourDeJeu(numCom);
-		}
-		this.tourDeJeu(0);
-
-	}
-
+	
 	// Cette méthode est crée pour distribuer les cartes au début de la partie
 	// de jeu de carte
 	private void commencerPartie() {
@@ -96,10 +81,26 @@ public class Partie extends Observable {
 			while (compte < 7) {
 				compte++;
 				CarteAction carte = jeuDeCartes.distribuerCarteAction();
-				joueur.getLaMain().completerCarteAction(carte);
+				joueur.completerCarteAction(carte);
 			}
 		}
 	}
+
+
+	// un partie va commencer par appeller cette méthode
+	public void jouer() {
+		int numCom = -1;
+		while (!this.estFini) {
+			if (numCom < this.getListeJoueurs().size() - 1) {
+				numCom++;
+			} else {
+				numCom = 0;
+			}
+			this.tourDeJeu(numCom);
+		}
+		this.tourDeJeu(0);
+	}
+
 
 	// Déscrire les actions des joueurs dans chaque tour
 	// numCom: numéro du joueur dans listJoueurs qui commence ce tour
@@ -120,8 +121,9 @@ public class Partie extends Observable {
 		this.espaceCommun.preterCartes();
 		Iterator<Joueur> it = this.listeJoueurs.iterator();
 		while (it.hasNext()) {
-			it.next().setEstSetPointAction(true);
-			it.next().setSacrifice(true);
+			Joueur j = it.next();
+			j.setEstSetPointAction(true);
+			j.setSacrifice(true);
 		}
 		this.joueurEncours = this.listeJoueurs.get(numCom);
 		if (!joueurEncours.bot) {

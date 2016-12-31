@@ -2,6 +2,7 @@ package com.sdz.modele;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Observable;
 
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;

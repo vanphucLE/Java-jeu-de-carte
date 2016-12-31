@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -19,12 +20,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import com.sdz.cartes.CarteAction;
 import com.sdz.controler.Controler;
 import com.sdz.modele.JoueurPhysique;
-import javax.swing.SwingConstants;
 
 public class PanelJP extends JPanel implements Observer {
 
@@ -35,9 +36,9 @@ public class PanelJP extends JPanel implements Observer {
 	/**
 	 * Create the panel.
 	 */
-	public PanelJP() {
+	public PanelJP(JoueurPhysique jP) {
 		super();
-		// this.jP = jP;
+		this.jP = jP;
 
 		this.fenetreGuidee = new JFrame();
 		this.fenetreGuidee.setTitle("Les cartes Guidée");
@@ -68,35 +69,22 @@ public class PanelJP extends JPanel implements Observer {
 		});
 		add(btnAfficherLesCartes);
 
-		JButton button = new JButton("New button");
-		button.setBounds(6, 32, 150, 210);
+		JButton carteDivin = new JButton("Carte Divinité");
+		carteDivin.setBounds(6, 32, 150, 210);
 		try {
-			BufferedImage image = ImageIO.read(new File("cartes/1.PNG"));
+			BufferedImage image = ImageIO
+					.read(new File("cartes/" + this.jP.getLaMain().getCarteDivinite().getId() + ".PNG"));
 			ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
-			button.setIcon(icon);
-			button.setMargin(new Insets(0, 10, 0, 0));
-			add(button);
-			
+			carteDivin.setIcon(icon);
+			carteDivin.setMargin(new Insets(0, 10, 0, 0));
+			add(carteDivin);
+
 			JLabel lblCarteDivinit = new JLabel("Carte divinit\u00E9");
 			lblCarteDivinit.setHorizontalAlignment(SwingConstants.CENTER);
 			lblCarteDivinit.setBounds(6, 7, 150, 16);
 			add(lblCarteDivinit);
 		} catch (IOException ex) {
 			Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
-		}
-
-		for (int i = 0; i < 7; i++) {
-			button = new JButton("New button");
-			button.setBounds(180 + 152 * i, 32, 150, 210);
-			try {
-				BufferedImage image = ImageIO.read(new File("cartes/1.PNG"));
-				ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
-				button.setIcon(icon);
-				button.setMargin(new Insets(0, 10, 0, 0));
-				add(button);
-			} catch (IOException ex) {
-				Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
-			}
 		}
 
 		// this.creerVu();
@@ -112,17 +100,38 @@ public class PanelJP extends JPanel implements Observer {
 		}
 	}
 
+	public void dessinerCarteAction() {
+		// LinkedList<JButton> boutonsCarte = new LinkedList<JButton>();
+		int indice = 0;
+		for (CarteAction carte : this.jP.getLaMain().getListeCarteA()) {
+			indice++;
+			JButton button = new JButton("New button");
+			button.setBounds(28 + 152 * indice, 32, 150, 210);
+			try {
+				BufferedImage image = ImageIO.read(new File("cartes/" + carte.getId() + ".PNG"));
+				ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
+				button.setIcon(icon);
+				button.setMargin(new Insets(0, 10, 0, 0));
+				add(button);
+			} catch (IOException ex) {
+				Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
+		this.removeAll();
+		this.dessinerCarteAction();
+		this.repaint();
+		// this.validate();
 	}
 
-	public static void main(String[] args) {
-		JFrame j = new JFrame();
-		j.setSize(j.getMaximumSize());
-		j.getContentPane().add(new PanelJP());
-		j.setVisible(true);
-		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
+	// public static void main(String[] args) {
+	// JFrame j = new JFrame();
+	// j.setSize(j.getMaximumSize());
+	// j.getContentPane().add(new PanelJP());
+	// j.setVisible(true);
+	// j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	// }
 }

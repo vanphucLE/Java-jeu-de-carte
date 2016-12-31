@@ -28,6 +28,11 @@ public class Joueur extends Observable{
 		this.age = age;
 	}
 
+	public void completerCarteAction(CarteAction carte){
+		this.laMain.completerCarteAction(carte);
+		this.setChanged();
+		this.notifyObservers();
+	}
 	public boolean estBot() {
 		return this.bot;
 	}
@@ -212,8 +217,6 @@ public class Joueur extends Observable{
 					break;
 				}
 			}
-			
-
 		}
 	}
 }

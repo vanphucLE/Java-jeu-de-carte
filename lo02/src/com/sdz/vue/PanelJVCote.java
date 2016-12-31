@@ -23,12 +23,12 @@ import javax.swing.border.Border;
 
 import com.sdz.modele.JoueurVirtuel;
 
-public class PanelJVCote extends JPanel implements Observer {
+public class PanelJVCote extends PanelJV{
 	private JoueurVirtuel jVT;
 	private JFrame fenetreGuidee;
 
-	public PanelJVCote() {
-		super();
+	public PanelJVCote(JoueurVirtuel jV) {
+		super(jV);
 		// this.jP = jP;
 
 		this.fenetreGuidee = new JFrame();
@@ -87,19 +87,14 @@ public class PanelJVCote extends JPanel implements Observer {
 		}
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	public static void main(String[] args) {
-		JFrame j = new JFrame();
-		j.setSize(j.getMaximumSize());
-		j.setResizable(false);
-		j.getContentPane().add(new PanelJVCote());
-		j.setVisible(true);
-
-	}
+//	public static void main(String[] args) {
+//		JFrame j = new JFrame();
+//		j.setSize(j.getMaximumSize());
+//		j.setResizable(false);
+//		j.getContentPane().add(new PanelJVCote());
+//		j.setVisible(true);
+//
+//	}
 
 }

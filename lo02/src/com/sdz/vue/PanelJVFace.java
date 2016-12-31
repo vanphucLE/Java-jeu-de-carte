@@ -24,12 +24,12 @@ import javax.swing.border.Border;
 import com.sdz.modele.JoueurVirtuel;
 import javax.swing.SwingConstants;
 
-public class PanelJVFace extends JPanel implements Observer {
+public class PanelJVFace extends PanelJV {
 	private JoueurVirtuel jVT;
 	private JFrame fenetreGuidee;
 
-	public PanelJVFace() {
-		super();
+	public PanelJVFace(JoueurVirtuel jV) {
+		super(jV);
 		// this.jP = jP;
 
 		this.fenetreGuidee = new JFrame();
@@ -88,19 +88,13 @@ public class PanelJVFace extends JPanel implements Observer {
 		}
 	}
 	
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void main(String[] args) {
-		JFrame j = new JFrame();
-		j.setSize(j.getMaximumSize());
-		j.setResizable(false);
-		j.getContentPane().add(new PanelJVFace());
-		j.setVisible(true);
-
-	}
+//	public static void main(String[] args) {
+//		JFrame j = new JFrame();
+//		j.setSize(j.getMaximumSize());
+//		j.setResizable(false);
+//		j.getContentPane().add(new PanelJVFace());
+//		j.setVisible(true);
+//
+//	}
 
 }

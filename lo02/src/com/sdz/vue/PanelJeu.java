@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import com.sdz.controler.Controler;
+import com.sdz.modele.JoueurPhysique;
+import com.sdz.modele.JoueurVirtuel;
 
 public class PanelJeu extends JPanel {
 	private Fenetre fenetrePc;
@@ -20,17 +22,6 @@ public class PanelJeu extends JPanel {
 	private PanelJVFace panelJVFaceD;
 	private PanelEspaceCommun panelEC;
 	private PanelCarteJouee panelC;
-	
-	public PanelJeu(){
-		this.dessinerJoueurFC();
-		this.ctr.getPartie().getListeJoueurs().get(3).addObserver(this.panelJVFaceC);
-		this.dessinerJoueursCote();
-		this.ctr.getPartie().getListeJoueurs().get(1).addObserver(this.panelJVCoteG);
-		this.ctr.getPartie().getListeJoueurs().get(5).addObserver(this.panelJVCoteD);
-		this.dessinerJoueursFGD();
-		this.ctr.getPartie().getListeJoueurs().get(2).addObserver(this.panelJVFaceG);
-		this.ctr.getPartie().getListeJoueurs().get(4).addObserver(this.panelJVFaceD);
-	}
 
 	public PanelJeu(Fenetre fenetrePc, Controler ctr) {
 		this.ctr = ctr;
@@ -48,44 +39,52 @@ public class PanelJeu extends JPanel {
 		// add(btnAfficherEspaceComun);
 
 		// joueur physique
-		this.panelJP = new PanelJP();
+		System.out.println(this.ctr.getPartie().getListeJoueurs());
+		this.panelJP = new PanelJP((JoueurPhysique) this.ctr.getPartie().getListeJoueurs().get(0));
 		panelJP.setLocation(338, this.fenetrePc.getHeight() - 310);
 		add(panelJP);
+		this.ctr.getPartie().getListeJoueurs().get(0).addObserver(this.panelJP);
 
 		int nbJ = this.ctr.getPartie().getNbJoueur();
 
 		switch (nbJ) {
 		case 2:
-			this.dessinerJoueurFC();
+			this.dessinerJoueurFC((JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(1));
 			this.ctr.getPartie().getListeJoueurs().get(1).addObserver(this.panelJVFaceC);
 			break;
 		case 3:
-			this.dessinerJoueursFGD();
+			this.dessinerJoueursFGD((JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(1),
+					(JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(2));
 			this.ctr.getPartie().getListeJoueurs().get(1).addObserver(this.panelJVFaceG);
 			this.ctr.getPartie().getListeJoueurs().get(2).addObserver(this.panelJVFaceD);
 			break;
 		case 4:
-			this.dessinerJoueurFC();
+			this.dessinerJoueurFC((JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(2));
 			this.ctr.getPartie().getListeJoueurs().get(2).addObserver(this.panelJVFaceC);
-			this.dessinerJoueursCote();
+			this.dessinerJoueursCote((JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(1),
+					(JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(3));
 			this.ctr.getPartie().getListeJoueurs().get(1).addObserver(this.panelJVCoteG);
 			this.ctr.getPartie().getListeJoueurs().get(3).addObserver(this.panelJVCoteD);
 			break;
 		case 5:
-			this.dessinerJoueursCote();
+			this.dessinerJoueursCote((JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(1),
+					(JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(4));
 			this.ctr.getPartie().getListeJoueurs().get(1).addObserver(this.panelJVCoteG);
 			this.ctr.getPartie().getListeJoueurs().get(4).addObserver(this.panelJVCoteD);
-			this.dessinerJoueursFGD();
+			this.dessinerJoueursFGD((JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(2),
+					(JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(3));
 			this.ctr.getPartie().getListeJoueurs().get(2).addObserver(this.panelJVFaceG);
 			this.ctr.getPartie().getListeJoueurs().get(3).addObserver(this.panelJVFaceD);
 			break;
 		case 6:
-			this.dessinerJoueurFC();
+			this.dessinerJoueurFC((JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(3));
 			this.ctr.getPartie().getListeJoueurs().get(3).addObserver(this.panelJVFaceC);
-			this.dessinerJoueursCote();
+			this.dessinerJoueursCote((JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(1),
+					(JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(5));
 			this.ctr.getPartie().getListeJoueurs().get(1).addObserver(this.panelJVCoteG);
 			this.ctr.getPartie().getListeJoueurs().get(5).addObserver(this.panelJVCoteD);
-			this.dessinerJoueursFGD();
+			this.dessinerJoueursFGD((JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(2),
+					(JoueurVirtuel) this.ctr.getPartie().getListeJoueurs().get(4));
 			this.ctr.getPartie().getListeJoueurs().get(2).addObserver(this.panelJVFaceG);
 			this.ctr.getPartie().getListeJoueurs().get(4).addObserver(this.panelJVFaceD);
 			break;
@@ -107,32 +106,31 @@ public class PanelJeu extends JPanel {
 
 	}
 
-	public void dessinerJoueurFC() {
-		this.panelJVFaceC = new PanelJVFace();
+	public void dessinerJoueurFC(JoueurVirtuel jV) {
+		this.panelJVFaceC = new PanelJVFace(jV);
 		panelJVFaceC.setLocation(this.fenetrePc.getWidth() / 2 - 296, 6);
 		add(panelJVFaceC);
 	}
 
-	public void dessinerJoueursFGD() {
-		this.panelJVFaceG = new PanelJVFace();
+	public void dessinerJoueursFGD(JoueurVirtuel jV1, JoueurVirtuel jV2) {
+		this.panelJVFaceG = new PanelJVFace(jV1);
 		panelJVFaceG.setLocation(6, 6);
 		add(panelJVFaceG);
 
-		this.panelJVFaceD = new PanelJVFace();
+		this.panelJVFaceD = new PanelJVFace(jV2);
 		panelJVFaceD.setLocation(this.fenetrePc.getWidth() - 608, 6);
 		add(panelJVFaceD);
 	}
 
-	public void dessinerJoueursCote() {
-		this.panelJVCoteG = new PanelJVCote();
+	public void dessinerJoueursCote(JoueurVirtuel jV1, JoueurVirtuel jV2) {
+		this.panelJVCoteG = new PanelJVCote(jV1);
 		panelJVCoteG.setLocation(6, 218);
 		add(panelJVCoteG);
-		
 
-		this.panelJVCoteD = new PanelJVCote();
+		this.panelJVCoteD = new PanelJVCote(jV2);
 		panelJVCoteD.setLocation(this.fenetrePc.getWidth() - 220, 218);
 		add(panelJVCoteD);
-		
+
 	}
 
 	public void ajouterVueJVSommet() {
