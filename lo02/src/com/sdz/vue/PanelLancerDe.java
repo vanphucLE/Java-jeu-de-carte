@@ -32,6 +32,7 @@ public class PanelLancerDe extends JPanel implements Observer {
 
 	public PanelLancerDe(Controler ctr) {
 		this.ctr = ctr;
+		this.partie = this.ctr.getPartie();
 		this.setLayout(null);
 		this.setSize(200, 132);
 		Border lineBorder = BorderFactory.createLineBorder(Color.blue);
@@ -65,7 +66,7 @@ public class PanelLancerDe extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		this.faceDe = ctr.getPartie().getFaceDe();
+		this.faceDe = this.partie.getFaceDe();
 		if (this.faceDe.equals("Jour")) {
 			this.setBgLabel("images/Jour.png");
 		} else if (this.faceDe.equals("Nuit")) {
@@ -73,13 +74,20 @@ public class PanelLancerDe extends JPanel implements Observer {
 		} else if (this.faceDe.equals("Néant")) {
 			this.setBgLabel("images/Neant.png");
 		}
+		try{
+			Thread.sleep(2000);
+		}catch(InterruptedException e){
+			e.printStackTrace();
+		}
+		this.repaint();
+		this.validate();
 	}
 
-//	public static void main(String[] args) {
-//		JFrame j = new JFrame();
-//		j.setSize(j.getMaximumSize());
-//		j.getContentPane().add(new PanelLancerDe(new Controler(new Partie())));
-//		j.setVisible(true);
-//		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//	}
+	// public static void main(String[] args) {
+	// JFrame j = new JFrame();
+	// j.setSize(j.getMaximumSize());
+	// j.getContentPane().add(new PanelLancerDe(new Controler(new Partie())));
+	// j.setVisible(true);
+	// j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	// }
 }

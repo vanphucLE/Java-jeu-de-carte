@@ -6,7 +6,7 @@ import java.util.Observable;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.Croyant;
 
-public class Joueur extends Observable{
+public class Joueur extends Observable {
 	protected int id;
 	protected String nom;
 	protected int age;
@@ -21,18 +21,24 @@ public class Joueur extends Observable{
 	protected boolean bot;
 	// chua xu li bien setpointAction
 	protected boolean estSetPointAction = true;
+	protected String actionEnTrain;
 
 	public Joueur(int id, String nom, int age) {
 		this.id = id;
 		this.nom = nom;
 		this.age = age;
+		this.actionEnTrain="";
+		this.laMain = new LaMain(this);
 	}
 
-	public void completerCarteAction(CarteAction carte){
+	public void completerCarteAction(CarteAction carte) {
 		this.laMain.completerCarteAction(carte);
-		this.setChanged();
-		this.notifyObservers();
+		if (!this.estBot()) {
+			this.setChanged();
+			this.notifyObservers();
+		}
 	}
+
 	public boolean estBot() {
 		return this.bot;
 	}
@@ -64,6 +70,8 @@ public class Joueur extends Observable{
 	public void setPtAction_Jour(int ptAction) {
 		if (this.estSetPointAction) {
 			this.ptAction_Jour = ptAction;
+			this.setChanged();
+			this.notifyObservers();
 		}
 	}
 
@@ -74,6 +82,8 @@ public class Joueur extends Observable{
 	public void setPtAction_Nuit(int ptAction) {
 		if (this.estSetPointAction) {
 			this.ptAction_Nuit = ptAction;
+			this.setChanged();
+			this.notifyObservers();
 		}
 	}
 
@@ -84,6 +94,8 @@ public class Joueur extends Observable{
 	public void setPtAction_Neant(int ptAction) {
 		if (this.estSetPointAction) {
 			this.ptAction_Neant = ptAction;
+			this.setChanged();
+			this.notifyObservers();
 		}
 	}
 
@@ -100,6 +112,14 @@ public class Joueur extends Observable{
 			}
 		}
 		this.ptPriere = sumPtPriere;
+	}
+
+	public String getActionEnTrain() {
+		return actionEnTrain;
+	}
+
+	public void setActionEnTrain(String actionEnTrain) {
+		this.actionEnTrain = actionEnTrain;
 	}
 
 	public int getPtPriere() {
@@ -140,6 +160,10 @@ public class Joueur extends Observable{
 		}
 		System.out.println("Vous avez complété 7 Cartes. Maintenant, les cartes sont: ");
 		System.out.println(this.laMain);
+		if (!this.estBot()) {
+			this.setChanged();
+			this.notifyObservers();
+		}
 	}
 
 	// Choisir carte pour jouer
@@ -163,8 +187,9 @@ public class Joueur extends Observable{
 		espaceCommun.ajouterCarte((Croyant) carte);
 	}
 
-	public void jouerApocalypse(CarteAction carte, Partie partie){
+	public void jouerApocalypse(CarteAction carte, Partie partie) {
 	};
+
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Joueur n." + this.id + " : ");
@@ -184,9 +209,8 @@ public class Joueur extends Observable{
 				Boolean test = false;
 				for (int j = 0; j < this.getLaMain().getListeCroyantGuidee().get(i).size(); j++) {
 					if (croyant == this.getLaMain().getListeCroyantGuidee().get(i).get(j).getId()) {
-						carteCroyant=this.getLaMain().getListeCroyantGuidee().get(i).remove(j);
-						partie.getJeuDeCartes().getListeCartesAction()
-								.add(carteCroyant);
+						carteCroyant = this.getLaMain().getListeCroyantGuidee().get(i).remove(j);
+						partie.getJeuDeCartes().getListeCartesAction().add(carteCroyant);
 						if (this.getLaMain().getListeCroyantGuidee().get(i).size() == 0) {
 							partie.getJeuDeCartes().getListeCartesAction()
 									.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
@@ -209,7 +233,7 @@ public class Joueur extends Observable{
 		if (this.sacrifice) {
 			for (int i = 0; i < this.getLaMain().getListeGuideSpirituelGuider().size(); i++) {
 				if (guide == (this.getLaMain().getListeGuideSpirituelGuider().get(i).getId())) {
-					carteGuide=this.getLaMain().getListeGuideSpirituelGuider().remove(i);
+					carteGuide = this.getLaMain().getListeGuideSpirituelGuider().remove(i);
 					partie.getJeuDeCartes().getListeCartesAction().add(carteGuide);
 					partie.getEspaceCommun().getListeCartesPret()
 							.addAll(this.getLaMain().getListeCroyantGuidee().remove(i));

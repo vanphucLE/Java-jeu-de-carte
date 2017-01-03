@@ -73,7 +73,7 @@ public class JeuDeCartes {
 
 	// Distribuer Carte Action
 	public CarteAction distribuerCarteAction() {
-		return this.listeCartesAction.removeLast();
+		return this.listeCartesAction.removeFirst();
 	}
 
 	// Distribuer Carte Divinité au joueur

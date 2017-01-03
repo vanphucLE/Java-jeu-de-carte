@@ -12,14 +12,22 @@ import com.sdz.cartes.GuideSpirituel;
 public class LaMain {
 
 	private CarteDivinite carteDivinite;
+	private Joueur j;
 
-	private LinkedList<CarteAction> listeCarteA = new LinkedList<CarteAction>();
+	private LinkedList<CarteAction> listeCarteA;
 
 	// listeCroyantGuidee est un collection continant les
 	// cartes croyants qui a été guidées par la carte
 	// guide spirituel qui sont enregistrées dans listGuideSpirituelGuider
-	private LinkedList<LinkedList<CarteAction>> listeCroyantGuidee = new LinkedList();
-	private LinkedList<CarteAction> listeGuideSpirituelGuider = new LinkedList();
+	private LinkedList<LinkedList<CarteAction>> listeCroyantGuidee;
+	private LinkedList<CarteAction> listeGuideSpirituelGuider;
+
+	public LaMain(Joueur j) {
+		this.j = j;
+		this.listeCarteA = new LinkedList<CarteAction>();
+		this.listeCroyantGuidee = new LinkedList();
+		this.listeGuideSpirituelGuider = new LinkedList();
+	}
 
 	public LinkedList<CarteAction> getListeCarteA() {
 		return listeCarteA;
@@ -33,7 +41,7 @@ public class LaMain {
 		this.listeCroyantGuidee.add(listeCroyant);
 		this.listeGuideSpirituelGuider.add(guideSpirituel);
 	}
-	
+
 	public CarteDivinite getCarteDivinite() {
 		return carteDivinite;
 	}
@@ -41,8 +49,8 @@ public class LaMain {
 	public void piocherDivinite(CarteDivinite carteDivinite) {
 		this.carteDivinite = carteDivinite;
 	}
-	
-	//cette méthode est utilisé pour set l'attribute True à sacrifier
+
+	// cette méthode est utilisé pour set l'attribute True à sacrifier
 	public void setTrueSacifice() {
 		for (LinkedList<CarteAction> cartes : this.listeCroyantGuidee) {
 			for (CarteAction carte : cartes) {
@@ -80,6 +88,10 @@ public class LaMain {
 				break;
 			}
 			position++;
+		}
+		if (!this.j.estBot()) {
+			JoueurPhysique jP = (JoueurPhysique) this.j;
+			jP.notifyLaMain();
 		}
 		return carteReturn;
 	}

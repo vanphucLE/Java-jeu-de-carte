@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import com.sdz.cartes.CarteAction;
 import com.sdz.modele.JoueurVirtuel;
 
-public class PanelJV extends JPanel implements Observer {
+public abstract class PanelJV extends JPanel implements Observer {
 
 	protected JoueurVirtuel jV;
 
@@ -26,15 +26,23 @@ public class PanelJV extends JPanel implements Observer {
 		this.jV = jV;
 	}
 
-	public void dessinerCarteAction() {
-	
-	}
+	public abstract void dessinerCarteAction();
+
+	public abstract void dessinerCarteDivinite();
+
+	public abstract void dessinerPtAction();
+
+	public abstract void dessinerNom();
+
 	@Override
 	public void update(Observable o, Object arg) {
 		this.removeAll();
+		this.dessinerNom();
+		this.dessinerPtAction();
+		this.dessinerCarteDivinite();
 		this.dessinerCarteAction();
 		this.repaint();
-		// this.validate();
+		this.validate();
 	}
 
 }

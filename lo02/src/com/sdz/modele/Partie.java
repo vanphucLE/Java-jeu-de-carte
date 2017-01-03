@@ -3,7 +3,6 @@ package com.sdz.modele;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Observable;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -23,6 +22,7 @@ public class Partie extends Observable implements Runnable {
 	private Boolean finiTour;
 	private int estApocalypseAvant;// cette attribute pour valider si le
 									// carteApocalypse peut-être joué
+	private boolean waitEntree;
 	private String faceDe;
 
 	public Partie(ArrayList<Joueur> listeJoueurs, String niveau) {
@@ -36,6 +36,7 @@ public class Partie extends Observable implements Runnable {
 		this.faceDe = "";
 		this.nbJoueur = this.listeJoueurs.size();
 		this.commencerPartie();
+		this.waitEntree = true;
 	}
 
 	// Cette méthode est crée pour distribuer les cartes au début de la partie
@@ -61,11 +62,13 @@ public class Partie extends Observable implements Runnable {
 		this.jouer();
 	}
 
-	public void commencer(){
-		this.thread=new Thread(this);
+	public void commencer() {
+		JoueurPhysique j=(JoueurPhysique)this.listeJoueurs.get(0);
+		j.setPartie(this);
+		this.thread = new Thread(this);
 		thread.start();
 	}
-	
+
 	public void lancerDe() {
 		String[] de = { "", "Jour", "Nuit", "Néant" };
 		int num = (int) Math.ceil(3 * Math.random());
@@ -97,6 +100,8 @@ public class Partie extends Observable implements Runnable {
 				}
 			}
 		}
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	// un partie va commencer par appeller cette méthode
@@ -139,17 +144,25 @@ public class Partie extends Observable implements Runnable {
 		this.joueurEncours = this.listeJoueurs.get(numCom);
 		if (!joueurEncours.bot) {
 			System.out.println("\nLe tour de :" + joueurEncours);
+			// Annoncer le joueur Physique
 			JOptionPane.showMessageDialog(null, "A vous de jouer !\nAu début, lancez le dé pour commencer!");
-			Scanner sc = new Scanner(System.in);
-			String str = "";
-			do {
-				System.out.print("Entrez 'L' pour lancer le dé! ");
-				str = sc.nextLine();
-			} while (!str.equals("L"));
+
+			try {
+				this.suspend();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			// Scanner sc = new Scanner(System.in);
+			// String str = "";
+			// do {
+			// System.out.print("Entrez 'L' pour lancer le dé! ");
+			// str = sc.nextLine();
+			// } while (!str.equals("L"));
 			// lancer le dé
 			this.lancerDe();
 			this.joueurEncours.jouer(this);
 		} else {
+			JOptionPane.showMessageDialog(null, this.joueurEncours.getNom() + " a lancé le dé! ");
 			System.out.print(this.joueurEncours.getNom() + " a lancé le dé! ");
 			this.lancerDe();
 			this.joueurEncours.jouer(this);
@@ -169,6 +182,18 @@ public class Partie extends Observable implements Runnable {
 				this.listeJoueurs.get(i).jouer(this);
 			}
 		}
+	}
+
+	public synchronized void suspend() throws InterruptedException {
+		this.waitEntree = true;
+		while (this.waitEntree) {
+			this.wait();
+		}
+	}
+
+	public synchronized void resume() {
+		this.waitEntree = false;
+		this.notifyAll();
 	}
 
 	public void eliminerJoueur(Joueur joueur) {

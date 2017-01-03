@@ -12,7 +12,6 @@ public class JoueurVirtuel extends Joueur {
 	// private Stategie stagie;
 	public JoueurVirtuel(int id, String nom, int age,Stategie stategie) {
 		super(id, nom, age);
-		this.laMain = new LaMain();
 		this.bot = true;
 		this.stategie=stategie;
 	}

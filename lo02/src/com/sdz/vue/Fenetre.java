@@ -35,6 +35,7 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 	private JPanel jpanel;
 	private Controler ctrl;
 	private Partie partie;
+	private PanelJeu panelJeu;
 
 	/**
 	 * Launch the application.
@@ -130,10 +131,9 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 	public void setPanelJeu() {
 		this.getContentPane().removeAll();
 		// this.setBg(new ImageIcon(this.strImagePathTable));
-		System.out.println(this.getWidth());
-		System.out.println(this.getHeight());
-		PanelJeu panelJeu = new PanelJeu(this, this.ctrl);
+		panelJeu = new PanelJeu(this, this.ctrl);
 		this.setContentPane(panelJeu);
+		this.ctrl.setPanelJeu(this.panelJeu);
 		this.repaint();
 		this.validate();
 	}

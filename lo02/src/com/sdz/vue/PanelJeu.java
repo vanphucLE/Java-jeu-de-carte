@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import com.sdz.cartes.CarteAction;
 import com.sdz.controler.Controler;
 import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.JoueurVirtuel;
@@ -35,15 +36,9 @@ public class PanelJeu extends JPanel {
 		this.fenetrePc = fenetrePc;
 		this.setLayout(null);
 
-		// JButton btnAfficherEspaceComun = new JButton("Afficher Espace
-		// Comun");
-		// btnAfficherEspaceComun.setBounds(this.fenetrePc.getWidth()/2-82,
-		// this.fenetrePc.getHeight()/2-25, 165, 25);
-		// add(btnAfficherEspaceComun);
-
 		// joueur physique
 		System.out.println(this.ctr.getPartie().getListeJoueurs());
-		this.panelJP = new PanelJP((JoueurPhysique) this.ctr.getPartie().getListeJoueurs().get(0));
+		this.panelJP = new PanelJP((JoueurPhysique) this.ctr.getPartie().getListeJoueurs().get(0),this.ctr);
 		panelJP.setLocation(268, this.fenetrePc.getHeight() - 310);
 		add(panelJP);
 		this.ctr.getPartie().getListeJoueurs().get(0).addObserver(this.panelJP);
@@ -102,7 +97,7 @@ public class PanelJeu extends JPanel {
 		this.panelLancerDe = new PanelLancerDe(this.ctr);
 		this.panelLancerDe.setLocation(1500, 222);
 		add(this.panelLancerDe);
-		this.ctr.getPartie().addObserver(this.panelLancerDe);
+		this.partie.addObserver(this.panelLancerDe);
 
 		this.panelC = new PanelCarteJouee();
 		this.panelC.setLocation(1500, 359);
@@ -137,6 +132,9 @@ public class PanelJeu extends JPanel {
 
 	}
 
+	public void dessinerPanelCarteJouee(CarteAction carte){
+		this.panelC.dessinerCarteJouee(carte.getId());
+	}
 	public void ajouterVueJVSommet() {
 
 	}

@@ -41,23 +41,13 @@ public class PanelJVCote extends PanelJV {
 		this.setBorder(lineBorder);
 		this.setBackground(Color.GREEN);
 
-		JLabel lblNom = new JLabel("Nom: ");
-		lblNom.setBounds(10, 658, 56, 16);
-		add(lblNom);
+		this.dessinerPtAction();
+		this.dessinerNom();
+		this.dessinerCarteDivinite();
+	}
 
-		JLabel lblPointDaction = new JLabel("PtAction[Jour:    |Nuit:    |Néant:    ]");
-		lblPointDaction.setBounds(10, 687, 190, 16);
-		add(lblPointDaction);
-
-		JButton btnAfficherLesCartes = new JButton("Cartes Guid\u00E9es");
-		btnAfficherLesCartes.setBounds(10, 716, 190, 25);
-		btnAfficherLesCartes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				fenetreGuidee.setVisible(true);
-			}
-		});
-		add(btnAfficherLesCartes);
-
+	@Override
+	public void dessinerCarteDivinite() {
 		JButton button = new JButton("New button");
 		button.setBounds(0, 495, 210, 150);
 		try {
@@ -71,6 +61,31 @@ public class PanelJVCote extends PanelJV {
 			Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		this.dessinerCarteAction();
+	}
+
+	@Override
+	public void dessinerPtAction() {
+		JLabel lblPointDaction = new JLabel("PtAction[Jour:" + this.jV.getPtAction_Jour() + " |Nuit:"
+				+ this.jV.getPtAction_Nuit() + " |Néant:" + this.jV.getPtAction_Neant() + " ]");
+		lblPointDaction.setBounds(10, 687, 190, 16);
+		add(lblPointDaction);
+
+	}
+
+	@Override
+	public void dessinerNom() {
+		JLabel lblNom = new JLabel("Nom: " + this.jV.getNom());
+		lblNom.setBounds(10, 658, 190, 16);
+		add(lblNom);
+
+		JButton btnAfficherLesCartes = new JButton("Cartes Guid\u00E9es");
+		btnAfficherLesCartes.setBounds(10, 716, 190, 25);
+		btnAfficherLesCartes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				fenetreGuidee.setVisible(true);
+			}
+		});
+		add(btnAfficherLesCartes);
 
 	}
 

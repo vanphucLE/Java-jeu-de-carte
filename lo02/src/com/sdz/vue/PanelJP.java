@@ -30,15 +30,17 @@ import com.sdz.modele.JoueurPhysique;
 public class PanelJP extends JPanel implements Observer {
 
 	private JoueurPhysique jP;
-	private Controler ctr;
+	private Controler ctrl;
 	private JFrame fenetreGuidee;
+	private LinkedList<CarteAction> listeCarteChoisi;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelJP(JoueurPhysique jP) {
+	public PanelJP(JoueurPhysique jP, Controler ctrl) {
 		super();
 		this.jP = jP;
+		this.ctrl = ctrl;
 
 		this.fenetreGuidee = new JFrame();
 		this.fenetreGuidee.setTitle("Les cartes Guidée");
@@ -52,22 +54,39 @@ public class PanelJP extends JPanel implements Observer {
 		this.setBorder(lineBorder);
 		this.setBackground(Color.GREEN);
 
-		JLabel lblNom = new JLabel("Nom: ");
-		lblNom.setBounds(243, 7, 56, 16);
+		this.dessinerNom();
+		this.dessinerPtAction();
+		this.dessinerCarteDivinite();
+		this.dessinerCarteAction();
+	}
+
+	public void updateFenetreGuidee() {
+
+	}
+
+	public void dessinerNom() {
+		JLabel lblNom = new JLabel("Nom: " + this.jP.getNom());
+		lblNom.setBounds(310, 7, 257, 16);
 		add(lblNom);
 
-		JLabel lblPointDaction = new JLabel("Point d'Action [Jour:    |Nuit:    |Néant:    ]");
-		lblPointDaction.setBounds(520, 7, 265, 16);
-		add(lblPointDaction);
-
 		JButton btnAfficherLesCartes = new JButton("Cartes Guid\u00E9es");
-		btnAfficherLesCartes.setBounds(856, 3, 193, 25);
+		btnAfficherLesCartes.setBounds(1080, 3, 193, 25);
 		btnAfficherLesCartes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fenetreGuidee.setVisible(true);
 			}
 		});
 		add(btnAfficherLesCartes);
+	}
+
+	public void dessinerPtAction() {
+		JLabel lblPointDaction = new JLabel("PtAction[Jour:" + this.jP.getPtAction_Jour() + " |Nuit:"
+				+ this.jP.getPtAction_Nuit() + " |Néant:" + this.jP.getPtAction_Neant() + " ]");
+		lblPointDaction.setBounds(520, 7, 265, 16);
+		add(lblPointDaction);
+	}
+
+	public void dessinerCarteDivinite() {
 
 		JButton carteDivin = new JButton("Carte Divinité");
 		carteDivin.setBounds(6, 32, 292, 210);
@@ -81,17 +100,24 @@ public class PanelJP extends JPanel implements Observer {
 
 			JLabel lblCarteDivinit = new JLabel("Carte divinit\u00E9");
 			lblCarteDivinit.setHorizontalAlignment(SwingConstants.CENTER);
-			lblCarteDivinit.setBounds(6, 7, 150, 16);
+			lblCarteDivinit.setBounds(87, 7, 150, 16);
 			add(lblCarteDivinit);
+
+			JButton btnFinirDfausserCartes = new JButton("Finir d\u00E9fausser cartes");
+			btnFinirDfausserCartes.setBounds(860, 3, 157, 25);
+			btnFinirDfausserCartes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if (jP.getActionEnTrain().equals("defausser")) {
+						jP.setActionEnTrain("");
+						ctrl.finirDefausser();
+					}
+				}
+			});
+			add(btnFinirDfausserCartes);
 		} catch (IOException ex) {
 			Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		this.dessinerCarteAction();
-		// this.creerVu();
-	}
-
-	public void updateFenetreGuidee() {
-
 	}
 
 	public void dessinerCarteAction() {
@@ -99,13 +125,23 @@ public class PanelJP extends JPanel implements Observer {
 		int indice = 0;
 		for (CarteAction carte : this.jP.getLaMain().getListeCarteA()) {
 			indice++;
-			JButton button = new JButton("New button");
+			JButton button = new JButton();
 			button.setBounds(158 + 152 * indice, 32, 150, 210);
+			
 			try {
 				BufferedImage image = ImageIO.read(new File("cartes/" + carte.getId() + ".PNG"));
 				ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
 				button.setIcon(icon);
-				button.setMargin(new Insets(0, 10, 0, 0));
+				button.setMargin(new Insets(0, 0, 0, 0));
+				button.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (jP.getActionEnTrain().equals("defausser")) {
+							ctrl.defausserCarte(carte);
+						}else if (jP.getActionEnTrain().equals("jouer")) {
+							ctrl.jouerCarte(carte);
+						}
+					}
+				});
 				add(button);
 			} catch (IOException ex) {
 				Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,16 +152,11 @@ public class PanelJP extends JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		this.removeAll();
+		this.dessinerNom();
+		this.dessinerPtAction();
+		this.dessinerCarteDivinite();
 		this.dessinerCarteAction();
 		this.repaint();
-		// this.validate();
+		this.validate();
 	}
-
-//	public static void main(String[] args) {
-//		JFrame j = new JFrame();
-//		j.setSize(j.getMaximumSize());
-//		j.getContentPane().add(new PanelJP());
-//		j.setVisible(true);
-//		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//	}
 }

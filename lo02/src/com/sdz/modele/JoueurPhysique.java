@@ -4,14 +4,16 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.GuideSpirituel;
 
-public class JoueurPhysique extends Joueur{
+public class JoueurPhysique extends Joueur {
+	private Partie partie;
 
 	public JoueurPhysique(String nom, int age) {
 		super(1, nom, age);
-		this.laMain = new LaMain();
 		this.bot = false;
 	}
 
@@ -39,35 +41,26 @@ public class JoueurPhysique extends Joueur{
 				+ ") " + "(Néant: " + this.ptAction_Neant + ")");
 		System.out.println("Les cartes actions tenu dans vôtre main:");
 		System.out.println(this.laMain);
-		Scanner sc = new Scanner(System.in);
-		String commande = "";
-		do {
-			System.out.print("Voulez-vous défausser les cartes ? (Y/N):");
-			commande = sc.nextLine();
-		} while (!commande.equals("Y") && !commande.equals("N"));
-		if (commande.equals("Y")) {
-			String commande2 = "";
-			do {
-				System.out.print("Choisir les Id dont les cartes actions déffausées (Ex: 1 3 5) : ");
-				commande2 = sc.nextLine();
-			} while (!this.testEntrer(commande2, this.laMain.getListeCarteA()));
-			String[] cartesDef = {};
-			cartesDef = commande2.split(" ");
-			LinkedList<CarteAction> cartesRecupere = new LinkedList<CarteAction>();
-			for (String str : cartesDef) {
-				int num = Integer.parseInt(str);
-				// la carte défaussées est recupéré dans le jeu de carte.
-				CarteAction carteA = this.laMain.seDeffausserCarte(num);
-				cartesRecupere.add(carteA);
+
+		int commande = JOptionPane.showConfirmDialog(null, "Voulez-vous défausser les cartes?");
+		if (commande == 0) {
+			this.actionEnTrain = "defausser";
+
+			JOptionPane.showMessageDialog(null, "Choissiez les cartes pour les défausser en les cliquant! ");
+			try {
+				this.partie.suspend();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 
+			JOptionPane.showMessageDialog(null, "Complétez sa main à 7 cartes! ");
 			this.Compeleter7Carte(jeuDeCartes);
-			// jeuDeCartes recupére les cartes action après le joueur compléte 7
-			// cartes.
-			for (CarteAction carte : cartesRecupere) {
-				jeuDeCartes.recupererCarteAction(carte);
-			}
 		}
+	}
+
+	public void notifyLaMain() {
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	@Override
@@ -75,67 +68,40 @@ public class JoueurPhysique extends Joueur{
 		System.out.println(partie.getEspaceCommun());
 		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
 				+ this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")");
-		Boolean continu = true;
-		while ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0 && continu) {
-			Scanner sc = new Scanner(System.in);
-			String commande = "";
-			do {
-				System.out.print("Vous voulez choisir la carte pour jouer (Y/N)? : ");
-				commande = sc.nextLine();
-			} while (!commande.equals("Y") && !commande.equals("N"));
-			if (commande.equals("Y")) {
-				String idChoisi = "";
-				int idChoisirInt = 0;
-				CarteAction carteChoisi;
-				do {
-					do {
-						System.out.print("Choissiez Id dont la carte action pour jouer(Ex: 1): ");
-						idChoisi = sc.nextLine();
-					} while (!this.testEntrer(idChoisi, this.laMain.getListeCarteA()));
-					idChoisirInt = Integer.parseInt(idChoisi);
-					carteChoisi = this.laMain.seDeffausserCarte(idChoisirInt);
-				} while (!testGuideSpirituelEntree(carteChoisi, partie.getEspaceCommun()));
+		Boolean continu = false;
+		if ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) <= 0) {
+			JOptionPane.showMessageDialog(null, "Vous n'avez pas point d'Action pour jouer! ");
+		} else {
+			int commande = JOptionPane.showConfirmDialog(null, "Voulez-vous choisir la carte pour jouer?");
+			if (commande == 0) {
+				continu = true;
+			}
+			while (continu) {
+				JOptionPane.showMessageDialog(null, "Choissiez la carte pour jouer en la cliquant! ");
+				this.actionEnTrain = "jouer";
 
-				System.out.println("Vous avez choisi la carte: " + carteChoisi);
-
-				Boolean test = this.setPtAction(carteChoisi);
-				if (!test) {
-					// Si la choice de joueur n'est pas valide, la main va
-					// récupérer
-					// la carte qui se sont défaussé.
-					this.laMain.completerCarteAction(carteChoisi);
-				} else {
-					switch (carteChoisi.getType()) {
-					case "Croyant":
-						this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
-						break;
-					case "GuideSpirituel":
-						this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
-						break;
-					case "DeusEx":
-						this.jouerDeusEx(partie);
-						break;
-					case "Apocalypse":
-						this.jouerApocalypse(carteChoisi, partie);
-						break;
-					}
+				// On suspend la partie pour attendre le commande du joueur physique
+				try {
+					this.partie.suspend();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
+
+				continu=false;
 				if ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0) {
 					System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | "
 							+ "(Nuit: " + this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
-					commande = "";
-					do {
-						System.out.print("Vous voulez continuer à jouer l'autre cartes (Y/N) ?    ");
-						commande = sc.nextLine();
-					} while (!commande.equals("Y") && !commande.equals("N"));
-					continu = (commande.equals("Y")) ? true : false;
+					int commande2 = JOptionPane.showConfirmDialog(null, "Voulez-vous continuer à jouer la carte pour jouer?");
+					if(commande2==0){
+						continu=true;
+					}
 				}
 			}
 		}
 	}
 
 	// Jouer Carte GuideSpirituel
-	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
+	public void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
 		LinkedList<CarteAction> listeCroyantsGuidee = new LinkedList<CarteAction>();
 		LinkedList<CarteAction> listeCroyants = new LinkedList<CarteAction>();
@@ -181,7 +147,7 @@ public class JoueurPhysique extends Joueur{
 		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
 	}
 
-	private void jouerDeusEx(Partie partie) {
+	public void jouerDeusEx(Partie partie) {
 
 	}
 
@@ -254,7 +220,7 @@ public class JoueurPhysique extends Joueur{
 		Boolean choice = false;
 		int idSacrifice = 0;
 		Joueur joueurEnCours = partie.getJoueurEncours();
-		Boolean continu ;
+		Boolean continu;
 		do {
 			partie.setJoueurEncours(joueurEnCours);
 			do {
@@ -271,7 +237,7 @@ public class JoueurPhysique extends Joueur{
 				}
 			} while (!choice);
 			String commande = "";
-			continu=false;
+			continu = false;
 			if (joueurEnCours.getLaMain().getListeCroyantGuidee().size() > 0 && !partie.getFiniTour()) {
 				do {
 					System.out.print("Vous voulez continuer à sacrifier l'autre cartes (Y/N) ?    ");
@@ -292,40 +258,6 @@ public class JoueurPhysique extends Joueur{
 		}
 	}
 
-	// on utilise cette méthode pour mettre à jour le point d'action de joueur
-	// après qu'il a choisi une carte pour jouer.
-	private Boolean setPtAction(CarteAction carte) {
-		if (carte.getOrigine() != "") {
-			if (carte.getOrigine().equals("Jour")) {
-				if (this.ptAction_Jour == 0) {
-					System.out.println("Eurreur en choissant!!");
-					return false;
-				} else {
-					this.ptAction_Jour--;
-				}
-			} else if (carte.getOrigine().equals("Nuit")) {
-				if (this.ptAction_Nuit == 0) {
-					System.out.println("Eurreur en choissant!!");
-					return false;
-				} else {
-					this.ptAction_Nuit--;
-				}
-			} else if (carte.getOrigine().equals("Néant")) {
-				if (this.ptAction_Neant > 0) {
-					this.ptAction_Neant--;
-				} else if (this.ptAction_Jour >= 2) {
-					this.ptAction_Jour -= 2;
-				} else if (this.ptAction_Nuit >= 2) {
-					this.ptAction_Nuit -= 2;
-				} else {
-					System.out.println("Eurreur en choissant!!");
-					return false;
-				}
-			}
-
-		}
-		return true;
-	}
 
 	// convertir et tester valeur entrée
 	private LinkedList<Integer> convertIdsEntree(String str) {
@@ -397,6 +329,14 @@ public class JoueurPhysique extends Joueur{
 		} else {
 			return true;
 		}
+	}
+
+	public Partie getPartie() {
+		return partie;
+	}
+
+	public void setPartie(Partie partie) {
+		this.partie = partie;
 	}
 
 }
