@@ -31,6 +31,7 @@ public class Joueur extends Observable {
 		this.age = age;
 		this.actionEnTrain = "";
 		this.laMain = new LaMain(this);
+		this.ptPriere=0;
 	}
 
 	public void completerCarteAction(CarteAction carte) {

@@ -68,6 +68,10 @@ public class PanelJVFace extends PanelJV {
 				+ this.jV.getPtAction_Nuit() + " |Néant:" + this.jV.getPtAction_Neant() + " ]");
 		lblPointDaction.setBounds(202, 181, 250, 16);
 		add(lblPointDaction);
+		
+		JLabel lblPointPriere = new JLabel("PtPrière: "+this.jV.getPtPriere());
+		lblPointPriere.setBounds(410, 181, 100, 16);
+		add(lblPointPriere);
 
 	}
 
@@ -107,13 +111,4 @@ public class PanelJVFace extends PanelJV {
 			}
 		}
 	}
-	// public static void main(String[] args) {
-	// JFrame j = new JFrame();
-	// j.setSize(j.getMaximumSize());
-	// j.setResizable(false);
-	// j.getContentPane().add(new PanelJVFace());
-	// j.setVisible(true);
-	//
-	// }
-
 }

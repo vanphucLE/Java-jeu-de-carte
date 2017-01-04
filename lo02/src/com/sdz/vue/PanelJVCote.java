@@ -30,7 +30,7 @@ public class PanelJVCote extends PanelJV {
 		// this.jP = jP;
 
 		this.setLayout(null);
-		this.setSize(208, 757);
+		this.setSize(208, 777);
 		Border lineBorder = BorderFactory.createLineBorder(Color.blue);
 		this.setBorder(lineBorder);
 		this.setBackground(Color.GREEN);
@@ -63,6 +63,11 @@ public class PanelJVCote extends PanelJV {
 				+ this.jV.getPtAction_Nuit() + " |Néant:" + this.jV.getPtAction_Neant() + " ]");
 		lblPointDaction.setBounds(10, 687, 190, 16);
 		add(lblPointDaction);
+		
+		JLabel lblPointPriere = new JLabel("PtPrière: "+this.jV.getPtPriere());
+		lblPointPriere.setBounds(10, 705, 190, 16);
+		add(lblPointPriere);
+
 
 	}
 
@@ -73,7 +78,7 @@ public class PanelJVCote extends PanelJV {
 		add(lblNom);
 
 		JButton btnAfficherLesCartes = new JButton("Cartes Guid\u00E9es");
-		btnAfficherLesCartes.setBounds(10, 716, 190, 25);
+		btnAfficherLesCartes.setBounds(10, 735, 190, 25);
 		btnAfficherLesCartes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fenetreGuidee.setVisible(true);

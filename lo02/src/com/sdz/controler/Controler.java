@@ -36,6 +36,7 @@ public class Controler {
 			switch (carte.getType()) {
 			case "Croyant":
 				this.jP.jouerCroyant(carte, partie.getEspaceCommun());
+				this.jP.setActionEnTrain("");
 				this.partie.resume();
 				break;
 			case "GuideSpirituel":

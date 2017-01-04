@@ -29,7 +29,7 @@ public class JoueurPhysique extends Joueur {
 		}
 		while (continu) {
 			JOptionPane.showMessageDialog(null, "Choissiez la carte pour la sacifier! ");
-			this.actionEnTrain="sacrifier";
+			this.actionEnTrain = "sacrifier";
 			try {
 				this.partie.suspend();
 			} catch (InterruptedException e) {
@@ -197,9 +197,11 @@ public class JoueurPhysique extends Joueur {
 	public void jouerApocalypse(CarteAction carte, Partie partie) {
 		//
 		if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1) {
+			JOptionPane.showMessageDialog(null, "Vous ne pouvez pas jouer la carte Apocalypse en ce tour! ");
 			System.out.println("Vous ne pouvez pas jouer la carte Apocalypse en ce tour");
-			this.laMain.completerCarteAction(carte);
 		} else {
+			this.laMain.seDeffausserCarte(carte);
+			this.partie.getJeuDeCartes().recupererCarteAction(carte);
 			partie.setEstApocalypseAvant(-1);
 			int[] arPriere = new int[partie.getListeJoueurs().size()];
 			int indice = -1;
@@ -221,6 +223,8 @@ public class JoueurPhysique extends Joueur {
 				if (arPriere[indice] == arPriere[indice - 1]) {
 					System.out.println(
 							"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé.");
+					JOptionPane.showMessageDialog(null,
+							"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé!");
 				} else {
 					for (Joueur j : partie.getListeJoueurs()) {
 						if (j.getPtPriere() == arPriere[indice]) {
@@ -233,6 +237,8 @@ public class JoueurPhysique extends Joueur {
 				if (arPriere[0] == arPriere[1]) {
 					System.out.println(
 							"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé.");
+					JOptionPane.showMessageDialog(null,
+							"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé!");
 				} else {
 					for (Joueur j : partie.getListeJoueurs()) {
 						if (j.getPtPriere() == arPriere[0]) {

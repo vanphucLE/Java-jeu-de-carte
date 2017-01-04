@@ -76,6 +76,8 @@ public class PanelJP extends JPanel implements Observer {
 			}
 		});
 		add(btnAfficherLesCartes);
+		
+		
 	}
 
 	public void dessinerPtAction() {
@@ -83,6 +85,10 @@ public class PanelJP extends JPanel implements Observer {
 				+ this.jP.getPtAction_Nuit() + " |Néant:" + this.jP.getPtAction_Neant() + " ]");
 		lblPointDaction.setBounds(520, 7, 265, 16);
 		add(lblPointDaction);
+		
+		JLabel lblPtprire = new JLabel("PtPri\u1EBBre: "+this.jP.getPtPriere());
+		lblPtprire.setBounds(744, 7, 78, 16);
+		add(lblPtprire);
 	}
 
 	public void dessinerCarteDivinite() {
