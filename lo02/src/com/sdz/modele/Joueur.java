@@ -27,7 +27,7 @@ public class Joueur extends Observable {
 		this.id = id;
 		this.nom = nom;
 		this.age = age;
-		this.actionEnTrain="";
+		this.actionEnTrain = "";
 		this.laMain = new LaMain(this);
 	}
 
@@ -150,6 +150,13 @@ public class Joueur extends Observable {
 
 	}
 
+	// un fois que les cartes dans la main sont changées, la main va appeler
+	// cette méthode pour notify observateur
+	public void notifyLaMain() {
+		this.setChanged();
+		this.notifyObservers();
+	}
+
 	// Le joueur compléte 7 cartes dans la main
 	public void Compeleter7Carte(JeuDeCartes jeuDeCartes) {
 		int compte = this.laMain.getListeCarteA().size();
@@ -160,10 +167,6 @@ public class Joueur extends Observable {
 		}
 		System.out.println("Vous avez complété 7 Cartes. Maintenant, les cartes sont: ");
 		System.out.println(this.laMain);
-		if (!this.estBot()) {
-			this.setChanged();
-			this.notifyObservers();
-		}
 	}
 
 	// Choisir carte pour jouer
@@ -184,6 +187,7 @@ public class Joueur extends Observable {
 
 	public void jouerCroyant(CarteAction carte, EspaceCommun espaceCommun) {
 		System.out.println("Cette carte est transmis à l'espace commun!");
+		this.laMain.seDeffausserCarte(carte);
 		espaceCommun.ajouterCarte((Croyant) carte);
 	}
 

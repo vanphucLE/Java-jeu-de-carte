@@ -58,11 +58,6 @@ public class JoueurPhysique extends Joueur {
 		}
 	}
 
-	public void notifyLaMain() {
-		this.setChanged();
-		this.notifyObservers();
-	}
-
 	@Override
 	public void choisirCarte(Partie partie) {
 		System.out.println(partie.getEspaceCommun());
@@ -80,71 +75,95 @@ public class JoueurPhysique extends Joueur {
 				JOptionPane.showMessageDialog(null, "Choissiez la carte pour jouer en la cliquant! ");
 				this.actionEnTrain = "jouer";
 
-				// On suspend la partie pour attendre le commande du joueur physique
+				// On suspend la partie pour attendre le commande du joueur
+				// physique
 				try {
 					this.partie.suspend();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 
-				continu=false;
+				continu = false;
 				if ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0) {
 					System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | "
 							+ "(Nuit: " + this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
-					int commande2 = JOptionPane.showConfirmDialog(null, "Voulez-vous continuer à jouer la carte pour jouer?");
-					if(commande2==0){
-						continu=true;
+					int commande2 = JOptionPane.showConfirmDialog(null,
+							"Voulez-vous continuer à jouer la carte pour jouer?");
+					if (commande2 == 0) {
+						continu = true;
 					}
 				}
 			}
 		}
 	}
 
-	// Jouer Carte GuideSpirituel
-	public void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
-		GuideSpirituel carteG = (GuideSpirituel) carte;
-		LinkedList<CarteAction> listeCroyantsGuidee = new LinkedList<CarteAction>();
+	public LinkedList<CarteAction> croyantsPeutEtreGuidee() {
 		LinkedList<CarteAction> listeCroyants = new LinkedList<CarteAction>();
-
+		EspaceCommun espaceCommun = this.partie.getEspaceCommun();
 		for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
 			Boolean test = false;
 			for (String dogmeA : carteA.getDogme()) {
-				for (String dogmeD : carteG.getDogme()) {
+				for (String dogmeD : this.carteG.getDogme()) {
 					if (dogmeD.equals(dogmeA)) {
 						test = true;
 						break;
 					}
 				}
+				if (test)
+					break;
 			}
-			if (test == true) {
+			if (test) {
 				listeCroyants.add(carteA);
 			}
 		}
+		return listeCroyants;
+	}
 
-		Scanner sc = new Scanner(System.in);
-		String commande = "";
-		LinkedList<Integer> idCartesGuidee;
-		do {
-			do {
-				System.out.print("Vous pouvez guider " + carteG.getNbGuider()
-						+ " carte(s) croyant(s). Choisir les Id dont la carte croyants dans l'espace commun pour guider suivant(Ex: 1 2): ");
-				for (CarteAction carteA : listeCroyants) {
-					System.out.println("  +" + carteA);
-				}
-				commande = sc.nextLine();
-			} while (!this.testEntrer(commande, listeCroyants));
-			idCartesGuidee = this.convertIdsEntree(commande);
-			if (idCartesGuidee.size() <= carteG.getNbGuider()) {
-				System.out.print("Vous ne pouvez guider que " + carteG.getNbGuider() + " carte(s) croyant(s)");
+	private GuideSpirituel carteG;
+	private int nbGuider;
+	private LinkedList<CarteAction> listeCroyantsGuidee;
+
+	// Jouer Carte GuideSpirituel
+	public void jouerGuideSpirituel(CarteAction carte) {
+		EspaceCommun espaceCommun = this.partie.getEspaceCommun();
+		this.laMain.seDeffausserCarte(carte);
+
+		this.carteG = (GuideSpirituel) carte;
+		this.nbGuider = this.carteG.getNbGuider();
+		this.listeCroyantsGuidee = new LinkedList<CarteAction>();
+		LinkedList<CarteAction> listeCroyants = new LinkedList<CarteAction>();
+
+		// On trouve la liste des cartes Croyants qui peuvent être guidées
+		listeCroyants = this.croyantsPeutEtreGuidee();
+
+		if (listeCroyants.size() == 0) {
+			JOptionPane.showMessageDialog(null,
+					"Il n'y a aucun carte croyant que cette carte peut guider!\n .Cette carte est alors défaussée! ");
+			// Cette carte va être récupérée par le jeu de carte
+			this.partie.getJeuDeCartes().recupererCarteAction(carte);
+		} else {
+			JOptionPane.showMessageDialog(null, "Vous pouvez faire guider " + carteG.getNbGuider()
+					+ " carte(s) Croyant(s).\nChoissiez la carte croyant pour la guider en la cliquant! ");
+			this.actionEnTrain = "guider";
+			try {
+				this.partie.suspend();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-		} while (idCartesGuidee.size() > carteG.getNbGuider());
-		for (int elem : idCartesGuidee) {
-			CarteAction carteA = espaceCommun.supprimerCarte(elem);
-			carteA.setEstSacrifie(true);
-			listeCroyantsGuidee.add(carteA);
+
+			this.carteG.setEstSacrifie(true);
+			this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
 		}
-		carteG.setEstSacrifie(true);
-		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
+	}
+
+	public int getNbGuider() {
+		return nbGuider;
+	}
+
+	public void ajouterCroyantGuidee(CarteAction carte) {
+		this.laMain.seDeffausserCarte(carte);
+		this.listeCroyantsGuidee.add(carte);
+		this.nbGuider--;
 	}
 
 	public void jouerDeusEx(Partie partie) {
@@ -257,7 +276,6 @@ public class JoueurPhysique extends Joueur {
 			this.sacrifierCroyant(idSacrifice, partie);
 		}
 	}
-
 
 	// convertir et tester valeur entrée
 	private LinkedList<Integer> convertIdsEntree(String str) {

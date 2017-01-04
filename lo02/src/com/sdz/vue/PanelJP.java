@@ -17,7 +17,6 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -25,13 +24,14 @@ import javax.swing.border.Border;
 
 import com.sdz.cartes.CarteAction;
 import com.sdz.controler.Controler;
+import com.sdz.modele.Joueur;
 import com.sdz.modele.JoueurPhysique;
 
 public class PanelJP extends JPanel implements Observer {
 
 	private JoueurPhysique jP;
 	private Controler ctrl;
-	private JFrame fenetreGuidee;
+	private FenetreGuidee fenetreGuidee;
 	private LinkedList<CarteAction> listeCarteChoisi;
 
 	/**
@@ -42,12 +42,10 @@ public class PanelJP extends JPanel implements Observer {
 		this.jP = jP;
 		this.ctrl = ctrl;
 
-		this.fenetreGuidee = new JFrame();
-		this.fenetreGuidee.setTitle("Les cartes Guidée");
-		this.fenetreGuidee.setSize(1580, 700);
-		this.fenetreGuidee.setResizable(false);
-		this.fenetreGuidee.setLocation(200, 50);
-
+		Joueur j=this.jP;
+		this.fenetreGuidee = new FenetreGuidee(j);
+		this.jP.addObserver(this.fenetreGuidee);
+		
 		this.setLayout(null);
 		this.setSize(1390, 247);
 		Border lineBorder = BorderFactory.createLineBorder(Color.blue);
@@ -70,7 +68,7 @@ public class PanelJP extends JPanel implements Observer {
 		add(lblNom);
 
 		JButton btnAfficherLesCartes = new JButton("Cartes Guid\u00E9es");
-		btnAfficherLesCartes.setBounds(1080, 3, 193, 25);
+		btnAfficherLesCartes.setBounds(1157, 3, 193, 25);
 		btnAfficherLesCartes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fenetreGuidee.setVisible(true);
@@ -103,17 +101,18 @@ public class PanelJP extends JPanel implements Observer {
 			lblCarteDivinit.setBounds(87, 7, 150, 16);
 			add(lblCarteDivinit);
 
-			JButton btnFinirDfausserCartes = new JButton("Finir d\u00E9fausser cartes");
-			btnFinirDfausserCartes.setBounds(860, 3, 157, 25);
+			JButton btnFinirDfausserCartes = new JButton("Finir mes choices");
+			btnFinirDfausserCartes.setBounds(909, 3, 169, 25);
 			btnFinirDfausserCartes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if (jP.getActionEnTrain().equals("defausser")) {
+					if (jP.getActionEnTrain().equals("defausser") || jP.getActionEnTrain().equals("guider")) {
 						jP.setActionEnTrain("");
-						ctrl.finirDefausser();
+						ctrl.finir();
 					}
 				}
 			});
 			add(btnFinirDfausserCartes);
+
 		} catch (IOException ex) {
 			Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -127,7 +126,7 @@ public class PanelJP extends JPanel implements Observer {
 			indice++;
 			JButton button = new JButton();
 			button.setBounds(158 + 152 * indice, 32, 150, 210);
-			
+
 			try {
 				BufferedImage image = ImageIO.read(new File("cartes/" + carte.getId() + ".PNG"));
 				ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
@@ -137,8 +136,10 @@ public class PanelJP extends JPanel implements Observer {
 					public void actionPerformed(ActionEvent e) {
 						if (jP.getActionEnTrain().equals("defausser")) {
 							ctrl.defausserCarte(carte);
-						}else if (jP.getActionEnTrain().equals("jouer")) {
+						} else if (jP.getActionEnTrain().equals("jouer")) {
 							ctrl.jouerCarte(carte);
+						} else if (jP.getActionEnTrain().equals("guider")) {
+							ctrl.guiderCroyant(carte);
 						}
 					}
 				});

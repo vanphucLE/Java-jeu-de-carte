@@ -1,5 +1,7 @@
 package com.sdz.controler;
 
+import java.util.LinkedList;
+
 import javax.swing.JOptionPane;
 
 import com.sdz.cartes.CarteAction;
@@ -22,17 +24,18 @@ public class Controler {
 		this.partie.getJeuDeCartes().recupererCarteAction(carte);
 	}
 
-	public void finirDefausser() {
+	public void finir() {
 		this.partie.resume();
 	}
 
 	public void jouerCarte(CarteAction carte) {
 		Boolean valid = this.setPtAction(carte);
+		this.jP.setActionEnTrain("");
 		if (valid) {
 			this.panelJeu.dessinerPanelCarteJouee(carte);
-			try{
+			try {
 				Thread.sleep(1000);
-			}catch(InterruptedException e){
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			switch (carte.getType()) {
@@ -40,7 +43,7 @@ public class Controler {
 				this.jP.jouerCroyant(carte, partie.getEspaceCommun());
 				break;
 			case "GuideSpirituel":
-				this.jP.jouerGuideSpirituel(carte, partie.getEspaceCommun());
+				this.jP.jouerGuideSpirituel(carte);
 				break;
 			case "DeusEx":
 				this.jP.jouerDeusEx(partie);
@@ -91,6 +94,26 @@ public class Controler {
 		}
 		return true;
 	}
+
+	public void guiderCroyant(CarteAction carte) {
+		if (this.jP.getNbGuider() > 0) {
+			if (!carte.getType().equals("Croyant")) {
+				JOptionPane.showMessageDialog(null, "Cette carte n'est pas carte Croyant!\nChoissiez l'autre carte!");
+			} else {
+				LinkedList<CarteAction> listeCroyants = this.jP.croyantsPeutEtreGuidee();
+				if (listeCroyants.indexOf(carte) == -1) {
+					JOptionPane.showMessageDialog(null,
+							"Vous ne pouvez pas faire guider cette Carte Croyant!\nChoissiez l'autre carte!");
+				}else{
+					this.jP.ajouterCroyantGuidee(carte);
+				}
+			}
+		}else{
+			JOptionPane.showMessageDialog(null, "Vous ne pouvez faire guider la carte Croyant plus!\nCliquez button - Finir mes choices!");
+			this.jP.setActionEnTrain("");
+		}
+	}
+	
 
 	public void lancerDe() {
 		this.partie.resume();

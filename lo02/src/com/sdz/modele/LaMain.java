@@ -74,6 +74,7 @@ public class LaMain {
 	// de la main
 	public void seDeffausserCarte(CarteAction carte) {
 		this.listeCarteA.remove(carte);
+		this.j.notifyLaMain();
 	}
 
 	// un fois que la carte est jouée, il est supprimée de la main
@@ -89,15 +90,13 @@ public class LaMain {
 			}
 			position++;
 		}
-		if (!this.j.estBot()) {
-			JoueurPhysique jP = (JoueurPhysique) this.j;
-			jP.notifyLaMain();
-		}
+		this.j.notifyLaMain();
 		return carteReturn;
 	}
 
 	public void completerCarteAction(CarteAction carte) {
 		this.listeCarteA.add(carte);
+		this.j.notifyLaMain();
 	}
 
 	public String toString() {
