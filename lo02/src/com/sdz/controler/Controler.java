@@ -33,14 +33,10 @@ public class Controler {
 		this.jP.setActionEnTrain("");
 		if (valid) {
 			this.panelJeu.dessinerPanelCarteJouee(carte);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 			switch (carte.getType()) {
 			case "Croyant":
 				this.jP.jouerCroyant(carte, partie.getEspaceCommun());
+				this.partie.resume();
 				break;
 			case "GuideSpirituel":
 				this.jP.jouerGuideSpirituel(carte);
@@ -52,8 +48,9 @@ public class Controler {
 				this.jP.jouerApocalypse(carte, partie);
 				break;
 			}
+		} else {
+			this.partie.resume();
 		}
-		this.partie.resume();
 	}
 
 	// on utilise cette méthode pour mettre à jour le point d'action de joueur
@@ -97,23 +94,33 @@ public class Controler {
 
 	public void guiderCroyant(CarteAction carte) {
 		if (this.jP.getNbGuider() > 0) {
-			if (!carte.getType().equals("Croyant")) {
-				JOptionPane.showMessageDialog(null, "Cette carte n'est pas carte Croyant!\nChoissiez l'autre carte!");
+			LinkedList<CarteAction> listeCroyants = this.jP.croyantsPeutEtreGuidee();
+			if (listeCroyants.indexOf(carte) == -1) {
+				JOptionPane.showMessageDialog(null,
+						"Vous ne pouvez pas faire guider cette Carte Croyant!\nChoissiez l'autre carte!");
 			} else {
-				LinkedList<CarteAction> listeCroyants = this.jP.croyantsPeutEtreGuidee();
-				if (listeCroyants.indexOf(carte) == -1) {
-					JOptionPane.showMessageDialog(null,
-							"Vous ne pouvez pas faire guider cette Carte Croyant!\nChoissiez l'autre carte!");
-				}else{
-					this.jP.ajouterCroyantGuidee(carte);
-				}
+				this.jP.ajouterCroyantGuidee(carte);
 			}
-		}else{
-			JOptionPane.showMessageDialog(null, "Vous ne pouvez faire guider la carte Croyant plus!\nCliquez button - Finir mes choices!");
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"Vous ne pouvez faire guider la carte Croyant plus!\nCliquez button - Finir mes choices!");
 			this.jP.setActionEnTrain("");
 		}
 	}
+
+	// quand on fini de choisir carte croyant guidées, on va ajouter les cartes
+	// à la main
+	public void ajouterGuidee() {
+		this.jP.ajouterGuidee();
+		this.jP.setActionEnTrain("");
+		this.partie.resume();
+	}
 	
+	public void sacrifier(CarteAction carte){
+		//Do something
+		
+		this.partie.resume();
+	}
 
 	public void lancerDe() {
 		this.partie.resume();

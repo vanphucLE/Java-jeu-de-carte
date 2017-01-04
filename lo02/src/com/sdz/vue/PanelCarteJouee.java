@@ -1,7 +1,6 @@
 package com.sdz.vue;
 
 import java.awt.Color;
-import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,19 +10,20 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+
+import com.sdz.cartes.CarteAction;
 
 public class PanelCarteJouee extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	private JButton button; 
+	private JLabel lblCarte;
+
 	public PanelCarteJouee() {
 		this.setLayout(null);
 		this.setSize(200, 409);
@@ -37,27 +37,34 @@ public class PanelCarteJouee extends JPanel {
 		add(lblCarteJouee);
 	}
 
-	public void dessinerCarteJouee(int idCarte) {
-		this.button = new JButton();
-		button.setBounds(5, 56, 190, 272);
+	public void supprimer() {
+		this.removeAll();
+		Border lineBorder = BorderFactory.createLineBorder(Color.blue);
+		JLabel lblCarteJouee = new JLabel("Carte Jou\u00E9e");
+		lblCarteJouee.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCarteJouee.setBounds(0, 0, 200, 29);
+		lblCarteJouee.setBorder(lineBorder);
+		add(lblCarteJouee);
+	}
+
+	public void dessinerCarteJouee(CarteAction carte, String nomJ) {
+		this.supprimer();
+		JLabel lblJoueur = new JLabel("Joueur: " + nomJ);
+		lblJoueur.setBounds(10, 42, 178, 16);
+		add(lblJoueur);
+
+		this.lblCarte = new JLabel("");
+		lblCarte.setBounds(5, 72, 190, 272);
 		try {
-			BufferedImage image = ImageIO.read(new File("cartes/" + idCarte + ".PNG"));
+			System.out.println(carte);
+			BufferedImage image = ImageIO.read(new File("cartes/" + carte.getId() + ".PNG"));
 			ImageIcon icon = new ImageIcon(image.getScaledInstance(190, 272, image.SCALE_SMOOTH));
-			button.setIcon(icon);
-			button.setMargin(new Insets(0, 0, 0, 0));
-			add(button);
+			lblCarte.setIcon(icon);
+			add(lblCarte);
 		} catch (IOException ex) {
 			Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		this.repaint();
 		this.validate();
-	}
-
-	public static void main(String[] args) {
-		JFrame j = new JFrame();
-		j.setSize(j.getMaximumSize());
-		j.getContentPane().add(new PanelCarteJouee());
-		j.setVisible(true);
-		j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

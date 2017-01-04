@@ -5,8 +5,10 @@ import java.util.Observable;
 
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.Croyant;
+import com.sdz.vue.PanelJeu;
 
 public class Joueur extends Observable {
+	protected PanelJeu panelJeu;
 	protected int id;
 	protected String nom;
 	protected int age;
@@ -158,7 +160,7 @@ public class Joueur extends Observable {
 	}
 
 	// Le joueur compléte 7 cartes dans la main
-	public void Compeleter7Carte(JeuDeCartes jeuDeCartes) {
+	public void compeleter7Carte(JeuDeCartes jeuDeCartes) {
 		int compte = this.laMain.getListeCarteA().size();
 		while (compte < 7) {
 			compte++;
@@ -167,6 +169,8 @@ public class Joueur extends Observable {
 		}
 		System.out.println("Vous avez complété 7 Cartes. Maintenant, les cartes sont: ");
 		System.out.println(this.laMain);
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	// Choisir carte pour jouer
@@ -188,7 +192,7 @@ public class Joueur extends Observable {
 	public void jouerCroyant(CarteAction carte, EspaceCommun espaceCommun) {
 		System.out.println("Cette carte est transmis à l'espace commun!");
 		this.laMain.seDeffausserCarte(carte);
-		espaceCommun.ajouterCarte((Croyant) carte);
+		espaceCommun.ajouterCarte(carte);
 	}
 
 	public void jouerApocalypse(CarteAction carte, Partie partie) {

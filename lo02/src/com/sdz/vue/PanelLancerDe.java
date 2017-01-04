@@ -73,10 +73,12 @@ public class PanelLancerDe extends JPanel implements Observer {
 			this.setBgLabel("images/Nuit.png");
 		} else if (this.faceDe.equals("Néant")) {
 			this.setBgLabel("images/Neant.png");
+		} else if (this.faceDe.equals("3face")) {
+			this.setBgLabel("images/de.png");
 		}
-		try{
-			Thread.sleep(2000);
-		}catch(InterruptedException e){
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		this.repaint();

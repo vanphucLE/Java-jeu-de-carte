@@ -3,19 +3,22 @@ package com.sdz.modele;
 import java.util.LinkedList;
 
 import com.sdz.cartes.CarteAction;
-import com.sdz.cartes.Croyant;
 import com.sdz.cartes.GuideSpirituel;
+import com.sdz.vue.PanelJeu;
 
 public class JoueurVirtuel extends Joueur {
 	Stategie stategie;
-	
+
 	// private Stategie stagie;
-	public JoueurVirtuel(int id, String nom, int age,Stategie stategie) {
+	public JoueurVirtuel(int id, String nom, int age, Stategie stategie) {
 		super(id, nom, age);
 		this.bot = true;
-		this.stategie=stategie;
+		this.stategie = stategie;
 	}
 
+	public void setPanelJeu(PanelJeu panelJeu){
+		this.panelJeu=panelJeu;
+	}
 	@Override
 	public void jouer(Partie partie) {
 		System.out.println("Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit + ") "
@@ -29,20 +32,20 @@ public class JoueurVirtuel extends Joueur {
 
 	@Override
 	public void seDefausserCartesEtCompleter(Partie partie) {
-		JeuDeCartes jeuDeCartes=partie.getJeuDeCartes();
+		JeuDeCartes jeuDeCartes = partie.getJeuDeCartes();
 		// Choisir au hasard le nombre de carte défaussée.
 		System.out.println("Les cartes actions tenu dans sa main:");
 		System.out.println(this.laMain);
-		
+
 		LinkedList<Integer> ids = new LinkedList<Integer>();
-		LinkedList<CarteAction> cartesRecupere =stategie.choisirCartesDefausser(partie);
-		for (CarteAction carteA: cartesRecupere) {
+		LinkedList<CarteAction> cartesRecupere = stategie.choisirCartesDefausser(partie);
+		for (CarteAction carteA : cartesRecupere) {
 			ids.add(carteA.getId());
 		}
 		System.out.println("Il a défaussé les cartes qui ont les Id en : " + ids);
 		// jeuDeCartes recupére les cartes action après le joueur compléte 7
 		// cartes.
-		this.Compeleter7Carte(jeuDeCartes);
+		this.compeleter7Carte(jeuDeCartes);
 		for (CarteAction carte : cartesRecupere) {
 			jeuDeCartes.recupererCarteAction(carte);
 		}
@@ -74,13 +77,18 @@ public class JoueurVirtuel extends Joueur {
 					this.ptAction_Jour -= 2;
 				}
 			}
-			if (carteChoisi.estEgal(carteA)) {
+			if (carteChoisi.equals(carteA)) {
 				break;
 			}
 		}
 		if (carteChoisi.getId() != 0) {
 			System.out.println(this.nom + " a joué la carte: " + carteChoisi);
+			this.panelJeu.dessinerPanelCarteJouee(carteChoisi);
+		}else{
+			this.panelJeu.supprimmerCarteJouee();
 		}
+		
+		
 		switch (carteChoisi.getType()) {
 		case "Croyant":
 			this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
@@ -150,7 +158,7 @@ public class JoueurVirtuel extends Joueur {
 	private void jouerDeusEx(Partie partie) {
 
 	}
-	
+
 	@Override
 	public void jouerApocalypse(CarteAction carte, Partie partie) {
 		partie.setEstApocalypseAvant(-1);
@@ -199,10 +207,11 @@ public class JoueurVirtuel extends Joueur {
 
 	@Override
 	public void sacrifierCarte(Partie partie) {
-		if(this.laMain.getListeCroyantGuidee().size()>0){
+		if (this.laMain.getListeCroyantGuidee().size() > 0) {
 			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), partie);
 		}
 	}
+
 	public LaMain getLaMain() {
 		return laMain;
 	}
@@ -214,5 +223,5 @@ public class JoueurVirtuel extends Joueur {
 	public Stategie getStategie() {
 		return stategie;
 	}
-	
+
 }

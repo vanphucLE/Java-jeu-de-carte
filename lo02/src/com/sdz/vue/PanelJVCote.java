@@ -23,17 +23,11 @@ import com.sdz.modele.JoueurVirtuel;
 
 public class PanelJVCote extends PanelJV {
 	private JoueurVirtuel jVT;
-	private JFrame fenetreGuidee;
+	
 
 	public PanelJVCote(JoueurVirtuel jV) {
 		super(jV);
 		// this.jP = jP;
-
-		this.fenetreGuidee = new JFrame();
-		this.fenetreGuidee.setTitle("Les cartes Guidée");
-		this.fenetreGuidee.setSize(1, 700);
-		this.fenetreGuidee.setResizable(false);
-		this.fenetreGuidee.setLocation(200, 50);
 
 		this.setLayout(null);
 		this.setSize(208, 757);
@@ -43,7 +37,7 @@ public class PanelJVCote extends PanelJV {
 
 		this.dessinerPtAction();
 		this.dessinerNom();
-		this.dessinerCarteDivinite();
+//		this.dessinerCarteDivinite();
 	}
 
 	@Override

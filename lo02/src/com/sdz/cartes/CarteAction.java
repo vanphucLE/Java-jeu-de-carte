@@ -8,14 +8,6 @@ public class CarteAction extends Carte {
 	
 	}
 
-	public Boolean estEgal(CarteAction CarteCompa) {
-		if (this.id == CarteCompa.id) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public void effectuerCapaciteSpecial(Partie partie){
 		
 	};

@@ -24,6 +24,8 @@ public class vidu {
 		int commande = JOptionPane.showConfirmDialog(null, "kafkjanf");
 		System.out.println(commande);
 		
-		
+		for (int i = 1; i <= 37; i++) {
+			System.out.println(i);
+		}
 	}
 }

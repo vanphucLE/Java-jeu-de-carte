@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import com.sdz.controler.Controler;
+import com.sdz.modele.Joueur;
+import com.sdz.modele.JoueurVirtuel;
 import com.sdz.modele.Partie;
 
 public class Fenetre extends JFrame implements Observer, Runnable {
@@ -136,6 +138,12 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 		this.ctrl.setPanelJeu(this.panelJeu);
 		this.repaint();
 		this.validate();
+		for(Joueur j:this.partie.getListeJoueurs()){
+			if(j.estBot()){
+				JoueurVirtuel jV=(JoueurVirtuel)j;
+				jV.setPanelJeu(panelJeu);
+			}
+		}
 	}
 
 	public void setBg(ImageIcon bg) {

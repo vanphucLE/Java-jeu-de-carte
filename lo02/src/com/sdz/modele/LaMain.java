@@ -40,6 +40,7 @@ public class LaMain {
 	public void ajouterGuidee(LinkedList<CarteAction> listeCroyant, GuideSpirituel guideSpirituel) {
 		this.listeCroyantGuidee.add(listeCroyant);
 		this.listeGuideSpirituelGuider.add(guideSpirituel);
+		this.j.notifyLaMain();
 	}
 
 	public CarteDivinite getCarteDivinite() {
@@ -96,7 +97,6 @@ public class LaMain {
 
 	public void completerCarteAction(CarteAction carte) {
 		this.listeCarteA.add(carte);
-		this.j.notifyLaMain();
 	}
 
 	public String toString() {

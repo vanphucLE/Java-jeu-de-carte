@@ -44,6 +44,7 @@ public class PanelJP extends JPanel implements Observer {
 
 		Joueur j=this.jP;
 		this.fenetreGuidee = new FenetreGuidee(j);
+		this.fenetreGuidee.setControler(this.ctrl);
 		this.jP.addObserver(this.fenetreGuidee);
 		
 		this.setLayout(null);
@@ -54,8 +55,8 @@ public class PanelJP extends JPanel implements Observer {
 
 		this.dessinerNom();
 		this.dessinerPtAction();
-		this.dessinerCarteDivinite();
-		this.dessinerCarteAction();
+//		this.dessinerCarteDivinite();
+//		this.dessinerCarteAction();
 	}
 
 	public void updateFenetreGuidee() {
@@ -105,9 +106,11 @@ public class PanelJP extends JPanel implements Observer {
 			btnFinirDfausserCartes.setBounds(909, 3, 169, 25);
 			btnFinirDfausserCartes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if (jP.getActionEnTrain().equals("defausser") || jP.getActionEnTrain().equals("guider")) {
+					if (jP.getActionEnTrain().equals("defausser") ) {
 						jP.setActionEnTrain("");
 						ctrl.finir();
+					}else if(jP.getActionEnTrain().equals("guider")){
+						ctrl.ajouterGuidee();
 					}
 				}
 			});
@@ -138,8 +141,6 @@ public class PanelJP extends JPanel implements Observer {
 							ctrl.defausserCarte(carte);
 						} else if (jP.getActionEnTrain().equals("jouer")) {
 							ctrl.jouerCarte(carte);
-						} else if (jP.getActionEnTrain().equals("guider")) {
-							ctrl.guiderCroyant(carte);
 						}
 					}
 				});

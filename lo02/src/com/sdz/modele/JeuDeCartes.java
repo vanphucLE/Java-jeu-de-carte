@@ -105,5 +105,4 @@ public class JeuDeCartes {
 	public void setNbCarteAction() {
 		this.nbCarteAction = this.listeCartesAction.size();
 	}
-
 }

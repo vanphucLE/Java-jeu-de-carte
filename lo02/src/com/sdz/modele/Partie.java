@@ -35,7 +35,6 @@ public class Partie extends Observable implements Runnable {
 		this.estApocalypseAvant = -1;
 		this.faceDe = "";
 		this.nbJoueur = this.listeJoueurs.size();
-		this.commencerPartie();
 		this.waitEntree = true;
 	}
 
@@ -47,23 +46,26 @@ public class Partie extends Observable implements Runnable {
 			CarteDivinite carteDivinite = jeuDeCartes.piocherCarteDivinite();
 			joueur.getLaMain().piocherDivinite(carteDivinite);
 
-			// 7 cartes est distribuées au joueur
-			int compte = 0;
-			while (compte < 7) {
-				compte++;
-				CarteAction carte = jeuDeCartes.distribuerCarteAction();
-				joueur.completerCarteAction(carte);
-			}
+			joueur.compeleter7Carte(jeuDeCartes);
 		}
 	}
 
 	@Override
 	public void run() {
-		this.jouer();
+		this.commencerPartie();
+		int numCom = -1;
+		while (!this.estFini) {
+			if (numCom < this.getListeJoueurs().size() - 1) {
+				numCom++;
+			} else {
+				numCom = 0;
+			}
+			this.tourDeJeu(numCom);
+		}
 	}
 
 	public void commencer() {
-		JoueurPhysique j=(JoueurPhysique)this.listeJoueurs.get(0);
+		JoueurPhysique j = (JoueurPhysique) this.listeJoueurs.get(0);
 		j.setPartie(this);
 		this.thread = new Thread(this);
 		thread.start();
@@ -104,20 +106,6 @@ public class Partie extends Observable implements Runnable {
 		this.notifyObservers();
 	}
 
-	// un partie va commencer par appeller cette méthode
-	public void jouer() {
-		int numCom = -1;
-		while (!this.estFini) {
-			if (numCom < this.getListeJoueurs().size() - 1) {
-				numCom++;
-			} else {
-				numCom = 0;
-			}
-			this.tourDeJeu(numCom);
-		}
-		this.tourDeJeu(0);
-	}
-
 	// Déscrire les actions des joueurs dans chaque tour
 	// numCom: numéro du joueur dans listJoueurs qui commence ce tour
 	private void tourDeJeu(int numCom) {
@@ -127,20 +115,28 @@ public class Partie extends Observable implements Runnable {
 		this.estApocalypseAvant++;
 		// set les carte coyants guidées peuvent être sacrifié
 		// les joueurs peuvent gargner le point d'Action
-		for (Joueur j : this.listeJoueurs) {
+		Iterator<Joueur> it = this.listeJoueurs.iterator();
+		while (it.hasNext()) {
+			Joueur j = it.next();
 			j.getLaMain().setTrueSacifice();
 			j.setEstSetPointAction(true);
 			j.setSacrifice(true);
 		}
+		
 		// les cartes croyants posées dans le dernier tour va être prêt à être
 		// guidée
 		this.espaceCommun.preterCartes();
-		Iterator<Joueur> it = this.listeJoueurs.iterator();
-		while (it.hasNext()) {
-			Joueur j = it.next();
-			j.setEstSetPointAction(true);
-			j.setSacrifice(true);
+
+		this.faceDe="3face";
+		this.setChanged();
+		this.notifyObservers();
+		
+		try{
+			Thread.sleep(2000);
+		}catch(InterruptedException e){
+			e.printStackTrace();
 		}
+		
 		this.joueurEncours = this.listeJoueurs.get(numCom);
 		if (!joueurEncours.bot) {
 			System.out.println("\nLe tour de :" + joueurEncours);
@@ -152,17 +148,10 @@ public class Partie extends Observable implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			// Scanner sc = new Scanner(System.in);
-			// String str = "";
-			// do {
-			// System.out.print("Entrez 'L' pour lancer le dé! ");
-			// str = sc.nextLine();
-			// } while (!str.equals("L"));
-			// lancer le dé
 			this.lancerDe();
 			this.joueurEncours.jouer(this);
 		} else {
-			JOptionPane.showMessageDialog(null, this.joueurEncours.getNom() + " a lancé le dé! ");
+			JOptionPane.showMessageDialog(null, "Nouvelle tour!\n" + this.joueurEncours.getNom() + " a lancé le dé! ");
 			System.out.print(this.joueurEncours.getNom() + " a lancé le dé! ");
 			this.lancerDe();
 			this.joueurEncours.jouer(this);

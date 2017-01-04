@@ -88,7 +88,7 @@ public class PanelJeu extends JPanel {
 			break;
 		}
 
-		this.panelEC = new PanelEspaceCommun(this.partie.getEspaceCommun());
+		this.panelEC = new PanelEspaceCommun(this.partie,this.ctr);
 		this.ctr.getPartie().getEspaceCommun().addObserver(this.panelEC);
 		panelEC.setLocation(220, 222);
 		add(panelEC);
@@ -133,7 +133,10 @@ public class PanelJeu extends JPanel {
 	}
 
 	public void dessinerPanelCarteJouee(CarteAction carte){
-		this.panelC.dessinerCarteJouee(carte.getId());
+		this.panelC.dessinerCarteJouee(carte,this.partie.getJoueurEncours().getNom());
+	}
+	public void supprimmerCarteJouee(){
+		this.panelC.supprimer();
 	}
 	public void ajouterVueJVSommet() {
 

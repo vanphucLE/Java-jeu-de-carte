@@ -27,17 +27,10 @@ import javax.swing.SwingConstants;
 
 public class PanelJVFace extends PanelJV {
 	private JoueurVirtuel jVT;
-	private JFrame fenetreGuidee;
 
 	public PanelJVFace(JoueurVirtuel jV) {
 		super(jV);
 		// this.jP = jP;
-
-		this.fenetreGuidee = new JFrame();
-		this.fenetreGuidee.setTitle("Les cartes Guidée");
-		this.fenetreGuidee.setSize(1400, 700);
-		this.fenetreGuidee.setResizable(false);
-		this.fenetreGuidee.setLocation(200, 50);
 
 		this.setLayout(null);
 		this.setSize(626, 208);
@@ -47,8 +40,8 @@ public class PanelJVFace extends PanelJV {
 
 		this.dessinerPtAction();
 		this.dessinerNom();
-		this.dessinerCarteDivinite();
-		this.dessinerCarteAction();
+//		this.dessinerCarteDivinite();
+//		this.dessinerCarteAction();
 
 	}
 
