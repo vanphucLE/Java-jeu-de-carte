@@ -10,7 +10,6 @@ import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.GuideSpirituel;
 
 public class JoueurPhysique extends Joueur {
-	private Partie partie;
 
 	public JoueurPhysique(String nom, int age) {
 		super(1, nom, age);
@@ -144,10 +143,13 @@ public class JoueurPhysique extends Joueur {
 
 		// On trouve la liste des cartes Croyants qui peuvent être guidées
 		LinkedList<CarteAction> listeCroyants = this.croyantsPeutEtreGuidee();
+		System.out.println("Les cartes croyants que vous pouvez guider: ");
+		System.out.println(listeCroyants);
 
 		if (listeCroyants.size() == 0) {
 			JOptionPane.showMessageDialog(null,
 					"Il n'y a aucun carte croyant que cette carte peut guider!\n .Cette carte est alors défaussée! ");
+			this.actionEnTrain="jouer";
 			// Cette carte va être récupérée par le jeu de carte
 			this.partie.getJeuDeCartes().recupererCarteAction(carte);
 		} else {
@@ -167,7 +169,7 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	public void ajouterCroyantGuidee(CarteAction carte) {
-		this.partie.getEspaceCommun().supprimerCarte(carte.getId());
+		this.partie.getEspaceCommun().supprimerCarte(carte);
 		this.listeCroyantsGuidee.add(carte);
 		this.nbGuider--;
 	}
@@ -186,7 +188,7 @@ public class JoueurPhysique extends Joueur {
 			this.laMain.seDeffausserCarte(carte);
 			this.partie.getJeuDeCartes().recupererCarteAction(carte);
 			partie.setEstApocalypseAvant(-1);
-			int[] arPriere = new int[partie.getListeJoueurs().size()];
+			int[] arPriere = new int[partie.getListeJoueurs().size() + 1];
 			int indice = -1;
 			for (Joueur j : partie.getListeJoueurs()) {
 				j.setPtPriere();
@@ -234,14 +236,6 @@ public class JoueurPhysique extends Joueur {
 				}
 			}
 		}
-	}
-
-	public Partie getPartie() {
-		return partie;
-	}
-
-	public void setPartie(Partie partie) {
-		this.partie = partie;
 	}
 
 }

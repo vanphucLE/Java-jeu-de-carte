@@ -23,7 +23,7 @@ import com.sdz.modele.Joueur;
 import com.sdz.modele.JoueurVirtuel;
 import com.sdz.modele.Partie;
 
-public class Fenetre extends JFrame implements Observer, Runnable {
+public class Fenetre extends JFrame implements  Runnable {
 
 	public static final String strImagePathEntree = "images/fenetreEntree.PNG";
 	public static final String strImagePathTable = "images/table.jpg";
@@ -197,11 +197,4 @@ public class Fenetre extends JFrame implements Observer, Runnable {
 			JOptionPane.showMessageDialog(null, mess, "À propos", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
-
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

@@ -35,21 +35,10 @@ public class EspaceCommun extends Observable {
 		}
 	}
 
-	public CarteAction supprimerCarte(int id) {
-		CarteAction carteReturn = new CarteAction();
-		Iterator<CarteAction> it = this.listeCartesPret.iterator();
-		int position = 0;
-		while (it.hasNext()) {
-			CarteAction carteA = (CarteAction) it.next();
-			if (carteA.getId() == id) {
-				carteReturn = this.listeCartesPret.remove(position);
-				break;
-			}
-			position++;
-		}
+	public void supprimerCarte(CarteAction carte) {
+		this.listeCartesPret.remove(carte);
 		this.setChanged();
 		this.notifyObservers();
-		return carteReturn;
 	}
 
 	public String toString() {

@@ -9,6 +9,7 @@ import com.sdz.vue.PanelJeu;
 
 public abstract class Joueur extends Observable {
 	protected PanelJeu panelJeu;
+	protected Partie partie;
 	protected int id;
 	protected String nom;
 	protected int age;
@@ -31,7 +32,7 @@ public abstract class Joueur extends Observable {
 		this.age = age;
 		this.actionEnTrain = "";
 		this.laMain = new LaMain(this);
-		this.ptPriere=0;
+		this.ptPriere = 0;
 	}
 
 	public void completerCarteAction(CarteAction carte) {
@@ -249,4 +250,13 @@ public abstract class Joueur extends Observable {
 			}
 		}
 	}
+
+	public Partie getPartie() {
+		return partie;
+	}
+
+	public void setPartie(Partie partie) {
+		this.partie = partie;
+	}
+
 }

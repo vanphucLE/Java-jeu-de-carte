@@ -49,9 +49,10 @@ public class FenetreGuidee extends JFrame implements Observer {
 		this.ctrl = ctrl;
 	}
 
-	private int indice = -1;
+	private int indice;
 
 	public void dessinerCarteGuidee() {
+		this.indice=-1;
 		for (int k = 0; k <= 3; k++) {
 			for (int m = 0; m <= 3; m++) {
 				if (this.joueur.getLaMain().getListeGuideSpirituelGuider().size() - 1 == indice) {
@@ -104,8 +105,6 @@ public class FenetreGuidee extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("UPDATE FENETRE GUIDEE");
-		System.out.println(this.joueur.getLaMain());
 		this.contentPane.removeAll();
 		this.dessinerCarteGuidee();
 		this.repaint();

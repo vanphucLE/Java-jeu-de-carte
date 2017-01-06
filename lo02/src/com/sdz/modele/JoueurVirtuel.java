@@ -99,6 +99,7 @@ public class JoueurVirtuel extends Joueur {
 				indice++;
 				carteA.setEstSacrifie(true);
 				listeCroyantsGuidee.add(carteA);
+				espaceCommun.supprimerCarte(carteA);
 			}
 		}
 		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);

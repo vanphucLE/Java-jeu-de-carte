@@ -38,15 +38,12 @@ public class Partie extends Observable implements Runnable {
 		this.waitEntree = true;
 	}
 
-	// Cette méthode est crée pour distribuer les cartes au début de la partie
-	// de jeu de carte
-	private void commencerPartie() {
-		for (Joueur joueur : this.listeJoueurs) {
-			// Prendre une carte Divinité
-			CarteDivinite carteDivinite = jeuDeCartes.piocherCarteDivinite();
-			joueur.getLaMain().piocherDivinite(carteDivinite);
-			joueur.compeleter7Carte(jeuDeCartes);
+	public void commencer() {
+		for (Joueur j : this.listeJoueurs) {
+			j.setPartie(this);
 		}
+		this.thread = new Thread(this);
+		thread.start();
 	}
 
 	@Override
@@ -63,46 +60,15 @@ public class Partie extends Observable implements Runnable {
 		}
 	}
 
-	public void commencer() {
-		JoueurPhysique j = (JoueurPhysique) this.listeJoueurs.get(0);
-		j.setPartie(this);
-		this.thread = new Thread(this);
-		thread.start();
-	}
-
-	public void lancerDe() {
-		String[] de = { "", "Jour", "Nuit", "Néant" };
-		int num = (int) Math.ceil(3 * Math.random());
-		faceDe = de[num];
-		System.out.println("******Face du dé: " + faceDe);
-		if (faceDe.equals("Jour")) {
-			for (Joueur joueur : this.listeJoueurs) {
-				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Jour")) {
-					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 2);
-				} else if (joueur.laMain.getCarteDivinite().getOrigine().equals("Aube")) {
-					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 1);
-
-				}
-			}
-		} else if (faceDe.equals("Nuit")) {
-			for (Joueur joueur : this.listeJoueurs) {
-				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Nuit")) {
-					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 2);
-				} else if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Crépuscule")) {
-					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 1);
-				}
-			}
-		} else if (faceDe.equals("Néant")) {
-			for (Joueur joueur : this.listeJoueurs) {
-				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Aube")) {
-					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
-				} else if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Crépuscule")) {
-					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
-				}
-			}
+	// Cette méthode est crée pour distribuer les cartes au début de la partie
+	// de jeu de carte
+	private void commencerPartie() {
+		for (Joueur joueur : this.listeJoueurs) {
+			// Prendre une carte Divinité
+			CarteDivinite carteDivinite = jeuDeCartes.piocherCarteDivinite();
+			joueur.getLaMain().piocherDivinite(carteDivinite);
+			joueur.compeleter7Carte(jeuDeCartes);
 		}
-		this.setChanged();
-		this.notifyObservers();
 	}
 
 	// Déscrire les actions des joueurs dans chaque tour
@@ -140,7 +106,7 @@ public class Partie extends Observable implements Runnable {
 			JOptionPane.showMessageDialog(null, "A vous de jouer !\nAu début, lancez le dé pour commencer!");
 			JoueurPhysique jP = (JoueurPhysique) this.joueurEncours;
 			jP.setActionEnTrain("lancerDe");
-			
+
 			// les cartes croyants posées dans le dernier tour va être prêt à
 			// être guidée
 			this.espaceCommun.preterCartes();
@@ -163,19 +129,57 @@ public class Partie extends Observable implements Runnable {
 		}
 
 		for (int i = numCom + 1; i < this.listeJoueurs.size(); i++) {
-			if (!this.finiTour) {
-				this.joueurEncours = this.listeJoueurs.get(i);
-				System.out.println("\nLe tour de :" + joueurEncours);
-				this.listeJoueurs.get(i).jouer(this);
+			if (this.finiTour) {
+				break;
 			}
+			this.joueurEncours = this.listeJoueurs.get(i);
+			System.out.println("\nLe tour de :" + joueurEncours);
+			this.listeJoueurs.get(i).jouer(this);
+
 		}
 		for (int i = 0; i < numCom; i++) {
-			if (!this.finiTour) {
-				this.joueurEncours = this.listeJoueurs.get(i);
-				System.out.println("\nLe tour de :" + joueurEncours);
-				this.listeJoueurs.get(i).jouer(this);
+			if (this.finiTour) {
+				break;
+			}
+			this.joueurEncours = this.listeJoueurs.get(i);
+			System.out.println("\nLe tour de :" + joueurEncours);
+			this.listeJoueurs.get(i).jouer(this);
+		}
+	}
+
+	public void lancerDe() {
+		String[] de = { "", "Jour", "Nuit", "Néant" };
+		int num = (int) Math.ceil(3 * Math.random());
+		faceDe = de[num];
+		System.out.println("******Face du dé: " + faceDe);
+		if (faceDe.equals("Jour")) {
+			for (Joueur joueur : this.listeJoueurs) {
+				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Jour")) {
+					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 2);
+				} else if (joueur.laMain.getCarteDivinite().getOrigine().equals("Aube")) {
+					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + 1);
+
+				}
+			}
+		} else if (faceDe.equals("Nuit")) {
+			for (Joueur joueur : this.listeJoueurs) {
+				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Nuit")) {
+					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 2);
+				} else if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Crépuscule")) {
+					joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + 1);
+				}
+			}
+		} else if (faceDe.equals("Néant")) {
+			for (Joueur joueur : this.listeJoueurs) {
+				if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Aube")) {
+					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
+				} else if (joueur.getLaMain().getCarteDivinite().getOrigine().equals("Crépuscule")) {
+					joueur.setPtAction_Neant(joueur.getPtAction_Neant() + 1);
+				}
 			}
 		}
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public synchronized void suspend() throws InterruptedException {

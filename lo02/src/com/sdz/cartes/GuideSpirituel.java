@@ -15,7 +15,7 @@ public class GuideSpirituel extends CarteAction {
 			"Nuit", "Néant", "Jour", "Nuit", "Nuit", "Néant", "Jour", "Nuit", "Néant", "Jour", "Nuit", "Néant",
 			"Jour" };
 
-	private static final String[][] dogmeGuideSpirituels = { { "Humain", "Nature" }, { "Sysmboles", "Humain" },
+	private static final String[][] dogmeGuideSpirituels = { { "Humain", "Nature" }, { "Symboles", "Humain" },
 			{ "Nature", "Chaos" }, { "Chaos", "Humain" }, { "Nature", "Symboles" }, { "Mystique", "Nature" },
 			{ "Nature", "Chaos" }, { "Symboles", "Mystique" }, { "Chaos", "Symboles" }, { "Mystique", "Chaos" },
 			{ "Nature", "Chaos" }, { "Nature", "Symboles" }, { "Chaos", "Humain" }, { "Humain", "Mystique" },
