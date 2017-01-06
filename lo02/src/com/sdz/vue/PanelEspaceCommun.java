@@ -68,7 +68,7 @@ public class PanelEspaceCommun extends JPanel implements Observer {
 					button.setMargin(new Insets(0, 0, 0, 0));
 					button.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							if (partie.getJoueurEncours().getActionEnTrain().equals("guider")) {
+							if (partie.getJoueurEncours().getActionEnTrain().equals("guiderCroyant")) {
 								ctrl.guiderCroyant(espaceCM.getListeCartesPret().get(indice));
 							}
 						}

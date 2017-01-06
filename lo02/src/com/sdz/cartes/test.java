@@ -16,8 +16,6 @@ public class test {
 		 * for (String a : carte.nomCroyants ){ System.out.println(a+" "); }
 		 * 
 		 */
-		Joueur joueur1 = new Joueur(1, "LE", 21);
-		System.out.println(joueur1.toString());
 
 		Scanner sc = new Scanner(System.in);
 		String str = "";

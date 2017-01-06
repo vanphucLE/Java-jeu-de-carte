@@ -22,26 +22,29 @@ public class JoueurPhysique extends Joueur {
 		this.seDefausserCartesEtCompleter(partie);
 		this.choisirCarte(partie);
 
-		Boolean continu = false;
-		int commande = JOptionPane.showConfirmDialog(null, "Voulez-vous sacrifier la cartes ?");
-		if (commande == 0) {
-			continu = true;
-		}
-		while (continu) {
-			JOptionPane.showMessageDialog(null, "Choissiez la carte pour la sacifier! ");
-			this.actionEnTrain = "sacrifier";
-			try {
-				this.partie.suspend();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			// this.sacrifierCarte(partie);
-			continu = false;
-			int commande2 = JOptionPane.showConfirmDialog(null, "Voulez-vous continuer à sacrifier la cartes ?");
-			if (commande2 == 0) {
-				continu = true;
-			}
-		}
+		// Boolean continu = false;
+		// int commande = JOptionPane.showConfirmDialog(null, "Voulez-vous
+		// sacrifier la cartes ?");
+		// if (commande == 0) {
+		// continu = true;
+		// }
+		// while (continu) {
+		// JOptionPane.showMessageDialog(null, "Choissiez la carte pour la
+		// sacifier! ");
+		// this.actionEnTrain = "sacrifier";
+		// try {
+		// this.partie.suspend();
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// // this.sacrifierCarte(partie);
+		// continu = false;
+		// int commande2 = JOptionPane.showConfirmDialog(null, "Voulez-vous
+		// continuer à sacrifier la cartes ?");
+		// if (commande2 == 0) {
+		// continu = true;
+		// }
+		// }
 
 	}
 
@@ -67,11 +70,10 @@ public class JoueurPhysique extends Joueur {
 		System.out.println("Les cartes actions tenu dans vôtre main:");
 		System.out.println(this.laMain);
 
-		int commande = JOptionPane.showConfirmDialog(null, "À vous de jouer!\nVoulez-vous défausser les cartes?");
+		int commande = JOptionPane.showConfirmDialog(null,
+				"À vous de jouer!\nVoulez-vous défausser les cartes?\nSi oui,Choissiez les cartes pour les défausser en les cliquant!");
 		if (commande == 0) {
 			this.actionEnTrain = "defausser";
-
-			JOptionPane.showMessageDialog(null, "Choissiez les cartes pour les défausser en les cliquant! ");
 			try {
 				this.partie.suspend();
 			} catch (InterruptedException e) {
@@ -89,37 +91,18 @@ public class JoueurPhysique extends Joueur {
 		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
 				+ this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")");
 		Boolean continu = false;
-		if ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) <= 0) {
-			JOptionPane.showMessageDialog(null, "Vous n'avez pas point d'Action pour jouer! ");
-		} else {
-			int commande = JOptionPane.showConfirmDialog(null, "Voulez-vous choisir la carte pour jouer?");
-			if (commande == 0) {
-				continu = true;
-			}
-			while (continu) {
-				JOptionPane.showMessageDialog(null, "Choissiez la carte pour jouer en la cliquant! ");
-				this.actionEnTrain = "jouer";
 
-				// On suspend la partie pour attendre le commande du joueur
-				// physique
-				try {
-					this.partie.suspend();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+		int commande = JOptionPane.showConfirmDialog(null,
+				"Voulez-vous choisir la carte pour jouer?\nSi oui, choissiez la carte pour jouer en la cliquant! ");
+		if (commande == 0) {
+			this.actionEnTrain = "jouer";
 
-				continu = false;
-				if ((this.ptAction_Jour + this.ptAction_Nuit + this.ptAction_Neant) > 0) {
-					System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | "
-							+ "(Nuit: " + this.ptAction_Nuit + ") | " + "(Néant: " + this.ptAction_Neant + ")\n");
-					int commande2 = JOptionPane.showConfirmDialog(null,
-							"Voulez-vous continuer à jouer la carte pour jouer?");
-					if (commande2 == 0) {
-						continu = true;
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Vous n'avez pas encore point d'action pour jouer! ");
-				}
+			// On suspend la partie pour attendre le commande du joueur
+			// physique
+			try {
+				this.partie.suspend();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -171,7 +154,7 @@ public class JoueurPhysique extends Joueur {
 			this.carteG.setEstSacrifie(true);
 			JOptionPane.showMessageDialog(null, "Vous pouvez faire guider " + carteG.getNbGuider()
 					+ " carte(s) Croyant(s).\nChoissiez la carte croyant dans l'espace commun pour la guider en la cliquant! ");
-			this.actionEnTrain = "guider";
+			this.actionEnTrain = "guiderCroyant";
 		}
 	}
 
@@ -242,6 +225,7 @@ public class JoueurPhysique extends Joueur {
 				} else {
 					for (Joueur j : partie.getListeJoueurs()) {
 						if (j.getPtPriere() == arPriere[0]) {
+							JOptionPane.showMessageDialog(null, j.getNom() + " a gagné!");
 							partie.setJoueurgagnant(j);
 							partie.setEstFini(true);
 							break;
@@ -249,78 +233,6 @@ public class JoueurPhysique extends Joueur {
 					}
 				}
 			}
-		}
-	}
-
-	// convertir et tester valeur entrée
-	private LinkedList<Integer> convertIdsEntree(String str) {
-		Boolean test = true;
-		str = str.trim();
-		String[] arrayIdStr = str.split(" ");
-		LinkedList<Integer> arrayId = new LinkedList<Integer>();
-		for (String elem : arrayIdStr) {
-			if (elem.matches("\\d+")) {
-				arrayId.add(Integer.parseInt(elem));
-			} else if (elem != "") {
-				System.out.println("Eurreur entrée!!! ");
-				test = false;
-				break;
-			}
-		}
-		if (test == true) {
-			return arrayId;
-		} else {
-			return new LinkedList<Integer>();
-		}
-	}
-
-	// tester la valeur entrée
-	private Boolean testEntrer(String stringEntree, LinkedList<CarteAction> listeContenantId) {
-		Boolean test = true;
-		LinkedList<Integer> arrayIdEntree = this.convertIdsEntree(stringEntree);
-		LinkedList<Integer> arrayId = new LinkedList<Integer>();
-		if (arrayIdEntree.size() != 0) {
-			Iterator<CarteAction> it = listeContenantId.iterator();
-			while (it.hasNext()) {
-				CarteAction carte = it.next();
-				arrayId.add(carte.getId());
-			}
-			for (int elem : arrayIdEntree) {
-				if (arrayId.indexOf(elem) == -1) {
-					test = false;
-					System.out.println("Eurreur entree!!! ");
-					break;
-				}
-			}
-		} else {
-			test = false;
-		}
-		return test;
-	}
-
-	// tester valeur entree si la carte est guide spirituel
-	private Boolean testGuideSpirituelEntree(CarteAction carteD, EspaceCommun espaceCommun) {
-		if (carteD.getType().equals("GuideSpirituel")) {
-			Boolean test = false;
-			for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
-				for (String dogmeA : carteA.getDogme()) {
-					for (String dogmeD : carteD.getDogme()) {
-						if (dogmeD.equals(dogmeA)) {
-							test = true;
-							break;
-						}
-					}
-				}
-			}
-			if (test == false) {
-				System.out.println(
-						"Le carte Guide Spirituel que vous avez choisi ne peut guider aucune carte Croyant dans l'espace Commun");
-			} else {
-				this.laMain.completerCarteAction(carteD);
-			}
-			return test;
-		} else {
-			return true;
 		}
 	}
 

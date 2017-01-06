@@ -30,27 +30,32 @@ public class Controler {
 
 	public void jouerCarte(CarteAction carte) {
 		Boolean valid = this.setPtAction(carte);
-		this.jP.setActionEnTrain("");
 		if (valid) {
-			this.panelJeu.dessinerPanelCarteJouee(carte);
+			if ((partie.getEstApocalypseAvant() != 0 && partie.getEstApocalypseAvant() != -1)
+					|| !carte.getType().equals("Apocalypse")) {
+				this.panelJeu.dessinerPanelCarteJouee(carte);
+			}
 			switch (carte.getType()) {
 			case "Croyant":
+				this.jP.setActionEnTrain("jouerCroyant");
 				this.jP.jouerCroyant(carte, partie.getEspaceCommun());
-				this.jP.setActionEnTrain("");
-				this.partie.resume();
+				this.jP.setActionEnTrain("jouer");
 				break;
 			case "GuideSpirituel":
+				this.jP.setActionEnTrain("jouerGuideSpirituel");
 				this.jP.jouerGuideSpirituel(carte);
 				break;
 			case "DeusEx":
+				this.jP.setActionEnTrain("jouerDeusEx");
 				this.jP.jouerDeusEx(partie);
+				this.jP.setActionEnTrain("jouer");
 				break;
 			case "Apocalypse":
+				this.jP.setActionEnTrain("jouerApocalypse");
 				this.jP.jouerApocalypse(carte, partie);
+				this.jP.setActionEnTrain("jouer");
 				break;
 			}
-		} else {
-			this.partie.resume();
 		}
 	}
 
@@ -96,6 +101,8 @@ public class Controler {
 	public void guiderCroyant(CarteAction carte) {
 		if (this.jP.getNbGuider() > 0) {
 			LinkedList<CarteAction> listeCroyants = this.jP.croyantsPeutEtreGuidee();
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			System.out.println(listeCroyants);
 			if (listeCroyants.indexOf(carte) == -1) {
 				JOptionPane.showMessageDialog(null,
 						"Vous ne pouvez pas faire guider cette Carte Croyant!\nChoissiez l'autre carte!");
@@ -105,7 +112,6 @@ public class Controler {
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"Vous ne pouvez faire guider la carte Croyant plus!\nCliquez button - Finir mes choices!");
-			this.jP.setActionEnTrain("");
 		}
 	}
 
@@ -113,17 +119,19 @@ public class Controler {
 	// à la main
 	public void ajouterGuidee() {
 		this.jP.ajouterGuidee();
-		this.jP.setActionEnTrain("");
-		this.partie.resume();
+		this.jP.setActionEnTrain("jouer");
+		JOptionPane.showMessageDialog(null,
+				"Vous avez fait guider les cartes. Ces Cartes est transmis à l'Espace Guidée!");
 	}
-	
-	public void sacrifier(CarteAction carte){
-		//Do something
-		
+
+	public void sacrifier(CarteAction carte) {
+		// Do something
+
 		this.partie.resume();
 	}
 
 	public void lancerDe() {
+		this.jP.setActionEnTrain("");
 		this.partie.resume();
 	}
 

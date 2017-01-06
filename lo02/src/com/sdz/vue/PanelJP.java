@@ -42,11 +42,11 @@ public class PanelJP extends JPanel implements Observer {
 		this.jP = jP;
 		this.ctrl = ctrl;
 
-		Joueur j=this.jP;
+		Joueur j = this.jP;
 		this.fenetreGuidee = new FenetreGuidee(j);
 		this.fenetreGuidee.setControler(this.ctrl);
 		this.jP.addObserver(this.fenetreGuidee);
-		
+
 		this.setLayout(null);
 		this.setSize(1390, 247);
 		Border lineBorder = BorderFactory.createLineBorder(Color.blue);
@@ -55,8 +55,8 @@ public class PanelJP extends JPanel implements Observer {
 
 		this.dessinerNom();
 		this.dessinerPtAction();
-//		this.dessinerCarteDivinite();
-//		this.dessinerCarteAction();
+		// this.dessinerCarteDivinite();
+		// this.dessinerCarteAction();
 	}
 
 	public void updateFenetreGuidee() {
@@ -68,16 +68,15 @@ public class PanelJP extends JPanel implements Observer {
 		lblNom.setBounds(310, 7, 257, 16);
 		add(lblNom);
 
-		JButton btnAfficherLesCartes = new JButton("Cartes Guid\u00E9es");
-		btnAfficherLesCartes.setBounds(1157, 3, 193, 25);
+		JButton btnAfficherLesCartes = new JButton("Espace Guidée");
+		btnAfficherLesCartes.setBounds(1172, 3, 193, 25);
 		btnAfficherLesCartes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				fenetreGuidee.setVisible(true);
 			}
 		});
 		add(btnAfficherLesCartes);
-		
-		
+
 	}
 
 	public void dessinerPtAction() {
@@ -89,6 +88,33 @@ public class PanelJP extends JPanel implements Observer {
 		JLabel lblPtprire = new JLabel("PtPri\u1EBBre: "+this.jP.getPtPriere());
 		lblPtprire.setBounds(744, 7, 78, 16);
 		add(lblPtprire);
+		
+		JButton btnFinirJouer = new JButton("Finir Jouer");
+		btnFinirJouer.setBounds(1015, 3, 97, 25);
+		btnFinirJouer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (jP.getActionEnTrain().equals("jouer")){
+					jP.setActionEnTrain("");
+					ctrl.finir();
+				}
+			}
+		});
+		add(btnFinirJouer);
+		
+		JButton btnFinirDfausserCartes = new JButton("Finir mes choices");
+		btnFinirDfausserCartes.setBounds(834, 3, 169, 25);
+		btnFinirDfausserCartes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  "+jP.getActionEnTrain());
+				if (jP.getActionEnTrain().equals("defausser") ) {
+					jP.setActionEnTrain("");
+					ctrl.finir();
+				}else if(jP.getActionEnTrain().equals("guiderCroyant")){
+					ctrl.ajouterGuidee();
+				}
+			}
+		});
+		add(btnFinirDfausserCartes);
 	}
 
 	public void dessinerCarteDivinite() {
@@ -107,21 +133,6 @@ public class PanelJP extends JPanel implements Observer {
 			lblCarteDivinit.setHorizontalAlignment(SwingConstants.CENTER);
 			lblCarteDivinit.setBounds(87, 7, 150, 16);
 			add(lblCarteDivinit);
-
-			JButton btnFinirDfausserCartes = new JButton("Finir mes choices");
-			btnFinirDfausserCartes.setBounds(909, 3, 169, 25);
-			btnFinirDfausserCartes.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if (jP.getActionEnTrain().equals("defausser") ) {
-						jP.setActionEnTrain("");
-						ctrl.finir();
-					}else if(jP.getActionEnTrain().equals("guider")){
-						ctrl.ajouterGuidee();
-					}
-				}
-			});
-			add(btnFinirDfausserCartes);
-
 		} catch (IOException ex) {
 			Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 		}

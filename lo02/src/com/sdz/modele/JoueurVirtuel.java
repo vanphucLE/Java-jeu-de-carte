@@ -1,6 +1,9 @@
 package com.sdz.modele;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
 
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.GuideSpirituel;
@@ -16,9 +19,10 @@ public class JoueurVirtuel extends Joueur {
 		this.stategie = stategie;
 	}
 
-	public void setPanelJeu(PanelJeu panelJeu){
-		this.panelJeu=panelJeu;
+	public void setPanelJeu(PanelJeu panelJeu) {
+		this.panelJeu = panelJeu;
 	}
+
 	@Override
 	public void jouer(Partie partie) {
 		System.out.println("Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit + ") "
@@ -53,57 +57,27 @@ public class JoueurVirtuel extends Joueur {
 
 	@Override
 	public void choisirCarte(Partie partie) {
-		CarteAction carteChoisi = new CarteAction();
-		for (CarteAction carteA : this.laMain.getListeCarteA()) {
-			if (carteA.getOrigine().equals("Jour") && this.testEntree(carteA, partie)) {
-				if (this.ptAction_Jour > 0) {
-					carteChoisi = carteA;
-					this.ptAction_Jour--;
-				}
-			} else if (carteA.getOrigine().equals("Nuit") && this.testEntree(carteA, partie)) {
-				if (this.ptAction_Nuit > 0) {
-					carteChoisi = carteA;
-					this.ptAction_Nuit--;
-				}
-			} else if (carteA.getOrigine().equals("Néant") && this.testEntree(carteA, partie)) {
-				if (this.ptAction_Neant > 0) {
-					carteChoisi = carteA;
-					this.ptAction_Neant--;
-				} else if (this.ptAction_Nuit >= 2) {
-					carteChoisi = carteA;
-					this.ptAction_Nuit -= 2;
-				} else if (this.ptAction_Jour >= 2) {
-					carteChoisi = carteA;
-					this.ptAction_Jour -= 2;
-				}
-			}
-			if (carteChoisi.equals(carteA)) {
-				break;
-			}
-		}
+		CarteAction carteChoisi = this.stategie.choisirCarteJouer(this, partie);
 		if (carteChoisi.getId() != 0) {
 			System.out.println(this.nom + " a joué la carte: " + carteChoisi);
 			this.panelJeu.dessinerPanelCarteJouee(carteChoisi);
-		}else{
+			switch (carteChoisi.getType()) {
+			case "Croyant":
+				this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
+				break;
+			case "GuideSpirituel":
+				this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
+				break;
+			case "DeusEx":
+				this.jouerDeusEx(partie);
+				break;
+			case "Apocalypse":
+				this.jouerApocalypse(carteChoisi, partie);
+				break;
+			}
+		} else {
 			this.panelJeu.supprimmerCarteJouee();
 		}
-		
-		
-		switch (carteChoisi.getType()) {
-		case "Croyant":
-			this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
-			break;
-		case "GuideSpirituel":
-			this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
-			break;
-		case "DeusEx":
-			this.jouerDeusEx(partie);
-			break;
-		case "Apocalypse":
-			this.jouerApocalypse(carteChoisi, partie);
-			break;
-		}
-
 	}
 
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
@@ -130,44 +104,22 @@ public class JoueurVirtuel extends Joueur {
 		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
 	}
 
-	private Boolean testEntree(CarteAction carte, Partie partie) {
-		Boolean test = true;
-		if (carte.getType().equals("GuideSpirituel")) {
-			test = false;
-			if (carte.getType().equals("GuideSpitituel")) {
-				for (CarteAction carteA : partie.getEspaceCommun().getListeCartesPret()) {
-					for (String dogmeA : carteA.getDogme()) {
-						for (String dogmeD : carte.getDogme()) {
-							if (dogmeD.equals(dogmeA)) {
-								test = true;
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		if (carte.getType().equals("Apocalypse")) {
-			if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1) {
-				test = false;
-			}
-		}
-		return test;
-	}
-
 	private void jouerDeusEx(Partie partie) {
 
 	}
 
 	@Override
 	public void jouerApocalypse(CarteAction carte, Partie partie) {
+		JOptionPane.showMessageDialog(null, this.nom + "a joué la carte Apocalypse!");
 		partie.setEstApocalypseAvant(-1);
-		int[] arPriere = {};
+		int[] arPriere = new int[partie.getListeJoueurs().size()+1];
 		int indice = -1;
 		for (Joueur j : partie.getListeJoueurs()) {
 			j.setPtPriere();
-			arPriere[indice++] = j.getPtPriere();
+			indice++;
+			arPriere[indice] = j.getPtPriere();
 		}
+		
 		for (int i = 0; i <= indice - 1; i++) {
 			for (int j = i + 1; j <= indice; j++) {
 				if (arPriere[i] < arPriere[j]) {
@@ -181,6 +133,8 @@ public class JoueurVirtuel extends Joueur {
 			if (arPriere[indice] == arPriere[indice - 1]) {
 				System.out.println(
 						"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé.");
+				JOptionPane.showMessageDialog(null,
+						"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé!");
 			} else {
 				for (Joueur j : partie.getListeJoueurs()) {
 					if (j.getPtPriere() == arPriere[indice]) {
@@ -193,11 +147,14 @@ public class JoueurVirtuel extends Joueur {
 			if (arPriere[0] == arPriere[1]) {
 				System.out.println(
 						"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé.");
+				JOptionPane.showMessageDialog(null,
+						"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé!");
 			} else {
 				for (Joueur j : partie.getListeJoueurs()) {
 					if (j.getPtPriere() == arPriere[0]) {
 						partie.setJoueurgagnant(j);
 						partie.setEstFini(true);
+						JOptionPane.showMessageDialog(null, j.getNom() + " a gagné!");
 						break;
 					}
 				}

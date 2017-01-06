@@ -77,7 +77,7 @@ public class PanelJVCote extends PanelJV {
 		lblNom.setBounds(10, 658, 190, 16);
 		add(lblNom);
 
-		JButton btnAfficherLesCartes = new JButton("Cartes Guid\u00E9es");
+		JButton btnAfficherLesCartes = new JButton("Espace Guidée");
 		btnAfficherLesCartes.setBounds(10, 735, 190, 25);
 		btnAfficherLesCartes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

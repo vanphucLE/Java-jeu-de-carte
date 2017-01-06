@@ -15,12 +15,12 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import com.sdz.controler.Controler;
+import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.Partie;
 
 public class PanelLancerDe extends JPanel implements Observer {
@@ -41,7 +41,12 @@ public class PanelLancerDe extends JPanel implements Observer {
 		JButton btnLancer = new JButton("Lancer le dé!");
 		btnLancer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ctr.lancerDe();
+				if (!partie.getJoueurEncours().estBot()) {
+					JoueurPhysique jP = (JoueurPhysique) partie.getJoueurEncours();
+					if (jP.getActionEnTrain().equals("lancerDe")) {
+						ctr.lancerDe();
+					}
+				}
 			}
 		});
 		btnLancer.setBounds(0, 0, 200, 25);
@@ -85,11 +90,4 @@ public class PanelLancerDe extends JPanel implements Observer {
 		this.validate();
 	}
 
-	// public static void main(String[] args) {
-	// JFrame j = new JFrame();
-	// j.setSize(j.getMaximumSize());
-	// j.getContentPane().add(new PanelLancerDe(new Controler(new Partie())));
-	// j.setVisible(true);
-	// j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	// }
 }

@@ -82,7 +82,7 @@ public class PanelJVFace extends PanelJV {
 		lblNom.setBounds(16, 181, 174, 16);
 		add(lblNom);
 
-		JButton btnAfficherLesCartes = new JButton("Cartes Guid\u00E9es");
+		JButton btnAfficherLesCartes = new JButton("Espace Guidée");
 		btnAfficherLesCartes.setBounds(487, 177, 127, 25);
 		btnAfficherLesCartes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

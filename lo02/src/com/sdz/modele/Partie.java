@@ -45,7 +45,6 @@ public class Partie extends Observable implements Runnable {
 			// Prendre une carte Divinité
 			CarteDivinite carteDivinite = jeuDeCartes.piocherCarteDivinite();
 			joueur.getLaMain().piocherDivinite(carteDivinite);
-
 			joueur.compeleter7Carte(jeuDeCartes);
 		}
 	}
@@ -122,26 +121,29 @@ public class Partie extends Observable implements Runnable {
 			j.setEstSetPointAction(true);
 			j.setSacrifice(true);
 		}
-		
-		// les cartes croyants posées dans le dernier tour va être prêt à être
-		// guidée
-		this.espaceCommun.preterCartes();
 
-		this.faceDe="3face";
+		System.out.println(this.espaceCommun.getlisteCartesPoseRecent());
+		this.faceDe = "3face";
 		this.setChanged();
 		this.notifyObservers();
-		
-		try{
-			Thread.sleep(2000);
-		}catch(InterruptedException e){
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.joueurEncours = this.listeJoueurs.get(numCom);
 		if (!joueurEncours.bot) {
 			System.out.println("\nLe tour de :" + joueurEncours);
 			// Annoncer le joueur Physique
 			JOptionPane.showMessageDialog(null, "A vous de jouer !\nAu début, lancez le dé pour commencer!");
+			JoueurPhysique jP = (JoueurPhysique) this.joueurEncours;
+			jP.setActionEnTrain("lancerDe");
+			
+			// les cartes croyants posées dans le dernier tour va être prêt à
+			// être guidée
+			this.espaceCommun.preterCartes();
 
 			try {
 				this.suspend();
@@ -153,6 +155,9 @@ public class Partie extends Observable implements Runnable {
 		} else {
 			JOptionPane.showMessageDialog(null, "Nouvelle tour!\n" + this.joueurEncours.getNom() + " a lancé le dé! ");
 			System.out.print(this.joueurEncours.getNom() + " a lancé le dé! ");
+			// les cartes croyants posées dans le dernier tour va être prêt à
+			// être guidée
+			this.espaceCommun.preterCartes();
 			this.lancerDe();
 			this.joueurEncours.jouer(this);
 		}

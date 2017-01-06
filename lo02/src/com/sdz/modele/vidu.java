@@ -21,6 +21,11 @@ public class vidu {
 	}
 	public static void main(String[] args) {
 		
+		int[] a=new int[5];
+		a[0]=2;
+		System.out.println(a);
+		
+		
 		int commande = JOptionPane.showConfirmDialog(null, "kafkjanf");
 		System.out.println(commande);
 		

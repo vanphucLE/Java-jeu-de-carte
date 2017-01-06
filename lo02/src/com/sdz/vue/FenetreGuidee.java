@@ -28,11 +28,11 @@ import com.sdz.modele.JoueurPhysique;
 public class FenetreGuidee extends JFrame implements Observer {
 
 	private JPanel contentPane;
-	private Joueur j;
+	private Joueur joueur;
 	private Controler ctrl;
 
-	public FenetreGuidee(Joueur j) {
-		this.j = j;
+	public FenetreGuidee(Joueur joueur) {
+		this.joueur = joueur;
 		this.setTitle("Les cartes Guidée");
 		this.setResizable(false);
 		this.setLocation(200, 50);
@@ -40,7 +40,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
-		contentPane.setBackground(Color.GREEN);
+//		contentPane.setBackground(Color.GREEN);
 		setContentPane(contentPane);
 
 	}
@@ -52,10 +52,9 @@ public class FenetreGuidee extends JFrame implements Observer {
 	private int indice = -1;
 
 	public void dessinerCarteGuidee() {
-
 		for (int k = 0; k <= 3; k++) {
 			for (int m = 0; m <= 3; m++) {
-				if (this.j.getLaMain().getListeGuideSpirituelGuider().size() - 1 == indice) {
+				if (this.joueur.getLaMain().getListeGuideSpirituelGuider().size() - 1 == indice) {
 					break;
 				}
 				indice++;
@@ -63,16 +62,16 @@ public class FenetreGuidee extends JFrame implements Observer {
 				button.setBounds(460 * m + 10, 215 * k + 10, 150, 210);
 				try {
 					BufferedImage image = ImageIO.read(new File("cartes/"
-							+ this.j.getLaMain().getListeGuideSpirituelGuider().get(indice).getId() + ".PNG"));
+							+ this.joueur.getLaMain().getListeGuideSpirituelGuider().get(indice).getId() + ".PNG"));
 					ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
 					button.setIcon(icon);
 					button.setMargin(new Insets(0, 0, 0, 0));
 					button.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							if (!j.estBot()) {
-								JoueurPhysique jP = (JoueurPhysique) j;
+							if (!joueur.estBot()) {
+								JoueurPhysique jP = (JoueurPhysique) joueur;
 								if (jP.getActionEnTrain().equals("sacrifier")) {
-									ctrl.sacrifier(j.getLaMain().getListeGuideSpirituelGuider().get(indice));
+									ctrl.sacrifier(joueur.getLaMain().getListeGuideSpirituelGuider().get(indice));
 								}
 							}
 						}
@@ -82,7 +81,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 					Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 				}
 				int i = -1;
-				for (CarteAction carte : this.j.getLaMain().getListeCroyantGuidee().get(indice)) {
+				for (CarteAction carte : this.joueur.getLaMain().getListeCroyantGuidee().get(indice)) {
 					i++;
 					button = new JButton();
 					button.setBounds(460 * m + 162 + 60 * i, 215 * k + 10, 150, 210);
@@ -97,7 +96,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 					}
 				}
 			}
-			if (this.j.getLaMain().getListeGuideSpirituelGuider().size() - 1 == indice) {
+			if (this.joueur.getLaMain().getListeGuideSpirituelGuider().size() - 1 == indice) {
 				break;
 			}
 		}
@@ -105,6 +104,9 @@ public class FenetreGuidee extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("UPDATE FENETRE GUIDEE");
+		System.out.println(this.joueur.getLaMain());
+		this.contentPane.removeAll();
 		this.dessinerCarteGuidee();
 		this.repaint();
 		this.validate();

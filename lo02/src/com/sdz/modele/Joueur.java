@@ -7,7 +7,7 @@ import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.Croyant;
 import com.sdz.vue.PanelJeu;
 
-public class Joueur extends Observable {
+public abstract class Joueur extends Observable {
 	protected PanelJeu panelJeu;
 	protected int id;
 	protected String nom;
@@ -115,6 +115,8 @@ public class Joueur extends Observable {
 			}
 		}
 		this.ptPriere = sumPtPriere;
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public String getActionEnTrain() {
@@ -149,9 +151,7 @@ public class Joueur extends Observable {
 	}
 
 	// Un joueur veut défausser un plusieur Cartes
-	public void seDefausserCartesEtCompleter(Partie partie) {
-
-	}
+	public abstract void seDefausserCartesEtCompleter(Partie partie);
 
 	// un fois que les cartes dans la main sont changées, la main va appeler
 	// cette méthode pour notify observateur
@@ -175,12 +175,9 @@ public class Joueur extends Observable {
 	}
 
 	// Choisir carte pour jouer
-	public void choisirCarte(Partie partie) {
-	}
+	public abstract void choisirCarte(Partie partie);
 
-	public void sacrifierCarte(Partie partie) {
-
-	}
+	public abstract void sacrifierCarte(Partie partie);
 
 	public Boolean estEqual(Joueur j) {
 		if (this.id == j.id) {
