@@ -129,6 +129,7 @@ public class JoueurVirtuel extends Joueur {
 				}
 			}
 		}
+		
 		if (indice + 1 >= 4) {
 			if (arPriere[indice] == arPriere[indice - 1]) {
 				System.out.println(
