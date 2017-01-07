@@ -21,44 +21,34 @@ public class JoueurPhysique extends Joueur {
 		this.seDefausserCartesEtCompleter(partie);
 		this.choisirCarte(partie);
 
-		// Boolean continu = false;
-		// int commande = JOptionPane.showConfirmDialog(null, "Voulez-vous
-		// sacrifier la cartes ?");
-		// if (commande == 0) {
-		// continu = true;
-		// }
-		// while (continu) {
-		// JOptionPane.showMessageDialog(null, "Choissiez la carte pour la
-		// sacifier! ");
-		// this.actionEnTrain = "sacrifier";
-		// try {
-		// this.partie.suspend();
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// // this.sacrifierCarte(partie);
-		// continu = false;
-		// int commande2 = JOptionPane.showConfirmDialog(null, "Voulez-vous
-		// continuer à sacrifier la cartes ?");
-		// if (commande2 == 0) {
-		// continu = true;
-		// }
-		// }
+		Boolean continu = false;
+		int commande = JOptionPane.showConfirmDialog(null, "Voulez-vous sacrifier la cartes ?");
+		
+		if (commande == 0) {
+			JOptionPane.showMessageDialog(null, "Choissiez la carte dans l'espace Guidee pour la sacifier! ");
+			this.actionEnTrain = "sacrifier";
+			
+			try {
+				this.partie.suspend();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
 	@Override
-	public void sacrifierCarte(Partie partie) {
+	public void sacrifierCarte(CarteAction carte) {
 		/*
 		 * Carte Croyant: id :1 -->37 Carte Guide Spirituel: 38-->57 Carte Deus
 		 * Ex : 58 --> 75 Carte Apocalypse: 76 --> 80 Carte Divinite: 81 -->90
 		 */
-		// if (1 <= idSacrifice && idSacrifice <= 37) {
-		// this.sacrifierCroyant(idSacrifice, partie);
-		// }
-		// if (38 <= idSacrifice && idSacrifice <= 57) {
-		// this.sacrifierCroyant(idSacrifice, partie);
-		// }
+		if (1 <= carte.getId() && carte.getId() <= 37) {
+			this.sacrifierCroyant(carte.getId(), partie);
+		}
+		if (38 <= carte.getId() && carte.getId() <= 57) {
+			this.sacrifierCroyant(carte.getId(), partie);
+		}
 	}
 
 	@Override
@@ -149,7 +139,7 @@ public class JoueurPhysique extends Joueur {
 		if (listeCroyants.size() == 0) {
 			JOptionPane.showMessageDialog(null,
 					"Il n'y a aucun carte croyant que cette carte peut guider!\n .Cette carte est alors défaussée! ");
-			this.actionEnTrain="jouer";
+			this.actionEnTrain = "jouer";
 			// Cette carte va être récupérée par le jeu de carte
 			this.partie.getJeuDeCartes().recupererCarteAction(carte);
 		} else {
@@ -161,7 +151,12 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	public void ajouterGuidee() {
-		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
+		if (this.listeCroyantsGuidee.size() == 0) {
+			JOptionPane.showMessageDialog(null,
+					"Vous ne choissiez aucun carte Croyant guidée. La carte GuideSpirituel est alors défaussée!");
+		} else {
+			this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
+		}
 	}
 
 	public int getNbGuider() {
@@ -169,6 +164,7 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	public void ajouterCroyantGuidee(CarteAction carte) {
+		carte.setEstSacrifie(true);
 		this.partie.getEspaceCommun().supprimerCarte(carte);
 		this.listeCroyantsGuidee.add(carte);
 		this.nbGuider--;
@@ -236,6 +232,13 @@ public class JoueurPhysique extends Joueur {
 				}
 			}
 		}
+	}
+	public String getActionEnTrain() {
+		return actionEnTrain;
+	}
+
+	public void setActionEnTrain(String actionEnTrain) {
+		this.actionEnTrain = actionEnTrain;
 	}
 
 }

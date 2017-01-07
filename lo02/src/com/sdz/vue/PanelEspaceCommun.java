@@ -20,8 +20,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import com.sdz.cartes.CarteAction;
 import com.sdz.controler.Controler;
 import com.sdz.modele.EspaceCommun;
+import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.Partie;
 
 public class PanelEspaceCommun extends JPanel implements Observer {
@@ -43,15 +45,13 @@ public class PanelEspaceCommun extends JPanel implements Observer {
 		this.peindreEspace();
 	}
 
-	private int indice;
-
 	public void peindreEspace() {
 		this.removeAll();
 
 		JLabel lblEspaceCommun = new JLabel("ESPACE COMMUN");
 		lblEspaceCommun.setBounds(572, 241, 145, 68);
 		add(lblEspaceCommun);
-		indice = -1;
+		int indice = -1;
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (this.espaceCM.getListeCartesPret().size() - 1 == indice) {
@@ -63,13 +63,17 @@ public class PanelEspaceCommun extends JPanel implements Observer {
 				try {
 					BufferedImage image = ImageIO.read(
 							new File("cartes/" + this.espaceCM.getListeCartesPret().get(indice).getId() + ".PNG"));
+					CarteAction carte = espaceCM.getListeCartesPret().get(indice);
 					ImageIcon icon = new ImageIcon(image.getScaledInstance(130, 182, image.SCALE_SMOOTH));
 					button.setIcon(icon);
 					button.setMargin(new Insets(0, 0, 0, 0));
 					button.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							if (partie.getJoueurEncours().getActionEnTrain().equals("guiderCroyant")) {
-								ctrl.guiderCroyant(espaceCM.getListeCartesPret().get(indice));
+							if (!partie.getJoueurEncours().estBot()) {
+								JoueurPhysique jP = (JoueurPhysique) partie.getJoueurEncours();
+								if (jP.getActionEnTrain().equals("guiderCroyant")) {
+									ctrl.guiderCroyant(carte);
+								}
 							}
 						}
 					});

@@ -64,10 +64,6 @@ public class Croyant extends CarteAction {
 		
 	}
 
-	public void setEstJouee(Boolean estGuidee) {
-		this.estGuidee = estGuidee;
-	}
-
 	public Boolean getEstJouee() {
 		return this.estJouee;
 	}

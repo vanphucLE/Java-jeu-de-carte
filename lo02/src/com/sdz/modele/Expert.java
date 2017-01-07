@@ -76,7 +76,7 @@ public class Expert implements Stategie {
 	public LinkedList<CarteAction> choisirCartesDefausser(Partie partie) {
 		Joueur joueurEnCours = partie.getJoueurEncours();
 		LinkedList<CarteAction> cartesRecupere = new LinkedList<CarteAction>();
-		int nbDe = (int) Math.ceil(Math.random() * 7);
+		int nbDe = (int) Math.ceil(Math.random() * 6);
 		for (int i = nbDe; i >= 1; i--) {
 			// Choisir au hasard les carte défaussée.
 			int nbCa = (int) Math.ceil(Math.random() * (joueurEnCours.getLaMain().getListeCarteA().size() - 1));

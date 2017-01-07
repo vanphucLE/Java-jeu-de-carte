@@ -120,13 +120,7 @@ public abstract class Joueur extends Observable {
 		this.notifyObservers();
 	}
 
-	public String getActionEnTrain() {
-		return actionEnTrain;
-	}
-
-	public void setActionEnTrain(String actionEnTrain) {
-		this.actionEnTrain = actionEnTrain;
-	}
+	
 
 	public int getPtPriere() {
 		return this.ptPriere;
@@ -178,7 +172,7 @@ public abstract class Joueur extends Observable {
 	// Choisir carte pour jouer
 	public abstract void choisirCarte(Partie partie);
 
-	public abstract void sacrifierCarte(Partie partie);
+	public abstract void sacrifierCarte(CarteAction carte);
 
 	public Boolean estEqual(Joueur j) {
 		if (this.id == j.id) {
@@ -258,5 +252,6 @@ public abstract class Joueur extends Observable {
 	public void setPartie(Partie partie) {
 		this.partie = partie;
 	}
+	
 
 }

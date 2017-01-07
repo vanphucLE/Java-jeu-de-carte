@@ -93,7 +93,7 @@ public class PanelJP extends JPanel implements Observer {
 		btnFinirJouer.setBounds(1015, 3, 97, 25);
 		btnFinirJouer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (jP.getActionEnTrain().equals("jouer")){
+				if (jP.getActionEnTrain().equals("jouer")||jP.getActionEnTrain().equals("sacrifier")){
 					jP.setActionEnTrain("");
 					ctrl.finir();
 				}

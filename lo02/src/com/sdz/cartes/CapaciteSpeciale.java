@@ -1,16 +1,25 @@
 package com.sdz.cartes;
 
-import com.sdz.modele.*;
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
+import com.sdz.modele.Debutant;
+import com.sdz.modele.Expert;
 import com.sdz.modele.Joueur;
+import com.sdz.modele.JoueurPhysique;
+import com.sdz.modele.JoueurVirtuel;
 import com.sdz.modele.Partie;
+import com.sdz.modele.Stategie;
 
 public class CapaciteSpeciale {
-	//id de la carte
+	// id de la carte
 	private int id;
 	private Partie partie;
-	private Joueur joueur;
+	private Joueur joueurEnCours;
 	Stategie stategie;
 
 	public CapaciteSpeciale(int id) {
@@ -35,29 +44,31 @@ public class CapaciteSpeciale {
 				divine = Integer.parseInt(commande);
 			} while (!this.testIdDivinite(commande));
 		} else {
-			JoueurVirtuel j = (JoueurVirtuel) this.joueur;
+			JoueurVirtuel j = (JoueurVirtuel) this.joueurEnCours;
 			divine = j.getStategie().choisirIdDivinite(partie);
 		}
 		return divine;
 	};
 
-	// tester valeur entrée - id de divinité
-	private Boolean testIdDivinite(String str) {
-		Boolean test = false;
-		str = str.trim();
-		int idConv = 0;
-		if (str.matches("\\d+")) {
-			idConv = Integer.parseInt(str);
-			test = true;
-		}
-		if ((idConv > (partie.getListeJoueurs().size() + 1) || idConv < 0) && idConv != this.joueur.getId()) {
-			test = false;
-		}
-		if (test == false) {
-			System.out.println("Eurreur quand vous saisiez la valueur Id du joueur!");
-		}
-		return test;
-	}
+	// // tester valeur entrée - id de divinité
+	// private Boolean testIdDivinite(String str) {
+	// Boolean test = false;
+	// str = str.trim();
+	// int idConv = 0;
+	// if (str.matches("\\d+")) {
+	// idConv = Integer.parseInt(str);
+	// test = true;
+	// }
+	// if ((idConv > (partie.getListeJoueurs().size() + 1) || idConv < 0) &&
+	// idConv != this.joueurEnCours.getId()) {
+	// test = false;
+	// }
+	// if (test == false) {
+	// System.out.println("Eurreur quand vous saisiez la valueur Id du
+	// joueur!");
+	// }
+	// return test;
+	// }
 
 	// convertir et tester valeur entrée
 	private int convertIdsEntree(String str) {
@@ -70,12 +81,14 @@ public class CapaciteSpeciale {
 		return idReturn;
 	}
 
-	// empecher un joueur Sacrifier la carde
-	public Boolean empecherSacrifice(String dogme1, String dogme2) {
-		LinkedList<Integer> listeIdJoueurs = new LinkedList<Integer>();
+	// get liste Joueur ayant le dogme1 ou le dogme2 peut être empêché de
+	// sacrifier un croyant
+	public LinkedList<Joueur> listeJoueurPeutEtreEmpecher(String dogme1, String dogme2) {
+
+		LinkedList<Joueur> listeJoueurs = new LinkedList<Joueur>();
 		System.out.println("Les divinité possédant le dogme " + dogme1 + " ou " + dogme2 + ": ");
 		for (Joueur j : partie.getListeJoueurs()) {
-			if (!this.joueur.estEqual(j)) {
+			if (!this.joueurEnCours.estEqual(j)) {
 				Boolean test = false;
 				for (String str : j.getLaMain().getCarteDivinite().getDogme()) {
 					if (str.equals(dogme1) || str.equals(dogme2)) {
@@ -85,108 +98,79 @@ public class CapaciteSpeciale {
 				}
 				if (test == true) {
 					System.out.println("  +" + j + "\n   ." + j.getLaMain().getCarteDivinite());
-					listeIdJoueurs.add(j.getId());
+					listeJoueurs.add(j);
 				}
 			}
 		}
-		if (listeIdJoueurs.size() == 0) {
-			System.out.println("Il n'y a aucun divinité possédant le dogme " + dogme1 + " ou " + dogme2 + "! ");
-			return false;
-		} else {
-			// on distingu joueur physique et joueur virtuel
-			if (!joueur.estBot()) {
-				Scanner sc = new Scanner(System.in);
-				String Divine = "";
-				boolean choix = false;
-				int idChoisi = 0;
-				do {
-					System.out.print("Choisir id Divinité possédant le dogme " + dogme1 + " ou " + dogme2
-							+ " pour empêcher sa sacrifice à la carte croyant: ");
-					Divine = sc.nextLine();
-					idChoisi = Integer.parseInt(Divine);
-				} while (!this.testIdDivinite(Divine));
-				if (this.partie.getListeJoueurs().get(idChoisi - 1).getLaMain().getListeCroyantGuidee().size() > 0) {
-					System.out.println("Ses cartes Croyants peuvent être sacrifiée:  ");
-					LinkedList<CarteAction> listeCroyantSacrifice = new LinkedList<CarteAction>();
-					for (LinkedList<CarteAction> cartes : partie.getListeJoueurs().get(idChoisi - 1).getLaMain()
-							.getListeCroyantGuidee()) {
-						for (CarteAction carte : cartes) {
-							System.out.println("    + " + carte);
-							listeCroyantSacrifice.add(carte);
-						}
-					}
-					boolean testC = false;
-					// tester valeur entrée si Id est vraie
-					do {
-						boolean choix2 = false;
-						int idChoisi2 = 0;
-						String commande = "";
-						// tester valeur entrée si elle est le numéro ou
-						// caractère
-						do {
-							System.out.print("Choisir id de la carte Croyant pour empêcher sa sacrifice : ");
-							commande = sc.nextLine();
-							idChoisi2 = this.convertIdsEntree(commande);
-							if (idChoisi2 != 0) {
-								choix2 = true;
-							}
-						} while (!choix2);
-						for (LinkedList<CarteAction> cartes : partie.getListeJoueurs().get(idChoisi - 1).getLaMain()
-								.getListeCroyantGuidee()) {
-							for (CarteAction carte : cartes) {
-								if (carte.getId() == idChoisi2) {
-									carte.setEstSacrifie(false);
-									testC = true;
-									break;
-
-								}
-							}
-						}
-						if (!testC)
-							System.out.println("Eurreur Entrée!");
-					} while (!testC);
-				} else {
-					System.out.println("Il n'y a aucun carte croyant à sacrifier");
-				}
-			} else {
-				if (this.partie.getListeJoueurs().get(listeIdJoueurs.get(0) - 1).getLaMain().getListeCroyantGuidee()
-						.size() > 0) {
-					partie.getListeJoueurs().get(listeIdJoueurs.get(0) - 1).getLaMain().getListeCroyantGuidee().get(0)
-							.get(0).setEstSacrifie(false);
-				}
-			}
-			return true;
-		}
-
+		return listeJoueurs;
 	}
 
 	public Boolean effectuerCapacite(Partie partie) {
 		this.partie = partie;
-		this.joueur = partie.getJoueurEncours();
+		this.joueurEnCours = partie.getJoueurEncours();
 		Boolean testGlobal = false;
-		if (this.id > 1 && this.id < 6) {
-			partie.getJoueurEncours().setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour() + 1);
-			testGlobal = true;
+		if (this.id >= 1 && this.id <= 5) {
+			this.joueurEnCours.setPtAction_Jour(this.joueurEnCours.getPtAction_Jour() + 1);
+			JOptionPane.showMessageDialog(null, "Vous avez gagner un point d'action Jour!");
 		} else if (this.id == 6) {
-			testGlobal = this.empecherSacrifice("Nature", "Mystique");
-		} else if (this.id == 7) {
-			testGlobal = this.empecherSacrifice("Chaos", "Mystique");
-		} else if (this.id == 8 || this.id == 21 || this.id == 34) {
-			int idChoisi = 0;
-			if (!joueur.estBot()) {
-				System.out.println("Choisir Divinité pour prendre ses 2 cartes");
-				Iterator<Joueur> it = this.partie.getListeJoueurs().iterator();
-				while (it.hasNext()) {
-					Joueur j = it.next();
-					System.out.println("[id : " + j.getId() + " " + j.getNom() + "] ");
+			// empêcher Croyant sacrifier
+			if (!this.joueurEnCours.estBot()) {
+				JOptionPane.showMessageDialog(null,
+						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Nature ou Mystique pour empêcher sa sacrifice!");
+				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+				jP.setActionEnTrain("empercherCroyantNatureMystique");
+			} else {
+				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Nature", "Mystique");
+				if (listJoueurs.size() > 0) {
+					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
+					Joueur joueur = listJoueurs.get(i);
+					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
+						jV.getEffectuerCapacite().empecherCroyant(joueur, "Nature", "Mystique",
+								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+					}
 				}
-				Scanner sc = new Scanner(System.in);
-				String Divine = "";
-				do {
-					System.out.print("Choisir id de la Divinité: ");
-					Divine = sc.nextLine();
-					idChoisi = Integer.parseInt(Divine);
-				} while (!this.testIdDivinite(Divine));
+			}
+		} else if (this.id == 7) {
+			// empêcher Croyant sacrifier
+			if (!this.joueurEnCours.estBot()) {
+				JOptionPane.showMessageDialog(null,
+						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Chaos ou Mystique pour empêcher sa sacrifice!");
+				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+				jP.setActionEnTrain("empercherCroyantChaosMystique");
+			} else {
+				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Chaos", "Mystique");
+				if (listJoueurs.size() > 0) {
+					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
+					Joueur joueur = listJoueurs.get(i);
+					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
+						jV.getEffectuerCapacite().empecherCroyant(joueur, "Chaos", "Mystique",
+								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+					}
+				}
+			}
+		} else if (this.id == 8 || this.id == 21 || this.id == 34) {
+			// Prendre 2 carte de l'autre joueur
+			int idChoisi=0;
+			if (!this.joueurEnCours.estBot()) {
+				String[] chaine = new String[this.partie.getListeJoueurs().size() - 1];
+				int i = -1;
+				for (Joueur j : this.partie.getListeJoueurs()) {
+					if (!j.equals(this.joueurEnCours)) {
+						i++;
+						chaine[i] = j.getNom();
+					}
+				}
+				String nomJ = (String) JOptionPane.showInputDialog(null,
+						"Choississez le joueur à prendre 2 carte au hasard", "Acte", JOptionPane.QUESTION_MESSAGE, null,
+						chaine, chaine[0]);
+				for (Joueur j : this.partie.getListeJoueurs()) {
+					if (j.getNom().equals(nomJ)) {
+						idChoisi=j.getId();
+						break;
+					}
+				}
 			} else {
 				if (partie.getNiveau().equals("Debutant")) {
 					this.stategie = new Debutant();
@@ -201,32 +185,34 @@ public class CapaciteSpeciale {
 				Joueur j = it.next();
 				if (j.getId() == idChoisi && j.getLaMain().getListeCarteA().size() > 2) {
 					Collections.shuffle(j.getLaMain().getListeCarteA());
-					partie.getJoueurEncours().getLaMain().completerCarteAction(j.getLaMain().getListeCarteA().pop());
-					partie.getJoueurEncours().getLaMain().completerCarteAction(j.getLaMain().getListeCarteA().pop());
-					choix = false;
+					for (int k = 0; k < 2; k++) {
+						CarteAction carte = j.getLaMain().getListeCarteA().get(0);
+						j.getLaMain().seDeffausserCarte(carte);
+						this.joueurEnCours.getLaMain().completerCarteAction(carte);
+					}
+					choix=false;
 				}
 			}
-			testGlobal = true;
-		} else if (this.id >= 9 && this.id <= 11 || this.id == 23 || this.id == 22 || this.id == 9) {
-			// imposer la sacrifice un croyant d'un joueur
-			this.joueur = partie.getListeJoueurs().get(this.choisirlaDivinite() - 1);
-			partie.setJoueurEncours(this.joueur);
+		} else if (this.id >= 9 && this.id <= 11 || this.id == 23 || this.id == 22 ) {
+			// imposer la sacrifice un croyant d'un autre joueur
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite() - 1);
+			partie.setJoueurEncours(this.joueurEnCours);
 			LinkedList<CarteAction> cartes = new LinkedList();
 			System.out.println("Choisir id dont les cartes croyants suivant: ");
-			for (LinkedList<CarteAction> carteAs : this.joueur.getLaMain().getListeCroyantGuidee()) {
+			for (LinkedList<CarteAction> carteAs : this.joueurEnCours.getLaMain().getListeCroyantGuidee()) {
 				for (CarteAction carteA : carteAs) {
 					cartes.add(carteA);
 					System.out.println(carteA);
 				}
 			}
-			if (this.joueur.estBot()) {
+			if (this.joueurEnCours.estBot()) {
 				Collections.shuffle(cartes);
-				this.joueur.sacrifierCroyant(cartes.pop().getId(), partie);
+				this.joueurEnCours.sacrifierCroyant(cartes.pop().getId(), partie);
 			} else {
 				System.out.println("Choisir id carte croyant à sacrifier: ");
 				Scanner sc = new Scanner(System.in);
 				int croyant = sc.nextInt();
-				this.joueur.sacrifierCroyant(croyant, partie);
+				this.joueurEnCours.sacrifierCroyant(croyant, partie);
 			}
 			testGlobal = true;
 		} else if (this.id == 12) {
@@ -247,7 +233,8 @@ public class CapaciteSpeciale {
 									.addAll(joueurD.getLaMain().getListeCroyantGuidee().remove(guide));
 						} else {
 							System.out.println("choisir la carte guide spirituel a revenir");
-							for (int k = 1; k <= joueur.getLaMain().getListeGuideSpirituelGuider().size(); k++) {
+							for (int k = 1; k <= this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider()
+									.size(); k++) {
 								System.out.println(k + ":"
 										+ joueurD.getLaMain().getListeGuideSpirituelGuider().get(k - 1).getNom());
 							}
@@ -270,9 +257,43 @@ public class CapaciteSpeciale {
 			// donner une point d'action de nuit
 			partie.getJoueurEncours().setPtAction_Nuit(partie.getJoueurEncours().getPtAction_Nuit() + 1);
 		} else if (this.id == 19) {
-			testGlobal = this.empecherSacrifice("Humain", "Mystique");
+			// Empêcher sacifier croyant
+			if (!this.joueurEnCours.estBot()) {
+				JOptionPane.showMessageDialog(null,
+						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Humain ou Mystique pour empêcher sa sacrifice!");
+				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+				jP.setActionEnTrain("empercherCroyantHumainMystique");
+			} else {
+				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Humain", "Mystique");
+				if (listJoueurs.size() > 0) {
+					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
+					Joueur joueur = listJoueurs.get(i);
+					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
+						jV.getEffectuerCapacite().empecherCroyant(joueur, "Humain", "Mystique",
+								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+					}
+				}
+			}
 		} else if (this.id == 20) {
-			testGlobal = this.empecherSacrifice("Humain", "Symboles");
+			// Empêcher sacifier croyant
+			if (!this.joueurEnCours.estBot()) {
+				JOptionPane.showMessageDialog(null,
+						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Humain ou Symboles pour empêcher sa sacrifice!");
+				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+				jP.setActionEnTrain("empercherCroyantHumainSymboles");
+			} else {
+				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Humain", "Symboles");
+				if (listJoueurs.size() > 0) {
+					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
+					Joueur joueur = listJoueurs.get(i);
+					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
+						jV.getEffectuerCapacite().empecherCroyant(joueur, "Humain", "Symboles",
+								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+					}
+				}
+			}
 		} else
 		// id 21=8
 		// id 22, 23=9
@@ -364,9 +385,43 @@ public class CapaciteSpeciale {
 			partie.getJoueurEncours().setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant() + 1);
 		}
 		if (this.id == 32) {
-			testGlobal = this.empecherSacrifice("Nature", "Mystique");
+			// empêcher Croyant sacrifier
+			if (!this.joueurEnCours.estBot()) {
+				JOptionPane.showMessageDialog(null,
+						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Nature ou Mystique pour empêcher sa sacrifice!");
+				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+				jP.setActionEnTrain("empercherCroyantNatureMystique");
+			} else {
+				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Nature", "Mystique");
+				if (listJoueurs.size() > 0) {
+					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
+					Joueur joueur = listJoueurs.get(i);
+					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
+						jV.getEffectuerCapacite().empecherCroyant(joueur, "Nature", "Mystique",
+								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+					}
+				}
+			}
 		} else if (this.id == 33) {
-			testGlobal = this.empecherSacrifice("Chaos", "Mystique");
+			// empêcher Croyant sacrifier
+			if (!this.joueurEnCours.estBot()) {
+				JOptionPane.showMessageDialog(null,
+						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Chaos ou Mystique pour empêcher sa sacrifice!");
+				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+				jP.setActionEnTrain("empercherCroyantChaosMystique");
+			} else {
+				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Chaos", "Mystique");
+				if (listJoueurs.size() > 0) {
+					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
+					Joueur joueur = listJoueurs.get(i);
+					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
+						jV.getEffectuerCapacite().empecherCroyant(joueur, "Chaos", "Mystique",
+								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+					}
+				}
+			}
 		} else
 		// id 34 piocher 2 cartes id=8
 		// id =35 lancer le de id=13
@@ -423,52 +478,52 @@ public class CapaciteSpeciale {
 			}
 		} else if (this.id >= 41 && this.id <= 48) {
 			// gagner point action en fonction de carte croyant attache
-			if (this.joueur.getEstSetPointAction()) {
+			if (this.joueurEnCours.getEstSetPointAction()) {
 				int ptAjoute = 0;
-				for (LinkedList<CarteAction> cartes : this.joueur.getLaMain().getListeCroyantGuidee()) {
+				for (LinkedList<CarteAction> cartes : this.joueurEnCours.getLaMain().getListeCroyantGuidee()) {
 					ptAjoute += cartes.size();
 				}
-				if (!joueur.estBot()) {
+				if (!this.joueurEnCours.estBot()) {
 					System.out.println("Choisir pt Action ajouter, 1 Jour, 2 Nuit, 3 Neant");
 					Scanner sc = new Scanner(System.in);
 					int originePtAction = sc.nextInt();
 					switch (originePtAction) {
 					case 1:
-						joueur.setPtAction_Jour(joueur.getPtAction_Jour() + ptAjoute);
+						this.joueurEnCours.setPtAction_Jour(this.joueurEnCours.getPtAction_Jour() + ptAjoute);
 						break;
 					case 2:
-						joueur.setPtAction_Nuit(joueur.getPtAction_Nuit() + ptAjoute);
+						this.joueurEnCours.setPtAction_Nuit(this.joueurEnCours.getPtAction_Nuit() + ptAjoute);
 						break;
 					case 3:
-						joueur.setPtAction_Neant(joueur.getPtAction_Neant() + ptAjoute);
+						this.joueurEnCours.setPtAction_Neant(this.joueurEnCours.getPtAction_Neant() + ptAjoute);
 						break;
 					default:
 						System.out.println("Error de choisi!");
 						break;
 					}
 				} else {
-					joueur.setPtAction_Jour(joueur.getPtAction_Jour() + ptAjoute);
+					this.joueurEnCours.setPtAction_Jour(this.joueurEnCours.getPtAction_Jour() + ptAjoute);
 				}
 				System.out.print("Nouvaux points d'Action: ");
-				System.out.print("[Jour " + this.joueur.getPtAction_Jour() + "] ");
-				System.out.print("[Nuit " + this.joueur.getPtAction_Nuit() + "] ");
-				System.out.println("[Néant " + this.joueur.getPtAction_Neant() + "] ");
+				System.out.print("[Jour " + this.joueurEnCours.getPtAction_Jour() + "] ");
+				System.out.print("[Nuit " + this.joueurEnCours.getPtAction_Nuit() + "] ");
+				System.out.println("[Néant " + this.joueurEnCours.getPtAction_Neant() + "] ");
 			}
 		} else if (this.id == 49) {
 			// sacrifie tous les cartes croyant Neant d'une Divinité Humain
 
 			do {
-				this.joueur = partie.getListeJoueurs().get(this.choisirlaDivinite() - 1);
-				if (!this.joueur.getLaMain().getCarteDivinite().getOrigine().equals("Humain")) {
+				this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite() - 1);
+				if (!this.joueurEnCours.getLaMain().getCarteDivinite().getOrigine().equals("Humain")) {
 					System.out.println("Choisir la Divinité Humain ");
 				}
-			} while (joueur.getLaMain().getCarteDivinite().getId() > 82
-					&& joueur.getLaMain().getCarteDivinite().getId() < 87);
-			for (int i = 0; i < joueur.getLaMain().getListeCroyantGuidee().size(); i++) {
-				for (int j = 0; i < joueur.getLaMain().getListeCroyantGuidee().get(i).size(); j++) {
-					CarteAction carte = joueur.getLaMain().getListeCroyantGuidee().get(i).get(j);
+			} while (this.joueurEnCours.getLaMain().getCarteDivinite().getId() > 82
+					&& this.joueurEnCours.getLaMain().getCarteDivinite().getId() < 87);
+			for (int i = 0; i < this.joueurEnCours.getLaMain().getListeCroyantGuidee().size(); i++) {
+				for (int j = 0; i < this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(i).size(); j++) {
+					CarteAction carte = this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(i).get(j);
 					if (carte.getOrigine().equals("Neant")) {
-						this.joueur.sacrifierCroyant(carte.getId(), partie);
+						this.joueurEnCours.sacrifierCroyant(carte.getId(), partie);
 					}
 				}
 			}
@@ -479,7 +534,7 @@ public class CapaciteSpeciale {
 			String[] dogmeDivinite;
 			int idCarteChoisi;
 			String[] dogmeCarte = {};
-			if (!this.joueur.estBot()) {
+			if (!this.joueurEnCours.estBot()) {
 				idDivineChoisi = this.choisirlaDivinite();
 				System.out.println("Vous pouvez choisir un des carte Guide Spirituel suivant: ");
 				for (CarteAction carte : this.partie.getListeJoueurs().get(idDivineChoisi - 1).getLaMain()
@@ -491,16 +546,16 @@ public class CapaciteSpeciale {
 				idCarteChoisi = sc.nextInt();
 				for (CarteAction carte : this.partie.getListeJoueurs().get(idDivineChoisi - 1).getLaMain()
 						.getListeGuideSpirituelGuider()) {
-					if (this.joueur.getLaMain().getListeGuideSpirituelGuider().get(0).getId() == idCarteChoisi) {
+					if (this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().get(0).getId() == idCarteChoisi) {
 						dogmeCarte = carte.getDogme();
 						break;
 					}
 				}
 			} else {
-				JoueurVirtuel j = (JoueurVirtuel) this.joueur;
+				JoueurVirtuel j = (JoueurVirtuel) this.joueurEnCours;
 				idDivineChoisi = j.getStategie().choisirIdDivinite(partie);
-				idCarteChoisi = this.joueur.getLaMain().getListeGuideSpirituelGuider().get(0).getId();
-				dogmeCarte = this.joueur.getLaMain().getListeGuideSpirituelGuider().get(0).getDogme();
+				idCarteChoisi = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().get(0).getId();
+				dogmeCarte = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().get(0).getDogme();
 			}
 			dogmeDivinite = this.partie.getListeJoueurs().get(idDivineChoisi - 1).getLaMain().getCarteDivinite()
 					.getDogme();
@@ -511,8 +566,8 @@ public class CapaciteSpeciale {
 				}
 			}
 			if (!contientChaos) {
-				this.joueur = this.partie.getListeJoueurs().get(idDivineChoisi - 1);
-				joueur.sacrifierGuideSpirit(idCarteChoisi, this.partie);
+				this.joueurEnCours = this.partie.getListeJoueurs().get(idDivineChoisi - 1);
+				this.joueurEnCours.sacrifierGuideSpirit(idCarteChoisi, this.partie);
 			} else {
 				contientChaos = false;
 				for (String dogme : dogmeCarte) {
@@ -521,8 +576,8 @@ public class CapaciteSpeciale {
 					}
 				}
 				if (!contientChaos) {
-					this.joueur = this.partie.getListeJoueurs().get(idDivineChoisi - 1);
-					joueur.sacrifierGuideSpirit(idCarteChoisi, this.partie);
+					this.joueurEnCours = this.partie.getListeJoueurs().get(idDivineChoisi - 1);
+					this.joueurEnCours.sacrifierGuideSpirit(idCarteChoisi, this.partie);
 				}
 			}
 		} else if (this.id == 51) {
@@ -541,15 +596,15 @@ public class CapaciteSpeciale {
 			}
 		} else if (this.id == 52) {
 			// sacrifier 2 croyant de la Divinite Humain ou Sympboles
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
-			while (joueur.getLaMain().getCarteDivinite().getId() == 84
-					|| joueur.getLaMain().getCarteDivinite().getId() == 85) {
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			while (this.joueurEnCours.getLaMain().getCarteDivinite().getId() == 84
+					|| this.joueurEnCours.getLaMain().getCarteDivinite().getId() == 85) {
 				System.out.println("Choisir la divinite d'origine Humain ou Symboles");
-				joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+				this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			}
 			System.out.println("Voici la liste des guides spirituel, choisir 2 carte croyant a sacrifier");
 			LinkedList<CarteAction> carte = null;
-			Iterator<LinkedList<CarteAction>> it = joueur.getLaMain().getListeCroyantGuidee().iterator();
+			Iterator<LinkedList<CarteAction>> it = this.joueurEnCours.getLaMain().getListeCroyantGuidee().iterator();
 			int i = 1;
 			while (it.hasNext()) {
 				for (int k = 0; k < it.next().size(); k++) {
@@ -569,7 +624,7 @@ public class CapaciteSpeciale {
 					croyant = sc.nextInt();
 				}
 			}
-			joueur.sacrifierCroyant(carte.get(croyant - 1).getId(), partie);
+			this.joueurEnCours.sacrifierCroyant(carte.get(croyant - 1).getId(), partie);
 			carte.remove(croyant - 1);
 			if (partie.getJoueurEncours().estBot()) {
 				croyant = (int) Math.ceil(carte.size() * Math.random());
@@ -581,19 +636,19 @@ public class CapaciteSpeciale {
 					croyant = sc.nextInt();
 				}
 			}
-			joueur.sacrifierCroyant(carte.get(croyant - 1).getId(), partie);
+			this.joueurEnCours.sacrifierCroyant(carte.get(croyant - 1).getId(), partie);
 			carte.remove(croyant - 1);
 		} else if (id == 53) {
 			// oblige une Divinite Nature ou Mystique sacrifier une de ses Guide
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
-			while (joueur.getLaMain().getCarteDivinite().getId() == 89
-					|| joueur.getLaMain().getCarteDivinite().getId() == 90) {
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			while (this.joueurEnCours.getLaMain().getCarteDivinite().getId() == 89
+					|| this.joueurEnCours.getLaMain().getCarteDivinite().getId() == 90) {
 				System.out.println("Choisir la divinite d'origine Nature ou Mystique");
-				joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+				this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			}
 			System.out.println("Voici la liste des guides spirituels");
 			LinkedList<CarteAction> carte = null;
-			Iterator<CarteAction> it = joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			Iterator<CarteAction> it = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().iterator();
 			int i = 1;
 			int Guide;
 			while (it.hasNext()) {
@@ -611,19 +666,19 @@ public class CapaciteSpeciale {
 					Guide = sc.nextInt();
 				}
 			}
-			joueur.sacrifierGuideSpirit(carte.get(Guide - 1).getId(), partie);
+			this.joueurEnCours.sacrifierGuideSpirit(carte.get(Guide - 1).getId(), partie);
 		} else if (id == 54) {
 			// reprende dans sa main un de ses Guides
 			// Divinite origine nuit ou dogme Mystique ou Chaos
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
-			while (!((joueur.getLaMain().getCarteDivinite().getId() > 82
-					&& joueur.getLaMain().getCarteDivinite().getId() < 87)
-					|| joueur.getLaMain().getCarteDivinite().getId() == 88)) {
-				joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			while (!((this.joueurEnCours.getLaMain().getCarteDivinite().getId() > 82
+					&& this.joueurEnCours.getLaMain().getCarteDivinite().getId() < 87)
+					|| this.joueurEnCours.getLaMain().getCarteDivinite().getId() == 88)) {
+				this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			}
 			System.out.println("Voici la liste des guides spirituels");
 			LinkedList<CarteAction> carte = null;
-			Iterator<CarteAction> it = joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			Iterator<CarteAction> it = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().iterator();
 			int i = 1;
 			int Guide;
 			while (it.hasNext()) {
@@ -641,13 +696,13 @@ public class CapaciteSpeciale {
 					Guide = sc.nextInt();
 				}
 			}
-			joueur.getLaMain().getListeCarteA()
-					.add(joueur.getLaMain().getListeGuideSpirituelGuider().remove(Guide - 1));
+			this.joueurEnCours.getLaMain().getListeCarteA()
+					.add(this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().remove(Guide - 1));
 			partie.getJeuDeCartes().getListeCartesAction()
-					.addAll(joueur.getLaMain().getListeCroyantGuidee().get(Guide - 1));
+					.addAll(this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(Guide - 1));
 		} else if (id == 55) {
 			// echanger 2 guide
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			System.out.println("Voici votre liste des guides spirituels");
 			LinkedList<CarteAction> carte = null;
 			Iterator<CarteAction> it = partie.getJoueurEncours().getLaMain().getListeGuideSpirituelGuider().iterator();
@@ -670,7 +725,7 @@ public class CapaciteSpeciale {
 			}
 			System.out.println("Voici la liste des guides spirituels");
 			LinkedList<CarteAction> carte2 = null;
-			Iterator<CarteAction> it2 = joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			Iterator<CarteAction> it2 = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().iterator();
 			i = 1;
 			int Guide2;
 			while (it2.hasNext()) {
@@ -689,12 +744,12 @@ public class CapaciteSpeciale {
 				}
 			}
 			partie.getJoueurEncours().getLaMain().getListeGuideSpirituelGuider()
-					.add(joueur.getLaMain().getListeGuideSpirituelGuider().remove(Guide2 - 1));
+					.add(this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().remove(Guide2 - 1));
 			partie.getJoueurEncours().getLaMain().getListeCroyantGuidee()
-					.add(joueur.getLaMain().getListeCroyantGuidee().remove(Guide2 - 1));
-			joueur.getLaMain().getListeGuideSpirituelGuider()
+					.add(this.joueurEnCours.getLaMain().getListeCroyantGuidee().remove(Guide2 - 1));
+			this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider()
 					.add(partie.getJoueurEncours().getLaMain().getListeGuideSpirituelGuider().remove(Guide1 - 1));
-			joueur.getLaMain().getListeCroyantGuidee()
+			this.joueurEnCours.getLaMain().getListeCroyantGuidee()
 					.add(partie.getJoueurEncours().getLaMain().getListeCroyantGuidee().remove(Guide1 - 1));
 		} else if (id == 56) {
 			// defausser tous les cartes croyants Mystique au centre la table
@@ -752,10 +807,10 @@ public class CapaciteSpeciale {
 			}
 		} else if (id == 58) {
 			// detruire un guide spirituel Nuit ou Neant
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			System.out.println("Voici la liste des guides spirituel");
 			LinkedList<CarteAction> carte = null;
-			Iterator<CarteAction> it = joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			Iterator<CarteAction> it = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().iterator();
 			int i = 1;
 			while (it.hasNext()) {
 				if (it.next().getOrigine() == "Nuit" || it.next().getOrigine() == "Neant") {
@@ -776,15 +831,15 @@ public class CapaciteSpeciale {
 				}
 			}
 			partie.getJeuDeCartes().getListeCartesAction()
-					.add(joueur.getLaMain().getListeGuideSpirituelGuider().remove(Guide - 1));
+					.add(this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().remove(Guide - 1));
 			partie.getEspaceCommun().getListeCartesPret()
-					.addAll(joueur.getLaMain().getListeCroyantGuidee().get(Guide - 1));
+					.addAll(this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(Guide - 1));
 		} else if (id == 59) {
 			// detruire un guide sprituel Jour ou Neant
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			System.out.println("Voici la liste des guides spirituel");
 			LinkedList<CarteAction> carte = null;
-			Iterator<CarteAction> it = joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			Iterator<CarteAction> it = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().iterator();
 			int i = 1;
 			while (it.hasNext()) {
 				if (it.next().getOrigine() == "Jour" || it.next().getOrigine() == "Neant") {
@@ -805,18 +860,18 @@ public class CapaciteSpeciale {
 				}
 			}
 			partie.getJeuDeCartes().getListeCartesAction()
-					.add(joueur.getLaMain().getListeGuideSpirituelGuider().remove(Guide - 1));
+					.add(this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().remove(Guide - 1));
 			partie.getEspaceCommun().getListeCartesPret()
-					.addAll(joueur.getLaMain().getListeCroyantGuidee().get(Guide - 1));
+					.addAll(this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(Guide - 1));
 		} else if (id == 60) {
 			// proteger un Guide Spirituel
-			
+
 		} else if (id == 61 || id == 64) {
 			// recuperez un guide d'un autre divinite et aussi les croyants
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			System.out.println("Voici la liste des guides spirituel");
 			LinkedList<CarteAction> carte = null;
-			Iterator<CarteAction> it = joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			Iterator<CarteAction> it = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().iterator();
 			int i = 1;
 			while (it.hasNext()) {
 				System.out.println(i + ":" + it.next());
@@ -835,15 +890,15 @@ public class CapaciteSpeciale {
 				}
 			}
 			partie.getJoueurEncours().getLaMain().getListeGuideSpirituelGuider()
-					.add(joueur.getLaMain().getListeGuideSpirituelGuider().remove(Guide - 1));
+					.add(this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().remove(Guide - 1));
 			partie.getJoueurEncours().getLaMain().getListeCroyantGuidee()
-					.add(joueur.getLaMain().getListeCroyantGuidee().remove(Guide - 1));
+					.add(this.joueurEnCours.getLaMain().getListeCroyantGuidee().remove(Guide - 1));
 		} else if (id == 62) {
 			// sacrifier 2 carte croyant
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			System.out.println("Voici la liste des croyant");
 			LinkedList<CarteAction> carte = null;
-			Iterator<LinkedList<CarteAction>> it = joueur.getLaMain().getListeCroyantGuidee().iterator();
+			Iterator<LinkedList<CarteAction>> it = this.joueurEnCours.getLaMain().getListeCroyantGuidee().iterator();
 			int i = 1;
 			while (it.hasNext()) {
 				for (int k = 0; k < it.next().size(); k++) {
@@ -863,7 +918,7 @@ public class CapaciteSpeciale {
 					croyant = sc.nextInt();
 				}
 			}
-			joueur.sacrifierCroyant(carte.get(croyant - 1).getId(), partie);
+			this.joueurEnCours.sacrifierCroyant(carte.get(croyant - 1).getId(), partie);
 			carte.remove(croyant - 1);
 			if (partie.getJoueurEncours().estBot()) {
 				croyant = (int) Math.ceil(carte.size() * Math.random());
@@ -875,15 +930,18 @@ public class CapaciteSpeciale {
 					croyant = sc.nextInt();
 				}
 			}
-			joueur.sacrifierCroyant(carte.get(croyant - 1).getId(), partie);
+			this.joueurEnCours.sacrifierCroyant(carte.get(croyant - 1).getId(), partie);
 			carte.remove(croyant - 1);
 
 		} else if (id == 63) {
 			// prendre 3 carte en main d'un autre Divine
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
-			partie.getJoueurEncours().getLaMain().getListeCarteA().add(joueur.getLaMain().getListeCarteA().pop());
-			partie.getJoueurEncours().getLaMain().getListeCarteA().add(joueur.getLaMain().getListeCarteA().pop());
-			partie.getJoueurEncours().getLaMain().getListeCarteA().add(joueur.getLaMain().getListeCarteA().pop());
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			partie.getJoueurEncours().getLaMain().getListeCarteA()
+					.add(this.joueurEnCours.getLaMain().getListeCarteA().pop());
+			partie.getJoueurEncours().getLaMain().getListeCarteA()
+					.add(this.joueurEnCours.getLaMain().getListeCarteA().pop());
+			partie.getJoueurEncours().getLaMain().getListeCarteA()
+					.add(this.joueurEnCours.getLaMain().getListeCarteA().pop());
 		}
 		// id64 =61
 		else if (id == 65) {
@@ -896,7 +954,7 @@ public class CapaciteSpeciale {
 			// beneficier une capactier d'une guide ou croyant sans sacrifier
 			System.out.println("Choisir carte a beneficier");
 			LinkedList<CarteAction> carte = null;
-			Iterator<LinkedList<CarteAction>> it = joueur.getLaMain().getListeCroyantGuidee().iterator();
+			Iterator<LinkedList<CarteAction>> it = this.joueurEnCours.getLaMain().getListeCroyantGuidee().iterator();
 			int i = 1;
 			while (it.hasNext()) {
 				for (int k = 0; k < it.next().size(); k++) {
@@ -905,7 +963,7 @@ public class CapaciteSpeciale {
 					carte.add(it.next().get(k));
 				}
 			}
-			Iterator<CarteAction> it1 = joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			Iterator<CarteAction> it1 = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().iterator();
 			while (it1.hasNext()) {
 				System.out.println(i + ":" + it.next());
 				i++;
@@ -922,9 +980,8 @@ public class CapaciteSpeciale {
 			cartebeneficie.effectuerCapaciteSpecial(partie);
 		} else if (id == 67) {
 			// annule capacite une carte action nuit ou neant
-			int idDivinite=this.choisirlaDivinite();
-			
-			
+			int idDivinite = this.choisirlaDivinite();
+
 		} else if (id == 74) {
 			// lancer le de
 			partie.lancerDe();
@@ -932,8 +989,8 @@ public class CapaciteSpeciale {
 			// lancer le de
 
 		} else if (id == 82) {
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
-			joueur.setSacrifice(false);
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			this.joueurEnCours.setSacrifice(false);
 		} else if (id == 83) {
 			for (int i = 0; i < partie.getEspaceCommun().getListeCartesPret().size(); i++) {
 				CarteAction carte = partie.getEspaceCommun().getListeCartesPret().get(i);
@@ -944,14 +1001,14 @@ public class CapaciteSpeciale {
 			}
 
 		} else if (id == 84 || id == 85) { // thêm effectuer vô
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			Apocalypse carte;
-			Iterator<CarteAction> it = joueur.getLaMain().getListeCarteA().iterator();
+			Iterator<CarteAction> it = this.joueurEnCours.getLaMain().getListeCarteA().iterator();
 			while (it.hasNext()) {
 				if (it.next().getId() < 81 && it.next().getId() > 75) {
 					carte = (Apocalypse) it.next();
 					carte.effectuerCapaciteSpecial();
-					joueur.getLaMain().getListeCarteA().remove(carte);
+					this.joueurEnCours.getLaMain().getListeCarteA().remove(carte);
 					break;
 				}
 			}
@@ -970,11 +1027,11 @@ public class CapaciteSpeciale {
 					.setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant() + ptActionNeantajouer);
 
 		} else if (id == 88) {
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
 			int Guide;
 			System.out.println("Voici la liste des guides ayant le dogme Symboles ou Nature");
 			LinkedList<CarteAction> carte = null;
-			Iterator<CarteAction> it = joueur.getLaMain().getListeGuideSpirituelGuider().iterator();
+			Iterator<CarteAction> it = this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().iterator();
 			int i = 1;
 			while (it.hasNext()) {
 				for (int j = 0; j < 2; j++) {
@@ -995,19 +1052,19 @@ public class CapaciteSpeciale {
 					Guide = sc.nextInt();
 				}
 			}
-			joueur.sacrifierGuideSpirit(carte.get(Guide - 1).getId(), partie);
+			this.joueurEnCours.sacrifierGuideSpirit(carte.get(Guide - 1).getId(), partie);
 		} else if (id == 89) {
-			joueur = partie.getListeJoueurs().get(this.choisirlaDivinite());
-			partie.getJoueurEncours()
-					.setPtAction_Jour(partie.getJoueurEncours().getPtAction_Jour() + joueur.getPtAction_Jour());
-			partie.getJoueurEncours()
-					.setPtAction_Nuit(partie.getJoueurEncours().getPtAction_Nuit() + joueur.getPtAction_Nuit());
-			partie.getJoueurEncours()
-					.setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant() + joueur.getPtAction_Neant());
-			joueur.setPtAction_Jour(0);
-			joueur.setPtAction_Nuit(0);
-			joueur.setPtAction_Neant(0);
-			joueur.setEstSetPointAction(false);
+			this.joueurEnCours = partie.getListeJoueurs().get(this.choisirlaDivinite());
+			partie.getJoueurEncours().setPtAction_Jour(
+					partie.getJoueurEncours().getPtAction_Jour() + this.joueurEnCours.getPtAction_Jour());
+			partie.getJoueurEncours().setPtAction_Nuit(
+					partie.getJoueurEncours().getPtAction_Nuit() + this.joueurEnCours.getPtAction_Nuit());
+			partie.getJoueurEncours().setPtAction_Neant(
+					partie.getJoueurEncours().getPtAction_Neant() + this.joueurEnCours.getPtAction_Neant());
+			this.joueurEnCours.setPtAction_Jour(0);
+			this.joueurEnCours.setPtAction_Nuit(0);
+			this.joueurEnCours.setPtAction_Neant(0);
+			this.joueurEnCours.setEstSetPointAction(false);
 		}
 
 		return testGlobal;

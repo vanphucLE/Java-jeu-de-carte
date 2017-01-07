@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import javax.swing.JOptionPane;
 
 import com.sdz.cartes.CarteAction;
+import com.sdz.modele.EffectuerCapacite;
+import com.sdz.modele.Joueur;
 import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.Partie;
 import com.sdz.vue.PanelJeu;
@@ -13,9 +15,11 @@ public class Controler {
 	private Partie partie;
 	private JoueurPhysique jP;
 	private PanelJeu panelJeu;
+	private EffectuerCapacite effectuerCapacite;
 
 	public Controler(Partie partie) {
 		this.partie = partie;
+		this.effectuerCapacite = new EffectuerCapacite(partie);
 		this.jP = (JoueurPhysique) this.partie.getListeJoueurs().get(0);
 	}
 
@@ -102,6 +106,7 @@ public class Controler {
 		if (this.jP.getNbGuider() > 0) {
 			LinkedList<CarteAction> listeCroyants = this.jP.croyantsPeutEtreGuidee();
 			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+			System.out.println(carte);
 			System.out.println(listeCroyants);
 			if (listeCroyants.indexOf(carte) == -1) {
 				JOptionPane.showMessageDialog(null,
@@ -125,9 +130,13 @@ public class Controler {
 	}
 
 	public void sacrifier(CarteAction carte) {
-		// Do something
+		this.panelJeu.dessinerPanelCarteJouee(carte);
+		this.jP.sacrifierCarte(carte);
+	}
 
-		this.partie.resume();
+	public void empecherCroyant(Joueur joueur, String dogme1, String dogme2, CarteAction carte) {
+		this.effectuerCapacite.empecherCroyant(joueur, dogme1, dogme2, carte);
+		this.jP.setActionEnTrain("sacrifier");
 	}
 
 	public void lancerDe() {

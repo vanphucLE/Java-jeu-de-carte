@@ -18,7 +18,7 @@ public class GuideSpirituel extends CarteAction {
 	private static final String[][] dogmeGuideSpirituels = { { "Humain", "Nature" }, { "Symboles", "Humain" },
 			{ "Nature", "Chaos" }, { "Chaos", "Humain" }, { "Nature", "Symboles" }, { "Mystique", "Nature" },
 			{ "Nature", "Chaos" }, { "Symboles", "Mystique" }, { "Chaos", "Symboles" }, { "Mystique", "Chaos" },
-			{ "Nature", "Chaos" }, { "Nature", "Symboles" }, { "Chaos", "Humain" }, { "Humain", "Mystique" },
+			{ "Nature", "Humain" }, { "Nature", "Symboles" }, { "Chaos", "Humain" }, { "Humain", "Mystique" },
 			{ "Humain", "Symboles" }, { "Nature", "Mystique" }, { "Mystique", "Chaos" }, { "Symboles", "Mystique" },
 			{ "Symboles", "Chaos" }, { "Mystique", "Humain" } };
 

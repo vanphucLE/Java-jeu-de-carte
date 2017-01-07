@@ -16,6 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -40,7 +41,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
-//		contentPane.setBackground(Color.GREEN);
+		// contentPane.setBackground(Color.GREEN);
 		setContentPane(contentPane);
 
 	}
@@ -49,19 +50,19 @@ public class FenetreGuidee extends JFrame implements Observer {
 		this.ctrl = ctrl;
 	}
 
-	private int indice;
-
 	public void dessinerCarteGuidee() {
-		this.indice=-1;
+		int indice = -1;
 		for (int k = 0; k <= 3; k++) {
 			for (int m = 0; m <= 3; m++) {
 				if (this.joueur.getLaMain().getListeGuideSpirituelGuider().size() - 1 == indice) {
 					break;
 				}
 				indice++;
+				// dessinier carte GuideSpirituel
 				JButton button = new JButton();
 				button.setBounds(460 * m + 10, 215 * k + 10, 150, 210);
 				try {
+					CarteAction carte = joueur.getLaMain().getListeGuideSpirituelGuider().get(indice);
 					BufferedImage image = ImageIO.read(new File("cartes/"
 							+ this.joueur.getLaMain().getListeGuideSpirituelGuider().get(indice).getId() + ".PNG"));
 					ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
@@ -72,7 +73,9 @@ public class FenetreGuidee extends JFrame implements Observer {
 							if (!joueur.estBot()) {
 								JoueurPhysique jP = (JoueurPhysique) joueur;
 								if (jP.getActionEnTrain().equals("sacrifier")) {
-									ctrl.sacrifier(joueur.getLaMain().getListeGuideSpirituelGuider().get(indice));
+									ctrl.sacrifier(carte);
+								} else if (jP.getActionEnTrain().equals("empercherCroyantNatureMystique")) {
+									JOptionPane.showMessageDialog(null, "Vous doivez choisir une carte Croyant!");
 								}
 							}
 						}
@@ -82,6 +85,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 					Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 				}
 				int i = -1;
+				// dessiner les cartes Croyants
 				for (CarteAction carte : this.joueur.getLaMain().getListeCroyantGuidee().get(indice)) {
 					i++;
 					button = new JButton();
@@ -91,6 +95,29 @@ public class FenetreGuidee extends JFrame implements Observer {
 						ImageIcon icon = new ImageIcon(image.getScaledInstance(150, 210, image.SCALE_SMOOTH));
 						button.setIcon(icon);
 						button.setMargin(new Insets(0, 0, 0, 0));
+						button.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								if (!joueur.estBot()) {
+									JoueurPhysique jP = (JoueurPhysique) joueur;
+									if (jP.getActionEnTrain().equals("sacrifier")) {
+										if (carte.getEstSacrifie()) {
+											ctrl.sacrifier(carte);
+										} else {
+											JOptionPane.showMessageDialog(null,
+													"Vous ne pouvez pas sacirifier cette Carte!");
+										}
+									} else if (jP.getActionEnTrain().equals("empercherCroyantNatureMystique")) {
+										ctrl.empecherCroyant(joueur, "Nature", "Mystique", carte);
+									}else if (jP.getActionEnTrain().equals("empercherCroyantChaosMystique")) {
+										ctrl.empecherCroyant(joueur, "Chaos", "Mystique", carte);
+									}else if (jP.getActionEnTrain().equals("empercherCroyantHumainMystique")) {
+										ctrl.empecherCroyant(joueur, "Humain", "Mystique", carte);
+									}else if (jP.getActionEnTrain().equals("empercherCroyantHumainSymboles")) {
+										ctrl.empecherCroyant(joueur, "Humain", "Symboles", carte);
+									}
+								}
+							}
+						});
 						this.contentPane.add(button);
 					} catch (IOException ex) {
 						Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);

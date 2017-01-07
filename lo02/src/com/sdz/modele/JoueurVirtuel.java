@@ -10,13 +10,15 @@ import com.sdz.cartes.GuideSpirituel;
 import com.sdz.vue.PanelJeu;
 
 public class JoueurVirtuel extends Joueur {
-	Stategie stategie;
+	private Stategie stategie;
+	private EffectuerCapacite effectuerCapacite;
 
 	// private Stategie stagie;
 	public JoueurVirtuel(int id, String nom, int age, Stategie stategie) {
 		super(id, nom, age);
 		this.bot = true;
 		this.stategie = stategie;
+		effectuerCapacite=new EffectuerCapacite(this.partie);
 	}
 
 	public void setPanelJeu(PanelJeu panelJeu) {
@@ -165,9 +167,11 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	@Override
-	public void sacrifierCarte(Partie partie) {
+	public void sacrifierCarte(CarteAction carte) {
+		
+		// changer choisir carte
 		if (this.laMain.getListeCroyantGuidee().size() > 0) {
-			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), partie);
+			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), this.partie);
 		}
 	}
 
@@ -181,6 +185,10 @@ public class JoueurVirtuel extends Joueur {
 
 	public Stategie getStategie() {
 		return stategie;
+	}
+
+	public EffectuerCapacite getEffectuerCapacite() {
+		return effectuerCapacite;
 	}
 
 }
