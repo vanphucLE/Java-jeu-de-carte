@@ -23,11 +23,11 @@ public class JoueurPhysique extends Joueur {
 
 		Boolean continu = false;
 		int commande = JOptionPane.showConfirmDialog(null, "Voulez-vous sacrifier la cartes ?");
-		
+
 		if (commande == 0) {
 			JOptionPane.showMessageDialog(null, "Choissiez la carte dans l'espace Guidee pour la sacifier! ");
 			this.actionEnTrain = "sacrifier";
-			
+
 			try {
 				this.partie.suspend();
 			} catch (InterruptedException e) {
@@ -175,7 +175,7 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	@Override
-	public void jouerApocalypse(CarteAction carte, Partie partie) {
+	public void jouerApocalypse(CarteAction carte) {
 		//
 		if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1) {
 			JOptionPane.showMessageDialog(null, "Vous ne pouvez pas jouer la carte Apocalypse en ce tour! ");
@@ -183,56 +183,61 @@ public class JoueurPhysique extends Joueur {
 		} else {
 			this.laMain.seDeffausserCarte(carte);
 			this.partie.getJeuDeCartes().recupererCarteAction(carte);
-			partie.setEstApocalypseAvant(-1);
-			int[] arPriere = new int[partie.getListeJoueurs().size() + 1];
-			int indice = -1;
-			for (Joueur j : partie.getListeJoueurs()) {
-				j.setPtPriere();
-				indice++;
-				arPriere[indice] = j.getPtPriere();
-			}
-			for (int i = 0; i <= indice - 1; i++) {
-				for (int j = i + 1; j <= indice; j++) {
-					if (arPriere[i] < arPriere[j]) {
-						int tg = arPriere[i];
-						arPriere[i] = arPriere[j];
-						arPriere[j] = tg;
-					}
+			this.jouerApocalypse_2();
+		}
+	}
+
+	public void jouerApocalypse_2() {
+		this.partie.setEstApocalypseAvant(-1);
+		int[] arPriere = new int[partie.getListeJoueurs().size() + 1];
+		int indice = -1;
+		for (Joueur j : this.partie.getListeJoueurs()) {
+			j.setPtPriere();
+			indice++;
+			arPriere[indice] = j.getPtPriere();
+		}
+		for (int i = 0; i <= indice - 1; i++) {
+			for (int j = i + 1; j <= indice; j++) {
+				if (arPriere[i] < arPriere[j]) {
+					int tg = arPriere[i];
+					arPriere[i] = arPriere[j];
+					arPriere[j] = tg;
 				}
 			}
-			if (indice + 1 >= 4) {
-				if (arPriere[indice] == arPriere[indice - 1]) {
-					System.out.println(
-							"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé.");
-					JOptionPane.showMessageDialog(null,
-							"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé!");
-				} else {
-					for (Joueur j : partie.getListeJoueurs()) {
-						if (j.getPtPriere() == arPriere[indice]) {
-							partie.eliminerJoueur(j);
-							break;
-						}
-					}
-				}
+		}
+		if (indice + 1 >= 4) {
+			if (arPriere[indice] == arPriere[indice - 1]) {
+				System.out.println(
+						"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé.");
+				JOptionPane.showMessageDialog(null,
+						"Il y a 2 joueur ayant le même point prière dernier. Cette carte Apocalypse est défaussé!");
 			} else {
-				if (arPriere[0] == arPriere[1]) {
-					System.out.println(
-							"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé.");
-					JOptionPane.showMessageDialog(null,
-							"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé!");
-				} else {
-					for (Joueur j : partie.getListeJoueurs()) {
-						if (j.getPtPriere() == arPriere[0]) {
-							JOptionPane.showMessageDialog(null, j.getNom() + " a gagné!");
-							partie.setJoueurgagnant(j);
-							partie.setEstFini(true);
-							break;
-						}
+				for (Joueur j : partie.getListeJoueurs()) {
+					if (j.getPtPriere() == arPriere[indice]) {
+						this.partie.eliminerJoueur(j);
+						break;
+					}
+				}
+			}
+		} else {
+			if (arPriere[0] == arPriere[1]) {
+				System.out.println(
+						"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé.");
+				JOptionPane.showMessageDialog(null,
+						"Il y a 2 joueur ayant le même point prière premier. Cette carte Apocalypse est défaussé!");
+			} else {
+				for (Joueur j : partie.getListeJoueurs()) {
+					if (j.getPtPriere() == arPriere[0]) {
+						JOptionPane.showMessageDialog(null, j.getNom() + " a gagné!");
+						this.partie.setJoueurgagnant(j);
+						this.partie.setEstFini(true);
+						break;
 					}
 				}
 			}
 		}
 	}
+
 	public String getActionEnTrain() {
 		return actionEnTrain;
 	}

@@ -188,8 +188,7 @@ public abstract class Joueur extends Observable {
 		espaceCommun.ajouterCarte(carte);
 	}
 
-	public void jouerApocalypse(CarteAction carte, Partie partie) {
-	};
+	public abstract void jouerApocalypse(CarteAction carte);
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
@@ -224,7 +223,6 @@ public abstract class Joueur extends Observable {
 				if (test)
 					break;
 			}
-
 		} else
 			System.out.println("Vous ne pouvez pas sacrifier la carte");
 	}

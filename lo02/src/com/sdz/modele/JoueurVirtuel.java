@@ -18,7 +18,7 @@ public class JoueurVirtuel extends Joueur {
 		super(id, nom, age);
 		this.bot = true;
 		this.stategie = stategie;
-		effectuerCapacite=new EffectuerCapacite(this.partie);
+		effectuerCapacite = new EffectuerCapacite(this.partie);
 	}
 
 	public void setPanelJeu(PanelJeu panelJeu) {
@@ -31,7 +31,11 @@ public class JoueurVirtuel extends Joueur {
 				+ "(Néant: " + this.ptAction_Neant + ")");
 		this.seDefausserCartesEtCompleter(partie);
 		this.choisirCarte(partie);
-		if (this.sacrifice && this.laMain.getListeCroyantGuidee().size() != 0) {
+		int rd;
+		do {
+			rd = (int) Math.ceil(Math.random() * 2);
+		} while (rd != 0);
+		if (rd == 2 && this.sacrifice && this.laMain.getListeCroyantGuidee().size() != 0) {
 			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), partie);
 		}
 	}
@@ -74,7 +78,7 @@ public class JoueurVirtuel extends Joueur {
 				this.jouerDeusEx(partie);
 				break;
 			case "Apocalypse":
-				this.jouerApocalypse(carteChoisi, partie);
+				this.jouerApocalypse(carteChoisi);
 				break;
 			}
 		} else {
@@ -112,17 +116,21 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	@Override
-	public void jouerApocalypse(CarteAction carte, Partie partie) {
+	public void jouerApocalypse(CarteAction carte) {
+		this.jouerApocalypse();
+	}
+
+	public void jouerApocalypse() {
 		JOptionPane.showMessageDialog(null, this.nom + "a joué la carte Apocalypse!");
 		partie.setEstApocalypseAvant(-1);
-		int[] arPriere = new int[partie.getListeJoueurs().size()+1];
+		int[] arPriere = new int[partie.getListeJoueurs().size() + 1];
 		int indice = -1;
 		for (Joueur j : partie.getListeJoueurs()) {
 			j.setPtPriere();
 			indice++;
 			arPriere[indice] = j.getPtPriere();
 		}
-		
+
 		for (int i = 0; i <= indice - 1; i++) {
 			for (int j = i + 1; j <= indice; j++) {
 				if (arPriere[i] < arPriere[j]) {
@@ -132,7 +140,7 @@ public class JoueurVirtuel extends Joueur {
 				}
 			}
 		}
-		
+
 		if (indice + 1 >= 4) {
 			if (arPriere[indice] == arPriere[indice - 1]) {
 				System.out.println(
@@ -168,7 +176,7 @@ public class JoueurVirtuel extends Joueur {
 
 	@Override
 	public void sacrifierCarte(CarteAction carte) {
-		
+
 		// changer choisir carte
 		if (this.laMain.getListeCroyantGuidee().size() > 0) {
 			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), this.partie);

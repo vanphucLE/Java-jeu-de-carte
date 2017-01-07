@@ -17,13 +17,14 @@ public class Partie extends Observable implements Runnable {
 	private ArrayList<Joueur> listeJoueurs;
 	private JeuDeCartes jeuDeCartes;
 	private Boolean estFini;
+	private Boolean finiTour;
 	private EspaceCommun espaceCommun;
 	private String niveau;
-	private Boolean finiTour;
 	private int estApocalypseAvant;// cette attribute pour valider si le
 									// carteApocalypse peut-être joué
 	private boolean waitEntree;
 	private String faceDe;
+	private Joueur joueurDernier;
 
 	public Partie(ArrayList<Joueur> listeJoueurs, String niveau) {
 		this.listeJoueurs = listeJoueurs;
@@ -129,7 +130,7 @@ public class Partie extends Observable implements Runnable {
 		}
 
 		for (int i = numCom + 1; i < this.listeJoueurs.size(); i++) {
-			if (this.finiTour) {
+			if (this.finiTour || this.estFini) {
 				break;
 			}
 			this.joueurEncours = this.listeJoueurs.get(i);
@@ -138,7 +139,7 @@ public class Partie extends Observable implements Runnable {
 
 		}
 		for (int i = 0; i < numCom; i++) {
-			if (this.finiTour) {
+			if (this.finiTour || this.estFini) {
 				break;
 			}
 			this.joueurEncours = this.listeJoueurs.get(i);
@@ -268,6 +269,14 @@ public class Partie extends Observable implements Runnable {
 
 	public String getFaceDe() {
 		return faceDe;
+	}
+
+	public Joueur getJoueurDernier() {
+		return joueurDernier;
+	}
+
+	public void setJoueurDernier(Joueur joueurDernier) {
+		this.joueurDernier = joueurDernier;
 	}
 
 }

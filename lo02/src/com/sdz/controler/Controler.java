@@ -56,7 +56,7 @@ public class Controler {
 				break;
 			case "Apocalypse":
 				this.jP.setActionEnTrain("jouerApocalypse");
-				this.jP.jouerApocalypse(carte, partie);
+				this.jP.jouerApocalypse(carte);
 				this.jP.setActionEnTrain("jouer");
 				break;
 			}
@@ -136,6 +136,38 @@ public class Controler {
 
 	public void empecherCroyant(Joueur joueur, String dogme1, String dogme2, CarteAction carte) {
 		this.effectuerCapacite.empecherCroyant(joueur, dogme1, dogme2, carte);
+		this.jP.setActionEnTrain("sacrifier");
+	}
+
+	// capa carte id 12
+	public void recupererGuideSpirituel(Joueur joueur, CarteAction carte) {
+		this.effectuerCapacite.recupererGuideSpirituel(joueur, carte);
+		this.jP.setActionEnTrain("sacrifier");
+	}
+
+	public void deffauserGuideSpirituel(Joueur joueur, CarteAction carte) {
+		this.effectuerCapacite.deffauserGuideSpirituel(joueur, carte);
+		this.jP.setActionEnTrain("sacrifier");
+	}
+
+	public void beneficierCapacite(Joueur joueur, CarteAction carte) {
+		joueur.setSacrifice(true);
+		this.panelJeu.dessinerPanelCarteJouee(carte);
+		joueur.sacrifierCroyant(carte.getId(), this.partie);
+		this.jP.setActionEnTrain("sacrifier");
+	}
+
+	// capa id=50
+	public void sacrifierGuideSpirituelCHAOS(Joueur joueur, CarteAction carte) {
+		joueur.setSacrifice(true);
+		this.panelJeu.dessinerPanelCarteJouee(carte);
+		this.effectuerCapacite.sacrifierGuideSpirituelCHAOS(joueur, carte);
+		this.jP.setActionEnTrain("sacrifier");
+	};
+
+	// capa carte id 54
+	public void recupererGuideSpirituel2(Joueur joueur, CarteAction carte) {
+		this.effectuerCapacite.recupererGuideSpirituel2(joueur, carte);
 		this.jP.setActionEnTrain("sacrifier");
 	}
 
