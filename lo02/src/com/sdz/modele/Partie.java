@@ -117,7 +117,7 @@ public class Partie extends Observable implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			this.lancerDe();
+			this.lancerDe("");
 			this.joueurEncours.jouer(this);
 		} else {
 			JOptionPane.showMessageDialog(null, "Nouvelle tour!\n" + this.joueurEncours.getNom() + " a lancé le dé! ");
@@ -125,7 +125,7 @@ public class Partie extends Observable implements Runnable {
 			// les cartes croyants posées dans le dernier tour va être prêt à
 			// être guidée
 			this.espaceCommun.preterCartes();
-			this.lancerDe();
+			this.lancerDe("");
 			this.joueurEncours.jouer(this);
 		}
 
@@ -133,6 +133,7 @@ public class Partie extends Observable implements Runnable {
 			if (this.finiTour || this.estFini) {
 				break;
 			}
+
 			this.joueurEncours = this.listeJoueurs.get(i);
 			System.out.println("\nLe tour de :" + joueurEncours);
 			this.listeJoueurs.get(i).jouer(this);
@@ -148,10 +149,30 @@ public class Partie extends Observable implements Runnable {
 		}
 	}
 
-	public void lancerDe() {
-		String[] de = { "", "Jour", "Nuit", "Néant" };
-		int num = (int) Math.ceil(3 * Math.random());
-		faceDe = de[num];
+	/*
+	 * Cette clase lancerDe a objctif pour ...
+	 * 
+	 * @param face
+	 * 
+	 * @author
+	 */
+	public void lancerDe(String face) {
+		if (face.equals("Jour") || face.equals("Nuit") || face.equals("Néant")) {
+			faceDe = face;
+		} else {
+			String[] de = { "", "Jour", "Nuit", "Néant", "", "", "", "" , "" };
+			String origine = this.listeJoueurs.get(0).getLaMain().getCarteDivinite().getOrigine();
+			if (origine.equals("Aube")) {
+				origine = "Jour";
+			} else if (origine.equals("Crépuscule")) {
+				origine = "Nuit";
+			}
+			for (int i = 4; i <= 8; i++) {
+				de[i] = origine;
+			}
+			int num = (int) Math.ceil(8 * Math.random());
+			faceDe = de[num];
+		}
 		System.out.println("******Face du dé: " + faceDe);
 		if (faceDe.equals("Jour")) {
 			for (Joueur joueur : this.listeJoueurs) {

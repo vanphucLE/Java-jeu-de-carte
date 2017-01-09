@@ -34,7 +34,7 @@ public class JoueurVirtuel extends Joueur {
 		int rd;
 		do {
 			rd = (int) Math.ceil(Math.random() * 2);
-		} while (rd != 0);
+		} while (rd == 0);
 		if (rd == 2 && this.sacrifice && this.laMain.getListeCroyantGuidee().size() != 0) {
 			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), partie);
 		}
@@ -108,7 +108,7 @@ public class JoueurVirtuel extends Joueur {
 				espaceCommun.supprimerCarte(carteA);
 			}
 		}
-		this.laMain.ajouterGuidee(listeCroyantsGuidee, carteG);
+		this.laMain.ajouterGuidee(listeCroyantsGuidee, carte);
 	}
 
 	private void jouerDeusEx(Partie partie) {

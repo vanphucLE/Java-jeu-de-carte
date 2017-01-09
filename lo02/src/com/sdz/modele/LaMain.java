@@ -37,7 +37,7 @@ public class LaMain {
 		this.listeCarteA = listeCarteA;
 	}
 
-	public void ajouterGuidee(LinkedList<CarteAction> listeCroyant, GuideSpirituel guideSpirituel) {
+	public void ajouterGuidee(LinkedList<CarteAction> listeCroyant, CarteAction guideSpirituel) {
 		this.listeCroyantGuidee.add(listeCroyant);
 		this.listeGuideSpirituelGuider.add(guideSpirituel);
 		this.j.notifyLaMain();

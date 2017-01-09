@@ -1,8 +1,11 @@
 package com.sdz.modele;
 
+import java.util.LinkedList;
+
 import javax.swing.JOptionPane;
 
 import com.sdz.cartes.CarteAction;
+import com.sdz.cartes.GuideSpirituel;
 
 public class EffectuerCapacite {
 	private Partie partie;
@@ -91,6 +94,19 @@ public class EffectuerCapacite {
 			joueur.sacrifierGuideSpirit(carte.getId(), this.partie);
 		}
 		this.partie.setJoueurEncours(this.partie.getJoueurDernier());
+	}
+	
+	public void echangerGuideSpirituel(Joueur joueur1, CarteAction carte1,Joueur joueur2, CarteAction carte2){
+		int index=joueur1.getLaMain().getListeGuideSpirituelGuider().indexOf(carte1);
+		joueur1.getLaMain().getListeGuideSpirituelGuider().remove(index);
+		LinkedList<CarteAction> cartesCroyants1=joueur1.getLaMain().getListeCroyantGuidee().remove(index);
+		
+		index=joueur2.getLaMain().getListeGuideSpirituelGuider().indexOf(carte2);
+		joueur2.getLaMain().getListeGuideSpirituelGuider().remove(index);
+		LinkedList<CarteAction> cartesCroyants2=joueur2.getLaMain().getListeCroyantGuidee().remove(index);
+		
+		joueur1.getLaMain().ajouterGuidee(cartesCroyants2, carte2);
+		joueur2.getLaMain().ajouterGuidee(cartesCroyants1, carte1);
 	}
 
 }

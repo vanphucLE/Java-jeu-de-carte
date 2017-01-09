@@ -26,13 +26,18 @@ public class EspaceCommun extends Observable {
 			Iterator<CarteAction> it = this.listeCartesPoseRecent.iterator();
 			CarteAction carte;
 			while (it.hasNext()) {
-				carte =  it.next();
+				carte = it.next();
 				this.listeCartesPret.add(carte);
 			}
-			this.listeCartesPoseRecent=new LinkedList<CarteAction>();
+			this.listeCartesPoseRecent = new LinkedList<CarteAction>();
 			this.setChanged();
 			this.notifyObservers();
 		}
+	}
+
+	public void notifyEspaceCommun() {
+		this.setChanged();
+		this.notifyObservers();
 	}
 
 	public void supprimerCarte(CarteAction carte) {

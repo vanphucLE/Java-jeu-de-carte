@@ -1,6 +1,5 @@
 package com.sdz.vue;
 
-import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,16 +20,17 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.sdz.cartes.CarteAction;
-import com.sdz.cartes.GuideSpirituel;
 import com.sdz.controler.Controler;
 import com.sdz.modele.Joueur;
 import com.sdz.modele.JoueurPhysique;
+import com.sdz.modele.JoueurVirtuel;
 
 public class FenetreGuidee extends JFrame implements Observer {
 
 	private JPanel contentPane;
 	private Joueur joueur;
 	private Controler ctrl;
+	private JoueurPhysique jP;
 
 	public FenetreGuidee(Joueur joueur) {
 		this.joueur = joueur;
@@ -48,6 +48,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 
 	public void setControler(Controler ctrl) {
 		this.ctrl = ctrl;
+		this.jP = (JoueurPhysique) this.ctrl.getPartie().getListeJoueurs().get(0);
 	}
 
 	public void dessinerCarteGuidee() {
@@ -71,7 +72,6 @@ public class FenetreGuidee extends JFrame implements Observer {
 					button.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							if (!joueur.estBot()) {
-								JoueurPhysique jP = (JoueurPhysique) joueur;
 								if (jP.getActionEnTrain().equals("sacrifier")) {
 									ctrl.sacrifier(carte);
 								} else if (jP.getActionEnTrain().equals("empercherCroyantNatureMystique")
@@ -83,11 +83,20 @@ public class FenetreGuidee extends JFrame implements Observer {
 									ctrl.deffauserGuideSpirituel(joueur, carte);
 								} else if (jP.getActionEnTrain().equals("sacrifierGuideSpirituelCHAOS")) {
 									ctrl.sacrifierGuideSpirituelCHAOS(joueur, carte);
-								}else if(jP.getActionEnTrain().equals("sacrifierGuideSpirituel")) {
+								} else if (jP.getActionEnTrain().equals("sacrifierGuideSpirituel")) {
 									jP.sacrifierGuideSpirit(carte.getId(), ctrl.getPartie());
 									ctrl.getPartie().setJoueurEncours(ctrl.getPartie().getJoueurDernier());
-								}else if (jP.getActionEnTrain().equals("recupererGuideSpirituel2")) {
+								} else if (jP.getActionEnTrain().equals("recupererGuideSpirituel2")) {
 									ctrl.recupererGuideSpirituel2(joueur, carte);
+								} else if (jP.getActionEnTrain().equals("choisirGuideSpirituelEchanger_1")) {
+									ctrl.choisirGuideSpirituelEchanger_1(carte);
+								}else if (jP.getActionEnTrain().equals("beneficierSansSacrifier")) {
+									ctrl.beneficierSansSacrifier(carte);
+								}
+								
+							} else {
+								if (jP.getActionEnTrain().equals("choisirGuideSpirituelEchanger_1")) {
+									ctrl.choisirGuideSpirituelEchanger_2(carte,joueur);
 								}
 
 							}

@@ -118,7 +118,7 @@ public class JoueurPhysique extends Joueur {
 		return listeCroyants;
 	}
 
-	private GuideSpirituel carteG;
+	private CarteAction carteG;
 	private int nbGuider;
 	private LinkedList<CarteAction> listeCroyantsGuidee;
 
@@ -127,8 +127,9 @@ public class JoueurPhysique extends Joueur {
 		EspaceCommun espaceCommun = this.partie.getEspaceCommun();
 		this.laMain.seDeffausserCarte(carte);
 
-		this.carteG = (GuideSpirituel) carte;
-		this.nbGuider = this.carteG.getNbGuider();
+		this.carteG = carte;
+		GuideSpirituel carteG=(GuideSpirituel) this.carteG;
+		this.nbGuider = carteG.getNbGuider();
 		this.listeCroyantsGuidee = new LinkedList<CarteAction>();
 
 		// On trouve la liste des cartes Croyants qui peuvent être guidées

@@ -168,7 +168,26 @@ public class Controler {
 	// capa carte id 54
 	public void recupererGuideSpirituel2(Joueur joueur, CarteAction carte) {
 		this.effectuerCapacite.recupererGuideSpirituel2(joueur, carte);
+	}
+
+	// Capa carte id 55
+	private CarteAction carteG_1;
+
+	public void choisirGuideSpirituelEchanger_1(CarteAction carte) {
+		this.carteG_1 = carte;
+		JOptionPane.showMessageDialog(null, "Choissiez une carte Guide Spirituel de l'autre joueur pour échanger!");
+		this.jP.setActionEnTrain("choisirGuideSpirituelEchanger_2");
+	}
+
+	public void choisirGuideSpirituelEchanger_2(CarteAction carte, Joueur joueur) {
+		this.effectuerCapacite.echangerGuideSpirituel((Joueur) this.jP, this.carteG_1, joueur, carte);
 		this.jP.setActionEnTrain("sacrifier");
+	}
+
+	// Capa id 66
+	public void beneficierSansSacrifier(CarteAction carte) {
+		carte.effectuerCapaciteSpecial(this.partie);
+		this.jP.setActionEnTrain("jouer");
 	}
 
 	public void lancerDe() {
