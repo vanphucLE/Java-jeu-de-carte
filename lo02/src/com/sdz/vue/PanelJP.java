@@ -84,32 +84,32 @@ public class PanelJP extends JPanel implements Observer {
 				+ this.jP.getPtAction_Nuit() + " |Néant:" + this.jP.getPtAction_Neant() + " ]");
 		lblPointDaction.setBounds(520, 7, 265, 16);
 		add(lblPointDaction);
-		
-		JLabel lblPtprire = new JLabel("PtPri\u1EBBre: "+this.jP.getPtPriere());
+
+		JLabel lblPtprire = new JLabel("PtPri\u1EBBre: " + this.jP.getPtPriere());
 		lblPtprire.setBounds(744, 7, 78, 16);
 		add(lblPtprire);
-		
+
 		JButton btnFinirJouer = new JButton("Finir Jouer");
 		btnFinirJouer.setBounds(1015, 3, 97, 25);
 		btnFinirJouer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (jP.getActionEnTrain().equals("jouer")||jP.getActionEnTrain().equals("sacrifier")){
+				if (jP.getActionEnTrain().equals("jouer") || jP.getActionEnTrain().equals("sacrifier")) {
 					jP.setActionEnTrain("");
 					ctrl.finir();
 				}
 			}
 		});
 		add(btnFinirJouer);
-		
+
 		JButton btnFinirDfausserCartes = new JButton("Finir mes choices");
 		btnFinirDfausserCartes.setBounds(834, 3, 169, 25);
 		btnFinirDfausserCartes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  "+jP.getActionEnTrain());
-				if (jP.getActionEnTrain().equals("defausser") ) {
+				System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  " + jP.getActionEnTrain());
+				if (jP.getActionEnTrain().equals("defausser")) {
 					jP.setActionEnTrain("");
 					ctrl.finir();
-				}else if(jP.getActionEnTrain().equals("guiderCroyant")){
+				} else if (jP.getActionEnTrain().equals("guiderCroyant")) {
 					ctrl.ajouterGuidee();
 				}
 			}
@@ -127,15 +127,24 @@ public class PanelJP extends JPanel implements Observer {
 			ImageIcon icon = new ImageIcon(image.getScaledInstance(292, 210, image.SCALE_SMOOTH));
 			carteDivin.setIcon(icon);
 			carteDivin.setMargin(new Insets(0, 10, 0, 0));
+			carteDivin.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (jP.getActionEnTrain().equals("sacrifier")) {
+						jP.getLaMain().getCarteDivinite().effectuerCapaciteSpecial(ctrl.getPartie());
+					}
+				}
+			});
 			add(carteDivin);
 
-			JLabel lblCarteDivinit = new JLabel("Carte divinit\u00E9");
-			lblCarteDivinit.setHorizontalAlignment(SwingConstants.CENTER);
-			lblCarteDivinit.setBounds(87, 7, 150, 16);
-			add(lblCarteDivinit);
 		} catch (IOException ex) {
 			Logger.getLogger(PanelJP.class.getName()).log(Level.SEVERE, null, ex);
 		}
+
+		JLabel lblCarteDivinit = new JLabel("Carte divinit\u00E9");
+		lblCarteDivinit.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCarteDivinit.setBounds(87, 7, 150, 16);
+		add(lblCarteDivinit);
+
 		this.dessinerCarteAction();
 	}
 
@@ -145,7 +154,7 @@ public class PanelJP extends JPanel implements Observer {
 		for (CarteAction carte : this.jP.getLaMain().getListeCarteA()) {
 			indice++;
 			JButton button = new JButton();
-			button.setBounds(158 + 152 * indice, 32, 150, 210);
+			button.setBounds(158 + (152 * 7 / this.jP.getLaMain().getListeCarteA().size()) * indice, 32, 150, 210);
 
 			try {
 				BufferedImage image = ImageIO.read(new File("cartes/" + carte.getId() + ".PNG"));
@@ -170,6 +179,9 @@ public class PanelJP extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if (jP.getElimine()) {
+			this.setVisible(false);
+		}
 		this.removeAll();
 		this.dessinerNom();
 		this.dessinerPtAction();

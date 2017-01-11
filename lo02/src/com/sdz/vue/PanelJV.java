@@ -42,6 +42,9 @@ public abstract class PanelJV extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if(jV.getElimine()){
+			this.setVisible(false);
+		}
 		this.removeAll();
 		this.dessinerNom();
 		this.dessinerPtAction();

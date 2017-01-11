@@ -171,8 +171,9 @@ public class JoueurPhysique extends Joueur {
 		this.nbGuider--;
 	}
 
-	public void jouerDeusEx(Partie partie) {
-
+	public void jouerDeusEx(CarteAction carte) {
+		carte.effectuerCapaciteSpecial(this.partie);
+		
 	}
 
 	@Override
@@ -215,7 +216,8 @@ public class JoueurPhysique extends Joueur {
 			} else {
 				for (Joueur j : partie.getListeJoueurs()) {
 					if (j.getPtPriere() == arPriere[indice]) {
-						this.partie.eliminerJoueur(j);
+						j.setElimine(true);
+						this.partie.setFiniTour(true);
 						break;
 					}
 				}

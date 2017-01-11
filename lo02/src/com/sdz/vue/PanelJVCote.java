@@ -23,7 +23,6 @@ import com.sdz.modele.JoueurVirtuel;
 
 public class PanelJVCote extends PanelJV {
 	private JoueurVirtuel jVT;
-	
 
 	public PanelJVCote(JoueurVirtuel jV) {
 		super(jV);
@@ -37,7 +36,7 @@ public class PanelJVCote extends PanelJV {
 
 		this.dessinerPtAction();
 		this.dessinerNom();
-//		this.dessinerCarteDivinite();
+		// this.dessinerCarteDivinite();
 	}
 
 	@Override
@@ -63,11 +62,10 @@ public class PanelJVCote extends PanelJV {
 				+ this.jV.getPtAction_Nuit() + " |Néant:" + this.jV.getPtAction_Neant() + " ]");
 		lblPointDaction.setBounds(10, 687, 190, 16);
 		add(lblPointDaction);
-		
-		JLabel lblPointPriere = new JLabel("PtPrière: "+this.jV.getPtPriere());
+
+		JLabel lblPointPriere = new JLabel("PtPrière: " + this.jV.getPtPriere());
 		lblPointPriere.setBounds(10, 705, 190, 16);
 		add(lblPointPriere);
-
 
 	}
 
@@ -94,7 +92,7 @@ public class PanelJVCote extends PanelJV {
 		for (CarteAction carte : this.jV.getLaMain().getListeCarteA()) {
 			indice++;
 			JButton button = new JButton("");
-			button.setBounds(26, 6 + 60 * indice, 160, 114);
+			button.setBounds(26, 6 + (60 * indice * 7 / this.jV.getLaMain().getListeCarteA().size()), 160, 114);
 			try {
 				BufferedImage image = ImageIO.read(new File("cartes/derriereHorizontale.PNG"));
 				ImageIcon icon = new ImageIcon(image.getScaledInstance(160, 114, image.SCALE_SMOOTH));
@@ -106,14 +104,5 @@ public class PanelJVCote extends PanelJV {
 			}
 		}
 	}
-
-	// public static void main(String[] args) {
-	// JFrame j = new JFrame();
-	// j.setSize(j.getMaximumSize());
-	// j.setResizable(false);
-	// j.getContentPane().add(new PanelJVCote());
-	// j.setVisible(true);
-	//
-	// }
 
 }

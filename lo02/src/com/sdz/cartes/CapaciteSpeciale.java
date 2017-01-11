@@ -29,7 +29,6 @@ public class CapaciteSpeciale {
 	// get liste Joueur ayant le dogme1 ou le dogme2 peut être empêché de
 	// sacrifier un croyant
 	public LinkedList<Joueur> listeJoueurPeutEtreEmpecher(String dogme1, String dogme2) {
-
 		LinkedList<Joueur> listeJoueurs = new LinkedList<Joueur>();
 		System.out.println("Les divinité possédant le dogme " + dogme1 + " ou " + dogme2 + ": ");
 		for (Joueur j : partie.getListeJoueurs()) {
@@ -41,7 +40,28 @@ public class CapaciteSpeciale {
 						break;
 					}
 				}
-				if (test == true) {
+				if (j.getLaMain().getListeGuideSpirituelGuider().size() == 0) {
+					test = false;
+				}
+				if (test) {
+					System.out.println("  +" + j + "\n   ." + j.getLaMain().getCarteDivinite());
+					listeJoueurs.add(j);
+				}
+			}
+		}
+		return listeJoueurs;
+	}
+
+	// test
+	public LinkedList<Joueur> listeJoueurACarteGuidee() {
+		LinkedList<Joueur> listeJoueurs = new LinkedList<Joueur>();
+		for (Joueur j : partie.getListeJoueurs()) {
+			if (!this.joueurEnCours.estEqual(j)) {
+				Boolean test = true;
+				if (j.getLaMain().getListeGuideSpirituelGuider().size() == 0) {
+					test = false;
+				}
+				if (test) {
 					System.out.println("  +" + j + "\n   ." + j.getLaMain().getCarteDivinite());
 					listeJoueurs.add(j);
 				}
@@ -88,46 +108,71 @@ public class CapaciteSpeciale {
 			JOptionPane.showMessageDialog(null, "Vous avez gagner un point d'action Jour!");
 		} else if (this.id == 6) {
 			// empêcher Croyant sacrifier
-			if (!this.joueurEnCours.estBot()) {
-				JOptionPane.showMessageDialog(null,
-						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Nature ou Mystique pour empêcher sa sacrifice!");
-				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-				jP.setActionEnTrain("empercherCroyantNatureMystique");
-			} else {
-				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
-				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Nature", "Mystique");
-				if (listJoueurs.size() > 0) {
-					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
-					Joueur joueur = listJoueurs.get(i);
-					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
-						jV.getEffectuerCapacite().empecherCroyant(joueur, "Nature", "Mystique",
-								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+			System.out.println("empêcher Croyant sacrifier une carte Guide Spirituel");
+			LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Nature", "Mystique");
+			if (listJoueurs.size() > 0) {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null,
+							"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Nature ou Mystique pour empêcher sa sacrifice!");
+					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+					jP.setActionEnTrain("empercherCroyantNatureMystique");
+				} else {
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					if (listJoueurs.size() > 0) {
+						int i = (int) Math.ceil(Math.random() * listJoueurs.size());
+						if (i != 0) {
+							i--;
+						}
+						Joueur joueur = listJoueurs.get(i);
+						joueur.getLaMain().getListeCroyantGuidee().get(0).get(0).setEstSacrifie(false);
+						if (!joueur.estBot()) {
+							JOptionPane.showMessageDialog(null,
+									"Joueur " + this.joueurEnCours.getNom()
+											+ " a empêcher la sacrifice sa carte Coyant "
+											+ joueur.getLaMain().getListeCroyantGuidee().get(0).get(0) + " !");
+						}
 					}
+				}
+			} else {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null, "Il n'y a aucun Divinité ayant le requirement de la carte!");
 				}
 			}
 		} else if (this.id == 7) {
-			// empêcher Croyant sacrifier
-			if (!this.joueurEnCours.estBot()) {
-				JOptionPane.showMessageDialog(null,
-						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Chaos ou Mystique pour empêcher sa sacrifice!");
-				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-				jP.setActionEnTrain("empercherCroyantChaosMystique");
-			} else {
-				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
-				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Chaos", "Mystique");
-				if (listJoueurs.size() > 0) {
-					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
-					Joueur joueur = listJoueurs.get(i);
-					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
-						jV.getEffectuerCapacite().empecherCroyant(joueur, "Chaos", "Mystique",
-								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+			// empêcher Guide Spirituel sacrifier
+			System.out.println("empêcher Guide Spirituel sacrifier une carte Guide Spirituel");
+			LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Chaos", "Mystique");
+			if (listJoueurs.size() > 0) {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null,
+							"Choissiez une carte Guide Spirituel dans l'espace Guidée d'un joueur ayant dogme Chaos ou Mystique pour empêcher sa sacrifice!");
+					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+					jP.setActionEnTrain("empercherGuideSpirituelChaosMystique");
+				} else {
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					if (listJoueurs.size() > 0) {
+						int i = (int) Math.ceil(Math.random() * listJoueurs.size());
+						if (i != 0) {
+							i--;
+						}
+						Joueur joueur = listJoueurs.get(i);
+						joueur.getLaMain().getListeCroyantGuidee().get(0).get(0).setEstSacrifie(false);
+						if (!joueur.estBot()) {
+							JOptionPane.showMessageDialog(null,
+									"Joueur " + this.joueurEnCours.getNom()
+											+ " a empêcher la sacrifice sa carte Coyant "
+											+ joueur.getLaMain().getListeGuideSpirituelGuider().get(0) + " !");
+						}
 					}
+				}
+			} else {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null, "Il n'y a aucun Divinité ayant le requirement de la carte!");
 				}
 			}
 		} else if (this.id == 8 || this.id == 21 || this.id == 34) {
 			// Prendre 2 carte de l'autre joueur
 			int idChoisi = this.boxChoisiJoueur("Choississez le joueur à prendre 2 carte au hasard: ");
-
 			Iterator<Joueur> it = this.partie.getListeJoueurs().iterator();
 			boolean choix = true;
 			while (it.hasNext() && choix) {
@@ -142,42 +187,72 @@ public class CapaciteSpeciale {
 					choix = false;
 				}
 			}
-		} else if (this.id >= 9 && this.id <= 11 || this.id == 23 || this.id == 22 || this.id == 52) {
+		} else if (this.id == 9 && this.id == 10 || this.id == 23 || this.id == 22 || this.id == 52) {
 			// imposer la sacrifice un croyant d'un autre joueur
-			int idChoisi = this.boxChoisiJoueur("Choississez le joueur à lui obliger de sacrifier une carte croyant: ");
-			this.partie.setJoueurDernier(this.joueurEnCours);
-			// joueur qui est choisi va sacifier un carteCroyant
+			int idChoisi = this
+					.boxChoisiJoueur("Choississez le joueur pour lui obliger de sacrifier une carte croyant: ");
+			System.out.println("imposer la sacrifice un croyant d'un autre joueur");
+
+			// joueur qui est choisi va sacifier un carte Croyant
 			Joueur joueur = partie.getListeJoueurs().get(idChoisi - 1);
 			if (!joueur.estBot()) {
 				JOptionPane.showMessageDialog(null, "Joueur " + this.joueurEnCours.getNom()
 						+ " vous a obligé de sacrifier 1 carte Croyant!\nChoissiez une  carte Croyant dans l'espace Guidee pour sacrifier!");
-
-				this.joueurEnCours = joueur;
 				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
 				jP.setActionEnTrain("sacrifierCroyant");
-				try {
-					this.partie.suspend();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-
 			} else {
+				Joueur joueurPrin = this.joueurEnCours;
 				this.joueurEnCours = joueur;
 				if (this.joueurEnCours.getLaMain().getListeCroyantGuidee().size() > 0
 						&& this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(0).get(0).getEstSacrifie()) {
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					jV.getPanelJeu().dessinerPanelCarteJouee(
+							this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(0).get(0));
 					this.joueurEnCours.sacrifierCroyant(
 							this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(0).get(0).getId(), this.partie);
 				}
+				this.joueurEnCours = joueurPrin;
+			}
+		} else if (this.id == 11) {
+			// imposer la sacrifice un guide Spirituel d'un autre joueur
+			int idChoisi = this
+					.boxChoisiJoueur("Choississez le joueur pour lui obliger de sacrifier une carte guideSpirituel: ");
+			System.out.println("imposer la sacrifice un croyant d'un autre joueur");
+
+			// joueur qui est choisi va sacifier un carte Croyant
+			Joueur joueur = partie.getListeJoueurs().get(idChoisi - 1);
+			if (!joueur.estBot()) {
+				JOptionPane.showMessageDialog(null, "Joueur " + this.joueurEnCours.getNom()
+						+ " vous a obligé de sacrifier 1 carte Croyant!\nChoissiez une  carte Croyant dans l'espace Guidee pour sacrifier!");
+				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+				jP.setActionEnTrain("sacrifierGuideSpirituel");
+			} else {
+				Joueur joueurPrin = this.joueurEnCours;
+				this.joueurEnCours = joueur;
+				if (this.joueurEnCours.getLaMain().getListeCroyantGuidee().size() > 0
+						&& this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(0).get(0).getEstSacrifie()) {
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					jV.getPanelJeu().dessinerPanelCarteJouee(
+							this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().get(0));
+					this.joueurEnCours.sacrifierCroyant(
+							this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().get(0).getId(), this.partie);
+				}
+				this.joueurEnCours = joueurPrin;
 			}
 		} else if (this.id == 12) {
 			// guideSpirituel revient dans sa main et croyant lie revient au
 			// centre de la
 			// table
 			if (!this.joueurEnCours.estBot()) {
-				JOptionPane.showMessageDialog(null,
-						"Choissiez la carte Guide Spirituel dans votre espace guidee pour lui revient à vôtre main!");
-				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-				jP.setActionEnTrain("recupererGuideSpirituel");
+				if (this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().size() > 0) {
+					JOptionPane.showMessageDialog(null,
+							"Choissiez la carte Guide Spirituel dans votre espace guidee pour lui revient à vôtre main!");
+					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+					jP.setActionEnTrain("recupererGuideSpirituel");
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Vous n'avez aucun carte Guide Spirituel dans votre espace guidee pour lui revient à vôtre main!");
+				}
 			} else {
 				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
 				if (this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().size() > 0) {
@@ -185,7 +260,6 @@ public class CapaciteSpeciale {
 							this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().get(0));
 				}
 			}
-
 		} else if (this.id == 13 || this.id == 35) {
 			// relancer de de cosmonogie
 			partie.lancerDe("");
@@ -195,40 +269,66 @@ public class CapaciteSpeciale {
 			this.joueurEnCours.setPtAction_Nuit(partie.getJoueurEncours().getPtAction_Nuit() + 1);
 		} else if (this.id == 19) {
 			// Empêcher sacifier croyant
-			if (!this.joueurEnCours.estBot()) {
-				JOptionPane.showMessageDialog(null,
-						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Humain ou Mystique pour empêcher sa sacrifice!");
-				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-				jP.setActionEnTrain("empercherCroyantHumainMystique");
-			} else {
-				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
-				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Humain", "Mystique");
-				if (listJoueurs.size() > 0) {
-					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
-					Joueur joueur = listJoueurs.get(i);
-					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
-						jV.getEffectuerCapacite().empecherCroyant(joueur, "Humain", "Mystique",
-								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+			System.out.println("Empêcher une Carte Croyant!");
+			LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Humain", "Mystique");
+			if (listJoueurs.size() > 0) {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null,
+							"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Humain ou Mystique pour empêcher sa sacrifice!");
+					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+					jP.setActionEnTrain("empercherCroyantHumainMystique");
+				} else {
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					if (listJoueurs.size() > 0) {
+						int i = (int) Math.ceil(Math.random() * listJoueurs.size());
+						if (i != 0) {
+							i--;
+						}
+						Joueur joueur = listJoueurs.get(i);
+						joueur.getLaMain().getListeCroyantGuidee().get(0).get(0).setEstSacrifie(false);
+						if (!joueur.estBot()) {
+							JOptionPane.showMessageDialog(null,
+									"Joueur " + this.joueurEnCours.getNom()
+											+ " a empêcher la sacrifice sa carte Coyant "
+											+ joueur.getLaMain().getListeCroyantGuidee().get(0).get(0) + " !");
+						}
 					}
+				}
+			} else {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null, "Il n'y a aucun Divinité ayant le requirement de la carte!");
 				}
 			}
 		} else if (this.id == 20) {
-			// Empêcher sacifier croyant
-			if (!this.joueurEnCours.estBot()) {
-				JOptionPane.showMessageDialog(null,
-						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Humain ou Symboles pour empêcher sa sacrifice!");
-				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-				jP.setActionEnTrain("empercherCroyantHumainSymboles");
-			} else {
-				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
-				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Humain", "Symboles");
-				if (listJoueurs.size() > 0) {
-					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
-					Joueur joueur = listJoueurs.get(i);
-					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
-						jV.getEffectuerCapacite().empecherCroyant(joueur, "Humain", "Symboles",
-								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+			// Empêcher sacifier guide Spirituel
+			System.out.println("Empêcher une Carte Guide Spirituel!");
+			LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Humain", "Mystique");
+			if (listJoueurs.size() > 0) {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null,
+							"Choissiez une carte Guide Spirituel dans l'espace Guidée d'un joueur ayant dogme Humain ou Symboles pour empêcher sa sacrifice!");
+					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+					jP.setActionEnTrain("empercherGuideSpirituelHumainSymboles");
+				} else {
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					if (listJoueurs.size() > 0) {
+						int i = (int) Math.ceil(Math.random() * listJoueurs.size());
+						if (i != 0) {
+							i--;
+						}
+						Joueur joueur = listJoueurs.get(i);
+						joueur.getLaMain().getListeCroyantGuidee().get(0).get(0).setEstSacrifie(false);
+						if (!joueur.estBot()) {
+							JOptionPane.showMessageDialog(null,
+									"Joueur " + this.joueurEnCours.getNom()
+											+ " a empêcher la sacrifice sa carte Coyant "
+											+ joueur.getLaMain().getListeGuideSpirituelGuider().get(0) + " !");
+						}
 					}
+				}
+			} else {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null, "Il n'y a aucun Divinité ayant le requirement de la carte!");
 				}
 			}
 		} else
@@ -236,16 +336,26 @@ public class CapaciteSpeciale {
 		// id 22, 23=9
 		if (this.id == 24) {
 			// retirer les croyants rattacher une autre divinite
-			if (!this.joueurEnCours.estBot()) {
-				JOptionPane.showMessageDialog(null,
-						"Choissiez une carte Guide Spirituel dans l'espace Guidée d'un autre joueur pour la défausser!");
-				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-				jP.setActionEnTrain("defausserGuideSpirituel");
+			LinkedList<Joueur> listJoueur = this.listeJoueurACarteGuidee();
+			if (listJoueur.size() > 0) {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null,
+							"Choissiez une carte Guide Spirituel dans l'espace Guidée d'un autre joueur pour la défausser!");
+					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+					jP.setActionEnTrain("defausserGuideSpirituel");
+				} else {
+					int i = (int) Math.ceil(Math.random() * listJoueur.size());
+					if (i != 0) {
+						i--;
+					}
+					Joueur joueur = listJoueur.get(i);
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					jV.getEffectuerCapacite().deffauserGuideSpirituel(joueur,
+							joueur.getLaMain().getListeGuideSpirituelGuider().get(0));
+				}
 			} else {
-				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
-				if (this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().size() > 0) {
-					jV.getEffectuerCapacite().deffauserGuideSpirituel(this.joueurEnCours,
-							this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().get(0));
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null, "Il n'y a aucun joueur ayant carte dans espace guidée!");
 				}
 			}
 		} else if (this.id == 25) {
@@ -279,40 +389,66 @@ public class CapaciteSpeciale {
 		}
 		if (this.id == 32) {
 			// empêcher Croyant sacrifier
-			if (!this.joueurEnCours.estBot()) {
-				JOptionPane.showMessageDialog(null,
-						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Nature ou Mystique pour empêcher sa sacrifice!");
-				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-				jP.setActionEnTrain("empercherCroyantNatureMystique");
-			} else {
-				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
-				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Nature", "Mystique");
-				if (listJoueurs.size() > 0) {
-					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
-					Joueur joueur = listJoueurs.get(i);
-					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
-						jV.getEffectuerCapacite().empecherCroyant(joueur, "Nature", "Mystique",
-								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+			System.out.println("Empêcher la sacrifice d'une carte Croyant");
+			LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Nature", "Mystique");
+			if (listJoueurs.size() > 0) {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null,
+							"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Nature ou Mystique pour empêcher sa sacrifice!");
+					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+					jP.setActionEnTrain("empercherCroyantNatureMystique");
+				} else {
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					if (listJoueurs.size() > 0) {
+						int i = (int) Math.ceil(Math.random() * listJoueurs.size());
+						if (i != 0) {
+							i--;
+						}
+						Joueur joueur = listJoueurs.get(i);
+						joueur.getLaMain().getListeCroyantGuidee().get(0).get(0).setEstSacrifie(false);
+						if (!joueur.estBot()) {
+							JOptionPane.showMessageDialog(null,
+									"Joueur " + this.joueurEnCours.getNom()
+											+ " a empêcher la sacrifice sa carte Coyant "
+											+ joueur.getLaMain().getListeGuideSpirituelGuider().get(0) + " !");
+						}
 					}
+				}
+			} else {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null, "Il n'y a aucun Divinité ayant le requirement de la carte!");
 				}
 			}
 		} else if (this.id == 33) {
-			// empêcher Croyant sacrifier
-			if (!this.joueurEnCours.estBot()) {
-				JOptionPane.showMessageDialog(null,
-						"Choissiez une carte Croyant dans l'espace Guidée d'un joueur ayant dogme Chaos ou Mystique pour empêcher sa sacrifice!");
-				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-				jP.setActionEnTrain("empercherCroyantChaosMystique");
-			} else {
-				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
-				LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Chaos", "Mystique");
-				if (listJoueurs.size() > 0) {
-					int i = (int) Math.ceil(Math.random() * (listJoueurs.size() - 1));
-					Joueur joueur = listJoueurs.get(i);
-					if (joueur.getLaMain().getListeCroyantGuidee().size() > 0) {
-						jV.getEffectuerCapacite().empecherCroyant(joueur, "Chaos", "Mystique",
-								joueur.getLaMain().getListeCroyantGuidee().get(0).get(0));
+			// empêcher Guide Spirituel sacrifier
+			System.out.println("empêcher Guide Spirituel sacrifier une carte Guide Spirituel");
+			LinkedList<Joueur> listJoueurs = this.listeJoueurPeutEtreEmpecher("Chaos", "Mystique");
+			if (listJoueurs.size() > 0) {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null,
+							"Choissiez une carte Guide Spirituel dans l'espace Guidée d'un joueur ayant dogme Chaos ou Mystique pour empêcher sa sacrifice!");
+					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+					jP.setActionEnTrain("empercherGuideSpirituelChaosMystique");
+				} else {
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					if (listJoueurs.size() > 0) {
+						int i = (int) Math.ceil(Math.random() * listJoueurs.size());
+						if (i != 0) {
+							i--;
+						}
+						Joueur joueur = listJoueurs.get(i);
+						joueur.getLaMain().getListeCroyantGuidee().get(0).get(0).setEstSacrifie(false);
+						if (!joueur.estBot()) {
+							JOptionPane.showMessageDialog(null,
+									"Joueur " + this.joueurEnCours.getNom()
+											+ " a empêcher la sacrifice sa carte Coyant "
+											+ joueur.getLaMain().getListeGuideSpirituelGuider().get(0) + " !");
+						}
 					}
+				}
+			} else {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null, "Il n'y a aucun Divinité ayant le requirement de la carte!");
 				}
 			}
 		} else
@@ -378,7 +514,7 @@ public class CapaciteSpeciale {
 		} else if (this.id == 49) {
 			// sacrifie tous les cartes croyant Neant d'une Divinité Humain
 			int idDivineChoisi = this.boxChoisiJoueur("Choisi un Divinité ayant le Dogme Humain: ");
-			this.partie.setJoueurDernier(this.joueurEnCours);
+			Joueur joueurPrin = this.joueurEnCours;
 			Joueur joueur = partie.getListeJoueurs().get(idDivineChoisi - 1);
 			if (joueur.getLaMain().getCarteDivinite().getId() > 82
 					&& joueur.getLaMain().getCarteDivinite().getId() < 87) {
@@ -401,23 +537,29 @@ public class CapaciteSpeciale {
 							"Vous avez choisi un Divinité qui n'a pas le Dogmae Huamain!\nCette carte est alors défaussé!");
 				}
 			}
-			this.joueurEnCours = this.partie.getJoueurDernier();
+			this.joueurEnCours = joueurPrin;
 		} else if (this.id == 50) {
 			// sacrifie Guide Spirituel si lui ou sa Divinite ne croit pas au
 			// dogme Chaos
-			this.partie.setJoueurDernier(this.joueurEnCours);
-			if (!this.joueurEnCours.estBot()) {
-				JOptionPane.showMessageDialog(null,
-						"Choissiez un carte Guide Spirituel si lui ou sa Divinite ne croit pas au dogme Chaos!");
-				JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-				jP.setActionEnTrain("sacrifierGuideSpirituelCHAOS");
+			LinkedList<Joueur> listJoueur = this.listeJoueurACarteGuidee();
+			if (listJoueur.size() > 0) {
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null,
+							"Choissiez un carte Guide Spirituel si lui ou sa Divinite ne croit pas au dogme Chaos!");
+					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+					jP.setActionEnTrain("sacrifierGuideSpirituelCHAOS");
+				} else {
+					int idDivin = this.boxChoisiJoueur("");
+					JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
+					Joueur joueur = this.partie.getListeJoueurs().get(idDivin - 1);
+					if (joueur.getLaMain().getListeGuideSpirituelGuider().size() > 0) {
+						jV.getEffectuerCapacite().sacrifierGuideSpirituelCHAOS(joueur,
+								joueur.getLaMain().getListeGuideSpirituelGuider().get(0));
+					}
+				}
 			} else {
-				int idDivin = this.boxChoisiJoueur("");
-				JoueurVirtuel jV = (JoueurVirtuel) this.joueurEnCours;
-				Joueur joueur = this.partie.getListeJoueurs().get(idDivin - 1);
-				if (joueur.getLaMain().getListeGuideSpirituelGuider().size() > 0) {
-					jV.getEffectuerCapacite().sacrifierGuideSpirituelCHAOS(joueur,
-							joueur.getLaMain().getListeGuideSpirituelGuider().get(0));
+				if (!this.joueurEnCours.estBot()) {
+					JOptionPane.showMessageDialog(null, "Il n'y a aucun joueur ayant carte dans son espace guidée!");
 				}
 			}
 		} else if (this.id == 51) {
@@ -449,20 +591,23 @@ public class CapaciteSpeciale {
 				}
 			}
 			if (test) {
-				this.partie.setJoueurDernier(this.joueurEnCours);
-				this.joueurEnCours = joueur;
-				if (!joueur.estBot()) {
-					JOptionPane.showMessageDialog(null, "Choissiez carte Guide Spirituel pour sacrifier!");
-					JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
-					jP.setActionEnTrain("sacrifierGuideSpirituel");
-				} else {
-					if (this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().size() > 0) {
-						this.joueurEnCours.sacrifierGuideSpirit(
-								this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().get(0).getId(),
-								this.partie);
-						this.partie.setJoueurEncours(this.partie.getJoueurDernier());
-					}
-				}
+				// this.partie.setJoueurDernier(this.joueurEnCours);
+				// this.joueurEnCours = joueur;
+				// if (!joueur.estBot()) {
+				// JOptionPane.showMessageDialog(null, "Choissiez carte Guide
+				// Spirituel pour sacrifier!");
+				// JoueurPhysique jP = (JoueurPhysique) this.joueurEnCours;
+				// jP.setActionEnTrain("sacrifierGuideSpirituel");
+				// } else {
+				// if
+				// (this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().size()
+				// > 0) {
+				// this.joueurEnCours.sacrifierGuideSpirit(
+				// this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().get(0).getId(),
+				// this.partie);
+				// this.partie.setJoueurEncours(this.partie.getJoueurDernier());
+				// }
+				// }
 			} else {
 				if (!joueur.estBot()) {
 					JOptionPane.showMessageDialog(null,
@@ -492,12 +637,16 @@ public class CapaciteSpeciale {
 								.add(this.joueurEnCours.getLaMain().getListeGuideSpirituelGuider().remove(0));
 						this.partie.getJeuDeCartes().getListeCartesAction()
 								.addAll(this.joueurEnCours.getLaMain().getListeCroyantGuidee().get(0));
+						joueur.notifyLaMain();
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Choissiez un carte Guide Spirituel!");
 					JoueurPhysique jP = (JoueurPhysique) joueur;
 					jP.setActionEnTrain("recupererGuideSpirituel2");
 				}
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Vous avez choisi une Divinité qui n'a pas le Dogme Chaos et Mystique et origine Nuit! La capacité spéciale est alors défaussé!");
 			}
 		} else if (id == 55) {
 			// echanger 2 guide
@@ -821,7 +970,8 @@ public class CapaciteSpeciale {
 			this.joueurEnCours.setPtAction_Neant(partie.getJoueurEncours().getPtAction_Neant() + ptActionNeantajouer);
 
 		} else if (id == 88) {
-			JOptionPane.showMessageDialog(null,"Choissiez un Guide Spirituel ayant le Dogme Symboles ou Nature pour sacrifier!");
+			JOptionPane.showMessageDialog(null,
+					"Choissiez un Guide Spirituel ayant le Dogme Symboles ou Nature pour sacrifier!");
 		} else if (id == 89) {
 			int idDivin = this.boxChoisiJoueur("Choissiez un joueur pour récupérer ses point d'action: ");
 			Joueur joueur = this.partie.getListeJoueurs().get(idDivin - 1);
@@ -832,8 +982,8 @@ public class CapaciteSpeciale {
 			joueur.setPtAction_Nuit(0);
 			joueur.setPtAction_Neant(0);
 			joueur.setEstSetPointAction(false);
-		}else if (id == 90) {
-			
+		} else if (id == 90) {
+
 		}
 
 	}

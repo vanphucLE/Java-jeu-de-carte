@@ -17,7 +17,7 @@ public abstract class Joueur extends Observable {
 	protected int ptAction_Jour;
 	protected int ptAction_Nuit;
 	protected int ptAction_Neant;
-	protected Boolean estElimine;
+	protected Boolean elimine;
 	protected int idCarteDivinite;
 	protected LaMain laMain;
 	protected boolean sacrifice = true;
@@ -33,6 +33,7 @@ public abstract class Joueur extends Observable {
 		this.actionEnTrain = "";
 		this.laMain = new LaMain(this);
 		this.ptPriere = 0;
+		this.elimine=false;
 	}
 
 	public void completerCarteAction(CarteAction carte) {
@@ -120,18 +121,16 @@ public abstract class Joueur extends Observable {
 		this.notifyObservers();
 	}
 
-	
-
 	public int getPtPriere() {
 		return this.ptPriere;
 	}
 
-	public void setElimine(Boolean estElimie) {
-		this.estElimine = estElimine;
+	public Boolean getElimine() {
+		return elimine;
 	}
 
-	public Boolean getElimine() {
-		return this.estElimine;
+	public void setElimine(Boolean elimine) {
+		this.elimine = elimine;
 	}
 
 	public LaMain getLaMain() {
@@ -189,7 +188,9 @@ public abstract class Joueur extends Observable {
 	}
 
 	public abstract void jouerApocalypse(CarteAction carte);
-
+	public void joueurDeusEx(CarteAction carte){
+		carte.effectuerCapaciteSpecial(partie);
+	}
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Joueur n." + this.id + " : ");
@@ -215,6 +216,8 @@ public abstract class Joueur extends Observable {
 							partie.getJeuDeCartes().getListeCartesAction()
 									.add(this.getLaMain().getListeGuideSpirituelGuider().remove(i));
 						}
+						this.setChanged();
+						this.notifyObservers();
 						carteCroyant.effectuerCapaciteSpecial(partie);
 						test = true;
 						break;
@@ -237,6 +240,8 @@ public abstract class Joueur extends Observable {
 					partie.getEspaceCommun().getListeCartesPret()
 							.addAll(this.getLaMain().getListeCroyantGuidee().remove(i));
 					carteGuide.effectuerCapaciteSpecial(partie);
+					this.setChanged();
+					this.notifyObservers();
 					break;
 				}
 			}
@@ -250,6 +255,5 @@ public abstract class Joueur extends Observable {
 	public void setPartie(Partie partie) {
 		this.partie = partie;
 	}
-	
 
 }

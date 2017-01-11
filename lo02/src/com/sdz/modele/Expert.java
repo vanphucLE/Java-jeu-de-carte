@@ -72,6 +72,7 @@ public class Expert implements Stategie {
 	public void jouerCapaciteSpecial() {
 
 	};
+
 	@Override
 	public LinkedList<CarteAction> choisirCartesDefausser(Partie partie) {
 		Joueur joueurEnCours = partie.getJoueurEncours();
@@ -91,7 +92,7 @@ public class Expert implements Stategie {
 		int idChoisi = 0;
 		do {
 			idChoisi = (int) Math.ceil(Math.random() * partie.getListeJoueurs().size());
-		} while (idChoisi == partie.getJoueurEncours().getId());
+		} while (idChoisi == partie.getJoueurEncours().getId() || idChoisi == 0);
 		return idChoisi;
 	}
 }

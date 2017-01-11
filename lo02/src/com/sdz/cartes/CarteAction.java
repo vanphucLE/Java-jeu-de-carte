@@ -8,9 +8,10 @@ public class CarteAction extends Carte {
 	
 	}
 
-	public void effectuerCapaciteSpecial(Partie partie){
-		
-	};
+	public void effectuerCapaciteSpecial(Partie partie) {
+		this.capacite.effectuerCapacite(partie);
+	}
+
 	public void setPartieCarte(Partie partie){
 		
 	}

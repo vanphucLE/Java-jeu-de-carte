@@ -12,7 +12,6 @@ public abstract class Carte {
 	protected String type = "";
 	protected Boolean estSacrifie = false;
 	protected CapaciteSpeciale capacite;
-	protected Boolean peutUtiliserCapacite = true;
 
 	public String getType() {
 		return type;
@@ -30,12 +29,6 @@ public abstract class Carte {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public void effectuerCapaciteSpecial(Partie partie) {
-		if (peutUtiliserCapacite) {
-			this.capacite.effectuerCapacite(partie);
-		}
 	}
 
 	public String getNom() {

@@ -97,6 +97,7 @@ public class LaMain {
 
 	public void completerCarteAction(CarteAction carte) {
 		this.listeCarteA.add(carte);
+		this.j.notifyLaMain();
 	}
 
 	public String toString() {

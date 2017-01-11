@@ -71,32 +71,40 @@ public class FenetreGuidee extends JFrame implements Observer {
 					button.setMargin(new Insets(0, 0, 0, 0));
 					button.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
+							String action = jP.getActionEnTrain();
 							if (!joueur.estBot()) {
-								if (jP.getActionEnTrain().equals("sacrifier")) {
+								if (action.equals("sacrifier")) {
 									ctrl.sacrifier(carte);
-								} else if (jP.getActionEnTrain().equals("empercherCroyantNatureMystique")
-										|| jP.getActionEnTrain().equals("sacrifierCroyant")) {
-									JOptionPane.showMessageDialog(null, "Vous doivez choisir une carte Croyant!");
-								} else if (jP.getActionEnTrain().equals("recupererGuideSpirituel")) {
+								}else if (action.equals("sacrifierGuideSpirituel")) {
+									if (carte.getEstSacrifie()) {
+										ctrl.sacrifierCarte_special(joueur, carte);
+									} else {
+										JOptionPane.showMessageDialog(null,
+												"Vous ne pouvez pas sacirifier cette Carte!");
+									}
+								} else if (action.equals("recupererGuideSpirituel")) {
 									ctrl.recupererGuideSpirituel(joueur, carte);
-								} else if (jP.getActionEnTrain().equals("defausserGuideSpirituel")) {
-									ctrl.deffauserGuideSpirituel(joueur, carte);
-								} else if (jP.getActionEnTrain().equals("sacrifierGuideSpirituelCHAOS")) {
-									ctrl.sacrifierGuideSpirituelCHAOS(joueur, carte);
-								} else if (jP.getActionEnTrain().equals("sacrifierGuideSpirituel")) {
+								}  else if (action.equals("sacrifierGuideSpirituel")) {
 									jP.sacrifierGuideSpirit(carte.getId(), ctrl.getPartie());
-									ctrl.getPartie().setJoueurEncours(ctrl.getPartie().getJoueurDernier());
-								} else if (jP.getActionEnTrain().equals("recupererGuideSpirituel2")) {
+								} else if (action.equals("recupererGuideSpirituel2")) {
 									ctrl.recupererGuideSpirituel2(joueur, carte);
-								} else if (jP.getActionEnTrain().equals("choisirGuideSpirituelEchanger_1")) {
+								} else if (action.equals("choisirGuideSpirituelEchanger_1")) {
 									ctrl.choisirGuideSpirituelEchanger_1(carte);
-								}else if (jP.getActionEnTrain().equals("beneficierSansSacrifier")) {
+								} else if (action.equals("beneficierSansSacrifier")) {
 									ctrl.beneficierSansSacrifier(carte);
 								}
 								
 							} else {
 								if (jP.getActionEnTrain().equals("choisirGuideSpirituelEchanger_1")) {
-									ctrl.choisirGuideSpirituelEchanger_2(carte,joueur);
+									ctrl.choisirGuideSpirituelEchanger_2(carte, joueur);
+								} else if (action.equals("empercherGuideSpirituelChaosMystique")) {
+									ctrl.empecherSacrifier(carte);
+								} else if (action.equals("empercherGuideSpirituelHumainSymboles")) {
+									ctrl.empecherSacrifier(carte);
+								}else if (action.equals("defausserGuideSpirituel")) {
+									ctrl.deffauserGuideSpirituel(joueur, carte);
+								} else if (action.equals("sacrifierGuideSpirituelCHAOS")) {
+									ctrl.sacrifierGuideSpirituelCHAOS(joueur, carte);
 								}
 
 							}
@@ -119,34 +127,32 @@ public class FenetreGuidee extends JFrame implements Observer {
 						button.setMargin(new Insets(0, 0, 0, 0));
 						button.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
+								String action = jP.getActionEnTrain();
 								if (!joueur.estBot()) {
-									JoueurPhysique jP = (JoueurPhysique) joueur;
-									if (jP.getActionEnTrain().equals("sacrifier")) {
+									// Panel du joueur physique
+									if (action.equals("sacrifier")) {
 										if (carte.getEstSacrifie()) {
 											ctrl.sacrifier(carte);
 										} else {
 											JOptionPane.showMessageDialog(null,
 													"Vous ne pouvez pas sacirifier cette Carte!");
 										}
-									} else if (jP.getActionEnTrain().equals("empercherCroyantNatureMystique")) {
-										ctrl.empecherCroyant(joueur, "Nature", "Mystique", carte);
-									} else if (jP.getActionEnTrain().equals("empercherCroyantChaosMystique")) {
-										ctrl.empecherCroyant(joueur, "Chaos", "Mystique", carte);
-									} else if (jP.getActionEnTrain().equals("empercherCroyantHumainMystique")) {
-										ctrl.empecherCroyant(joueur, "Humain", "Mystique", carte);
-									} else if (jP.getActionEnTrain().equals("empercherCroyantHumainSymboles")) {
-										ctrl.empecherCroyant(joueur, "Humain", "Symboles", carte);
-									} else if (jP.getActionEnTrain().equals("sacrifierCroyant")) {
+									} else if (action.equals("sacrifierCroyant")) {
 										if (carte.getEstSacrifie()) {
-											ctrl.sacrifier(carte);
-											ctrl.getPartie().setJoueurEncours(ctrl.getPartie().getJoueurDernier());
+											ctrl.sacrifierCarte_special(joueur, carte);
 										} else {
 											JOptionPane.showMessageDialog(null,
 													"Vous ne pouvez pas sacirifier cette Carte!");
 										}
-									} else if (jP.getActionEnTrain().equals("beneficierCapacite")) {
+									} 
+								} else {
+									// Panel du joueur virtuel
+									if (action.equals("empercherCroyantNatureMystique")) {
+										ctrl.empecherSacrifier(carte);
+									} else if (action.equals("empercherCroyantHumainMystique")) {
+										ctrl.empecherSacrifier(carte);
+									}else if (action.equals("beneficierCapacite")) {
 										ctrl.beneficierCapacite(joueur, carte);
-
 									}
 								}
 							}

@@ -31,13 +31,19 @@ public class JoueurVirtuel extends Joueur {
 				+ "(Néant: " + this.ptAction_Neant + ")");
 		this.seDefausserCartesEtCompleter(partie);
 		this.choisirCarte(partie);
+		
+		//Sacrifier Carte
 		int rd;
 		do {
 			rd = (int) Math.ceil(Math.random() * 2);
 		} while (rd == 0);
 		if (rd == 2 && this.sacrifice && this.laMain.getListeCroyantGuidee().size() != 0) {
+			this.panelJeu.dessinerPanelCarteJouee(this.laMain.getListeCroyantGuidee().get(0).get(0));
 			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), partie);
 		}
+	}
+	public PanelJeu getPanelJeu(){
+		return this.panelJeu;
 	}
 
 	@Override
@@ -66,7 +72,9 @@ public class JoueurVirtuel extends Joueur {
 		CarteAction carteChoisi = this.stategie.choisirCarteJouer(this, partie);
 		if (carteChoisi.getId() != 0) {
 			System.out.println(this.nom + " a joué la carte: " + carteChoisi);
+			
 			this.panelJeu.dessinerPanelCarteJouee(carteChoisi);
+			
 			switch (carteChoisi.getType()) {
 			case "Croyant":
 				this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
@@ -75,7 +83,7 @@ public class JoueurVirtuel extends Joueur {
 				this.jouerGuideSpirituel(carteChoisi, partie.getEspaceCommun());
 				break;
 			case "DeusEx":
-				this.jouerDeusEx(partie);
+				this.jouerDeusEx(carteChoisi);
 				break;
 			case "Apocalypse":
 				this.jouerApocalypse(carteChoisi);
@@ -111,8 +119,8 @@ public class JoueurVirtuel extends Joueur {
 		this.laMain.ajouterGuidee(listeCroyantsGuidee, carte);
 	}
 
-	private void jouerDeusEx(Partie partie) {
-
+	private void jouerDeusEx(CarteAction carte) {
+		carte.effectuerCapaciteSpecial(this.partie);
 	}
 
 	@Override
@@ -150,7 +158,8 @@ public class JoueurVirtuel extends Joueur {
 			} else {
 				for (Joueur j : partie.getListeJoueurs()) {
 					if (j.getPtPriere() == arPriere[indice]) {
-						partie.eliminerJoueur(j);
+						j.setElimine(true);
+						j.partie.setFiniTour(true);
 						break;
 					}
 				}

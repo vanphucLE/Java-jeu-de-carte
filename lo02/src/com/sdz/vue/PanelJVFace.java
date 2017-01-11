@@ -40,8 +40,8 @@ public class PanelJVFace extends PanelJV {
 
 		this.dessinerPtAction();
 		this.dessinerNom();
-//		this.dessinerCarteDivinite();
-//		this.dessinerCarteAction();
+		// this.dessinerCarteDivinite();
+		// this.dessinerCarteAction();
 
 	}
 
@@ -68,8 +68,8 @@ public class PanelJVFace extends PanelJV {
 				+ this.jV.getPtAction_Nuit() + " |Néant:" + this.jV.getPtAction_Neant() + " ]");
 		lblPointDaction.setBounds(202, 181, 250, 16);
 		add(lblPointDaction);
-		
-		JLabel lblPointPriere = new JLabel("PtPrière: "+this.jV.getPtPriere());
+
+		JLabel lblPointPriere = new JLabel("PtPrière: " + this.jV.getPtPriere());
 		lblPointPriere.setBounds(410, 181, 100, 16);
 		add(lblPointPriere);
 
@@ -99,7 +99,7 @@ public class PanelJVFace extends PanelJV {
 		for (CarteAction carte : this.jV.getLaMain().getListeCarteA()) {
 			indice++;
 			JButton button = new JButton("");
-			button.setBounds(228 + 46 * indice, 6, 114, 160);
+			button.setBounds(228 + (46 * indice * 7 / this.jV.getLaMain().getListeCarteA().size()), 6, 114, 160);
 			try {
 				BufferedImage image = ImageIO.read(new File("cartes/derriereVerticale.PNG"));
 				ImageIcon icon = new ImageIcon(image.getScaledInstance(114, 160, image.SCALE_SMOOTH));

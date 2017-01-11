@@ -51,7 +51,7 @@ public class Controler {
 				break;
 			case "DeusEx":
 				this.jP.setActionEnTrain("jouerDeusEx");
-				this.jP.jouerDeusEx(partie);
+				this.jP.jouerDeusEx(carte);
 				this.jP.setActionEnTrain("jouer");
 				break;
 			case "Apocalypse":
@@ -105,9 +105,6 @@ public class Controler {
 	public void guiderCroyant(CarteAction carte) {
 		if (this.jP.getNbGuider() > 0) {
 			LinkedList<CarteAction> listeCroyants = this.jP.croyantsPeutEtreGuidee();
-			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-			System.out.println(carte);
-			System.out.println(listeCroyants);
 			if (listeCroyants.indexOf(carte) == -1) {
 				JOptionPane.showMessageDialog(null,
 						"Vous ne pouvez pas faire guider cette Carte Croyant!\nChoissiez l'autre carte!");
@@ -134,9 +131,20 @@ public class Controler {
 		this.jP.sacrifierCarte(carte);
 	}
 
-	public void empecherCroyant(Joueur joueur, String dogme1, String dogme2, CarteAction carte) {
-		this.effectuerCapacite.empecherCroyant(joueur, dogme1, dogme2, carte);
+	// Capa id ~ 6
+	public void empecherSacrifier(CarteAction carte) {
+		carte.setEstSacrifie(false);
+		JOptionPane.showMessageDialog(null, "Vous avez empêcher la sacrifice de cette carte!");
 		this.jP.setActionEnTrain("sacrifier");
+	}
+
+	// Capa id~9 10
+	public void sacrifierCarte_special(Joueur joueur, CarteAction carte) {
+		Joueur joueurPrin = this.partie.getJoueurEncours();
+		this.partie.setJoueurEncours(joueur);
+		this.sacrifier(carte);
+		this.jP.setActionEnTrain("");
+		this.partie.setJoueurEncours(joueurPrin);
 	}
 
 	// capa carte id 12
@@ -145,11 +153,13 @@ public class Controler {
 		this.jP.setActionEnTrain("sacrifier");
 	}
 
+	// capa id=24
 	public void deffauserGuideSpirituel(Joueur joueur, CarteAction carte) {
 		this.effectuerCapacite.deffauserGuideSpirituel(joueur, carte);
 		this.jP.setActionEnTrain("sacrifier");
 	}
 
+	// capa id=26
 	public void beneficierCapacite(Joueur joueur, CarteAction carte) {
 		joueur.setSacrifice(true);
 		this.panelJeu.dessinerPanelCarteJouee(carte);
@@ -159,15 +169,19 @@ public class Controler {
 
 	// capa id=50
 	public void sacrifierGuideSpirituelCHAOS(Joueur joueur, CarteAction carte) {
+		Joueur joueurPrin = this.partie.getJoueurEncours();
+		this.partie.setJoueurEncours(joueur);
 		joueur.setSacrifice(true);
 		this.panelJeu.dessinerPanelCarteJouee(carte);
 		this.effectuerCapacite.sacrifierGuideSpirituelCHAOS(joueur, carte);
 		this.jP.setActionEnTrain("sacrifier");
+		this.partie.setJoueurEncours(joueurPrin);
 	};
 
 	// capa carte id 54
 	public void recupererGuideSpirituel2(Joueur joueur, CarteAction carte) {
 		this.effectuerCapacite.recupererGuideSpirituel2(joueur, carte);
+		this.jP.setActionEnTrain("");
 	}
 
 	// Capa carte id 55

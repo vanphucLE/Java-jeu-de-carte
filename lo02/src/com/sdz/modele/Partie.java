@@ -6,8 +6,8 @@ import java.util.Observable;
 
 import javax.swing.JOptionPane;
 
-import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;
+import com.sdz.vue.Fenetre;
 
 public class Partie extends Observable implements Runnable {
 	private Thread thread;
@@ -24,7 +24,11 @@ public class Partie extends Observable implements Runnable {
 									// carteApocalypse peut-être joué
 	private boolean waitEntree;
 	private String faceDe;
-	private Joueur joueurDernier;
+	private Fenetre fenetre;
+
+	public void setFenetre(Fenetre fenetre) {
+		this.fenetre = fenetre;
+	}
 
 	public Partie(ArrayList<Joueur> listeJoueurs, String niveau) {
 		this.listeJoueurs = listeJoueurs;
@@ -52,12 +56,27 @@ public class Partie extends Observable implements Runnable {
 		this.commencerPartie();
 		int numCom = -1;
 		while (!this.estFini) {
-			if (numCom < this.getListeJoueurs().size() - 1) {
-				numCom++;
-			} else {
-				numCom = 0;
+			Iterator<Joueur> it = this.listeJoueurs.iterator();
+			while (it.hasNext()) {
+				Joueur j = (Joueur) it.next();
+				if (j.getElimine()) {
+					if (!j.estBot()) {
+						JOptionPane.showMessageDialog(null, "Vous avez perdu!");
+						this.estFini = true;
+					} else {
+						this.listeJoueurs.remove(j);
+						j.notifyLaMain();
+					}
+				}
 			}
-			this.tourDeJeu(numCom);
+			if (!this.estFini) {
+				if (numCom < this.getListeJoueurs().size() - 1) {
+					numCom++;
+				} else {
+					numCom = 0;
+				}
+				this.tourDeJeu(numCom);
+			}
 		}
 	}
 
@@ -160,7 +179,7 @@ public class Partie extends Observable implements Runnable {
 		if (face.equals("Jour") || face.equals("Nuit") || face.equals("Néant")) {
 			faceDe = face;
 		} else {
-			String[] de = { "", "Jour", "Nuit", "Néant", "", "", "", "" , "" };
+			String[] de = { "", "Jour", "Nuit", "Néant", "", "", "", "", "" };
 			String origine = this.listeJoueurs.get(0).getLaMain().getCarteDivinite().getOrigine();
 			if (origine.equals("Aube")) {
 				origine = "Jour";
@@ -214,10 +233,6 @@ public class Partie extends Observable implements Runnable {
 	public synchronized void resume() {
 		this.waitEntree = false;
 		this.notifyAll();
-	}
-
-	public void eliminerJoueur(Joueur joueur) {
-		this.listeJoueurs.remove(joueur);
 	}
 
 	public void annoncerGagnant() {
@@ -290,14 +305,6 @@ public class Partie extends Observable implements Runnable {
 
 	public String getFaceDe() {
 		return faceDe;
-	}
-
-	public Joueur getJoueurDernier() {
-		return joueurDernier;
-	}
-
-	public void setJoueurDernier(Joueur joueurDernier) {
-		this.joueurDernier = joueurDernier;
 	}
 
 }

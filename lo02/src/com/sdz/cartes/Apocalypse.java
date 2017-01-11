@@ -45,7 +45,8 @@ public class Apocalypse extends CarteAction {
 			} else {
 				for (Joueur j : partie.getListeJoueurs()) {
 					if (j.getPtPriere() == arPriere[indice]) {
-						partie.eliminerJoueur(j);
+						j.setElimine(true);
+						partie.setFiniTour(true);
 						break;
 					}
 				}
