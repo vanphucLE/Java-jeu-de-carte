@@ -5,7 +5,10 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 import com.sdz.modele.Partie;
-
+/*
+ * Ce classe est pour creer les cartes divinite
+ * @author TRAN Hoang
+ */
 public class CarteDivinite extends Carte {
 	// Carte Divinite: 81 -->90
 	private Boolean estCapaciteSpecialUtilise = false;

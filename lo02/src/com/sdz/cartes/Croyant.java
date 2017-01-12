@@ -3,7 +3,10 @@ package com.sdz.cartes;
 import java.util.Arrays;
 
 import com.sdz.modele.Partie;
-
+/*
+ * Ce classe est pour creer les cartes actions Croyants
+ * @author TRAN Hoang
+ */
 public class Croyant extends CarteAction {
 	private int nbCroyant;
 	private Boolean estGuidee;

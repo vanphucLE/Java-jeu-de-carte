@@ -10,7 +10,10 @@ import com.sdz.modele.Joueur;
 import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.Partie;
 import com.sdz.vue.PanelJeu;
-
+/*
+ * Ce classe est pour permet l'interaction entre le moteur de jeu et l'interface graphique
+ * @author LE Van Phuc
+ */
 public class Controler {
 	private Partie partie;
 	private JoueurPhysique jP;

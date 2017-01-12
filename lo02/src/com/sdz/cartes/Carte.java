@@ -3,7 +3,11 @@ package com.sdz.cartes;
 import java.util.Arrays;
 
 import com.sdz.modele.Partie;
-
+/*
+ * Ce classe est pour decrire les attributs, les types, les methode d'une carte generale
+ * @author TRAN Hoang
+ * 
+ */
 public abstract class Carte {
 	protected String nom;
 	protected String[] dogme = {};
@@ -12,7 +16,7 @@ public abstract class Carte {
 	protected String type = "";
 	protected Boolean estSacrifie = false;
 	protected CapaciteSpeciale capacite;
-
+	
 	public String getType() {
 		return type;
 	}

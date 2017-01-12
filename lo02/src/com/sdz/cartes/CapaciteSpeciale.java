@@ -30,7 +30,8 @@ public class CapaciteSpeciale {
 	}
 	/*
 	 * Ce methode pour trouver les joueurs seront empecher de sacrifier un croyant
-	 * les parametres entrées sont 2 dogmes
+	 * @author TRAN Hoang, LE Van Phuc
+	 * @param dogme1, dogme2: les parametres entrées sont 2 dogmes 
 	 */
 	// get liste Joueur ayant le dogme1 ou le dogme2 peut être empêché de
 	// sacrifier un croyant
@@ -59,6 +60,10 @@ public class CapaciteSpeciale {
 	}
 
 	// test
+	/*
+	 * ce methode est pour trouver les joueurs qui ont carte guidee
+	 * @return listeJoueurs retourner les joueurs avec la carte guidee 
+	 */
 	public LinkedList<Joueur> listeJoueurACarteGuidee() {
 		LinkedList<Joueur> listeJoueurs = new LinkedList<Joueur>();
 		for (Joueur j : partie.getListeJoueurs()) {
@@ -75,7 +80,11 @@ public class CapaciteSpeciale {
 		}
 		return listeJoueurs;
 	}
-
+	/*
+	 * Choisi un joueur pour effectuer la capacite
+	 * @param str
+	 * @return id id de joueur choisi
+	 */
 	private int boxChoisiJoueur(String str) {
 		int idChoisi = 0;
 		if (!this.joueurEnCours.estBot()) {
@@ -105,7 +114,10 @@ public class CapaciteSpeciale {
 		}
 		return idChoisi;
 	}
-
+	/*
+	 * ce methode pour creer les capaciter selon l'id de carte
+	 * @param partie dans laquelle on joue
+	 */
 	public void effectuerCapacite(Partie partie) {
 		this.partie = partie;
 		this.joueurEnCours = partie.getJoueurEncours();

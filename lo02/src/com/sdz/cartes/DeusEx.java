@@ -1,7 +1,10 @@
 package com.sdz.cartes;
 
 import com.sdz.modele.Partie;
-
+/*
+ * Ce classe est pour creer les cartes actions DeusEx
+ * @author TRAN Hoang
+ */
 public class DeusEx extends CarteAction {
 
 	protected Boolean estSacrifie = true;

@@ -3,7 +3,10 @@ package com.sdz.cartes;
 import java.util.Arrays;
 
 import com.sdz.modele.Partie;
-
+/*
+ * Ce classe est pour creer les cartes actions Guide Spirituel
+ * @author TRAN Hoang
+ */
 public class GuideSpirituel extends CarteAction {
 	private int nbGuider;
 

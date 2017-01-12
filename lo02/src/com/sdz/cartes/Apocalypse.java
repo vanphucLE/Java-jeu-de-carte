@@ -8,6 +8,8 @@ import com.sdz.modele.Partie;
 public class Apocalypse extends CarteAction {
 	/* 
 	 *Décrire une carte Apocalypse 
+	 *@author TRAN Hoang
+	 *@param id de carte
 	 */
 	
 	private static final String[] origineApocalypse={"Jour","Nuit","Néant","","",""};
@@ -19,7 +21,8 @@ public class Apocalypse extends CarteAction {
 		this.nom="Apocalypse";
 	}
 	/*
-	 * effectuer une capacite d'une carte sur la partie mentione dans la parametre de ce methode
+	 * effectuer une capacite d'une carte sur la partie mentione dans la 
+	 * @param partie dans laquelle on est en train de jouer
 	 * 
 	 */
 	public void effectuerCapaciteSpecial(Partie partie){
