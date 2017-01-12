@@ -8,7 +8,10 @@ import javax.swing.JOptionPane;
 
 import com.sdz.cartes.CarteDivinite;
 import com.sdz.vue.Fenetre;
-
+/*
+ * definir les phases d'une partie, les contenues dans partie
+ * @author LE Van Phuc
+ */
 public class Partie extends Observable implements Runnable {
 	private Thread thread;
 	private int nbJoueur;
@@ -52,6 +55,10 @@ public class Partie extends Observable implements Runnable {
 	}
 
 	@Override
+	/*
+	 * Lancer le jeu
+	 * @see java.lang.Runnable#run()
+	 */
 	public void run() {
 		this.commencerPartie();
 		int numCom = -1;

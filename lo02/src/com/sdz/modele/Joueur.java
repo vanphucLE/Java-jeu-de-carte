@@ -6,7 +6,10 @@ import java.util.Observable;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.Croyant;
 import com.sdz.vue.PanelJeu;
-
+/*
+ * definir un Joueur general
+ * @author LE Van Phuc
+ */
 public abstract class Joueur extends Observable {
 	protected PanelJeu panelJeu;
 	protected Partie partie;
@@ -35,7 +38,10 @@ public abstract class Joueur extends Observable {
 		this.ptPriere = 0;
 		this.elimine=false;
 	}
-
+	/*
+	 * completer les carte en main
+	 * @param carte une variable de CarteAction
+	 */
 	public void completerCarteAction(CarteAction carte) {
 		this.laMain.completerCarteAction(carte);
 		if (!this.estBot()) {
@@ -43,35 +49,55 @@ public abstract class Joueur extends Observable {
 			this.notifyObservers();
 		}
 	}
-
+	/*
+	 * verifier si le jouerr est bot
+	 * @return une variable boolean
+	 */
 	public boolean estBot() {
 		return this.bot;
 	}
-
+	/*
+	 * verifier si le joueur est capable recevoir la point d action
+	 * @return une variable boolean
+	 */
 	public boolean getEstSetPointAction() {
 		return estSetPointAction;
 	}
-
+	
 	public void setEstSetPointAction(boolean estSetPointAction) {
 		this.estSetPointAction = estSetPointAction;
 	}
-
+	/*
+	 * prendre le id de la carte divinite 
+	 * @return une variable int
+	 */
 	public int getidCarteDivinite() {
 		return this.idCarteDivinite;
 	}
-
+	/*
+	 * verifier si le jouer peut sacrifier la carte
+	 */
 	public void setSacrifice(boolean sacrifice) {
 		this.sacrifice = sacrifice;
 	}
-
+	/*
+	 * prendre le nom de ce joueur
+	 * @return une variable string
+	 */
 	public String getNom() {
 		return this.nom;
 	}
-
+	/*
+	 * prendre le ID de ce joueur
+	 * @return une variable int
+	 */
 	public int getId() {
 		return this.id;
 	}
-
+	/*
+	 * mettre a jour point action Jour
+	 * @param ptAction une variable int
+	 */
 	public void setPtAction_Jour(int ptAction) {
 		if (this.estSetPointAction) {
 			this.ptAction_Jour = ptAction;
@@ -83,7 +109,10 @@ public abstract class Joueur extends Observable {
 	public int getPtAction_Jour() {
 		return this.ptAction_Jour;
 	}
-
+	/*
+	 * mettre a jour point action Nuit
+	 * @param ptAction une variable int
+	 */
 	public void setPtAction_Nuit(int ptAction) {
 		if (this.estSetPointAction) {
 			this.ptAction_Nuit = ptAction;
@@ -95,7 +124,10 @@ public abstract class Joueur extends Observable {
 	public int getPtAction_Nuit() {
 		return this.ptAction_Nuit;
 	}
-
+	/*
+	 * mettre a jour point action Neant
+	 * @param ptAction une variable int
+	 */
 	public void setPtAction_Neant(int ptAction) {
 		if (this.estSetPointAction) {
 			this.ptAction_Neant = ptAction;
@@ -107,7 +139,9 @@ public abstract class Joueur extends Observable {
 	public int getPtAction_Neant() {
 		return this.ptAction_Neant;
 	}
-
+	/*
+	 * set point Prieres
+	 */
 	public void setPtPriere() {
 		int sumPtPriere = 0;
 		for (LinkedList<CarteAction> listeCarte : laMain.getListeCroyantGuidee()) {

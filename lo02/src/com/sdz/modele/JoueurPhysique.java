@@ -8,7 +8,10 @@ import javax.swing.JOptionPane;
 
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.GuideSpirituel;
-
+/*
+ * definir une Joueur Physique
+ * @autor LE Van Phuc
+ */
 public class JoueurPhysique extends Joueur {
 
 	public JoueurPhysique(String nom, int age) {
@@ -17,6 +20,10 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	@Override
+	/*
+	 * permet de jouer les phases de jeu
+	 * @param partie une variable de Partie
+	 */
 	public void jouer(Partie partie) {
 		this.seDefausserCartesEtCompleter(partie);
 		this.choisirCarte(partie);
@@ -38,6 +45,11 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	@Override
+	/*
+	 * choisir carte de sacrifier
+	 * @param carte une variable de Carte Action
+	 * @see com.sdz.modele.Joueur#sacrifierCarte(com.sdz.cartes.CarteAction)
+	 */
 	public void sacrifierCarte(CarteAction carte) {
 		/*
 		 * Carte Croyant: id :1 -->37 Carte Guide Spirituel: 38-->57 Carte Deus
@@ -52,6 +64,11 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	@Override
+	/*
+	 * defausser carte et completer cartes
+	 * @param partie une variable de Partie
+	 * @see com.sdz.modele.Joueur#seDefausserCartesEtCompleter(com.sdz.modele.Partie)
+	 */
 	public void seDefausserCartesEtCompleter(Partie partie) {
 		JeuDeCartes jeuDeCartes = partie.getJeuDeCartes();
 		System.out.println("Votre Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit
@@ -75,6 +92,11 @@ public class JoueurPhysique extends Joueur {
 	}
 
 	@Override
+	/*
+	 * choisir la carte pour jouer
+	 * @param partie une variable de Partie
+	 * @see com.sdz.modele.Joueur#choisirCarte(com.sdz.modele.Partie)
+	 */
 	public void choisirCarte(Partie partie) {
 		System.out.println(partie.getEspaceCommun());
 		System.out.println("(Rappeler) Votre Point Action  (Jour: " + this.ptAction_Jour + ") | " + "(Nuit: "
@@ -95,7 +117,10 @@ public class JoueurPhysique extends Joueur {
 			}
 		}
 	}
-
+	/*
+	 * liste contient les croyants peut etre guidee
+	 * @return list des carte Action
+	 */
 	public LinkedList<CarteAction> croyantsPeutEtreGuidee() {
 		LinkedList<CarteAction> listeCroyants = new LinkedList<CarteAction>();
 		EspaceCommun espaceCommun = this.partie.getEspaceCommun();
@@ -123,6 +148,10 @@ public class JoueurPhysique extends Joueur {
 	private LinkedList<CarteAction> listeCroyantsGuidee;
 
 	// Jouer Carte GuideSpirituel
+	/*
+	 * jouer carte Guidespirituel
+	 * @param carte une variable de CarteAction
+	 */
 	public void jouerGuideSpirituel(CarteAction carte) {
 		EspaceCommun espaceCommun = this.partie.getEspaceCommun();
 		this.laMain.seDeffausserCarte(carte);
@@ -170,13 +199,20 @@ public class JoueurPhysique extends Joueur {
 		this.listeCroyantsGuidee.add(carte);
 		this.nbGuider--;
 	}
-
+	/*
+	 * jouer carte DeusEx
+	 * @param carte une variable de CarteAction
+	 */
 	public void jouerDeusEx(CarteAction carte) {
 		carte.effectuerCapaciteSpecial(this.partie);
 		
 	}
 
 	@Override
+	/*
+	 * jouer carte Apocalypse
+	 * @param carte une variable de CarteAction
+	 */
 	public void jouerApocalypse(CarteAction carte) {
 		//
 		if (partie.getEstApocalypseAvant() == 0 || partie.getEstApocalypseAvant() == -1) {

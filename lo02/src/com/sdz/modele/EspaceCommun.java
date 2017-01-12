@@ -5,22 +5,30 @@ import java.util.LinkedList;
 import java.util.Observable;
 
 import com.sdz.cartes.CarteAction;
-
+/*
+ * ce class creer une espace pour poser des cartes
+ * @author LE Van Phuc
+ */
 public class EspaceCommun extends Observable {
 	private LinkedList<CarteAction> listeCartesPret;
 	private LinkedList<CarteAction> listeCartesPoseRecent;
-
+	
 	public EspaceCommun() {
 		super();
 		listeCartesPret = new LinkedList<CarteAction>();
 		listeCartesPoseRecent = new LinkedList<CarteAction>();
 	}
-
+	/*
+	 * ajouter carte croyant 
+	 * @param carte une Variable de CarteAction
+	 */
 	// Un fois que la carte croyant est posé, elle ne peut pas être guidée
 	public void ajouterCarte(CarteAction carte) {
 		this.listeCartesPoseRecent.add(carte);
 	}
-
+	/*
+	 * ajouter carte croyant dans liste prêt a etre guidee 
+	 */
 	public void preterCartes() {
 		if (this.listeCartesPoseRecent.size() > 0) {
 			Iterator<CarteAction> it = this.listeCartesPoseRecent.iterator();
@@ -34,12 +42,17 @@ public class EspaceCommun extends Observable {
 			this.notifyObservers();
 		}
 	}
-
+	/*
+	 * notifier les observers
+	 */
 	public void notifyEspaceCommun() {
 		this.setChanged();
 		this.notifyObservers();
 	}
-
+	/*
+	 * supprimer une carte croyant depuis listeCartesPret 
+	 * @param carte une Variable de CarteAction
+	 */
 	public void supprimerCarte(CarteAction carte) {
 		this.listeCartesPret.remove(carte);
 		this.setChanged();
@@ -62,11 +75,17 @@ public class EspaceCommun extends Observable {
 		}
 		return sb.toString();
 	}
-
+	/*
+	 * prendre la variable listeCartesPret
+	 * @return une valeur de LinkedList<CarteAction>
+	 */
 	public LinkedList<CarteAction> getListeCartesPret() {
 		return this.listeCartesPret;
 	}
-
+	/*
+	 * prendre la variable listeCartesPoseRecent
+	 * @return une valeur de LinkedList<CarteAction>
+	 */
 	public LinkedList<CarteAction> getlisteCartesPoseRecent() {
 		return this.listeCartesPoseRecent;
 	}

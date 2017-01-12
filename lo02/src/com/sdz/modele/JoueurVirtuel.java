@@ -8,7 +8,10 @@ import javax.swing.JOptionPane;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.GuideSpirituel;
 import com.sdz.vue.PanelJeu;
-
+/*
+ * definir une joueurvirtuel
+ * @author TRAN Hoang
+ */
 public class JoueurVirtuel extends Joueur {
 	private Stategie stategie;
 	private EffectuerCapacite effectuerCapacite;
@@ -26,6 +29,10 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	@Override
+	/*
+	 * permet de jouer les phases de jeu
+	 * @param partie une variable de Partie
+	 */
 	public void jouer(Partie partie) {
 		System.out.println("Point Action: (Jour: " + this.ptAction_Jour + ") " + "(Nuit: " + this.ptAction_Nuit + ") "
 				+ "(Néant: " + this.ptAction_Neant + ")");
@@ -47,6 +54,11 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	@Override
+	/*
+	 * defausser carte et completer cartes
+	 * @param partie une variable de Partie
+	 * @see com.sdz.modele.Joueur#seDefausserCartesEtCompleter(com.sdz.modele.Partie)
+	 */
 	public void seDefausserCartesEtCompleter(Partie partie) {
 		JeuDeCartes jeuDeCartes = partie.getJeuDeCartes();
 		// Choisir au hasard le nombre de carte défaussée.
@@ -68,6 +80,11 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	@Override
+	/*
+	 * choisir la carte pour jouer
+	 * @param partie une variable de Partie
+	 * @see com.sdz.modele.Joueur#choisirCarte(com.sdz.modele.Partie)
+	 */
 	public void choisirCarte(Partie partie) {
 		CarteAction carteChoisi = this.stategie.choisirCarteJouer(this, partie);
 		if (carteChoisi.getId() != 0) {
@@ -93,7 +110,10 @@ public class JoueurVirtuel extends Joueur {
 			this.panelJeu.supprimmerCarteJouee();
 		}
 	}
-
+	/*
+	 * jouer carte Guidespirituel
+	 * @param carte une variable de CarteAction
+	 */
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
 		GuideSpirituel carteG = (GuideSpirituel) carte;
 		carteG.setEstSacrifie(true);
@@ -118,7 +138,10 @@ public class JoueurVirtuel extends Joueur {
 		}
 		this.laMain.ajouterGuidee(listeCroyantsGuidee, carte);
 	}
-
+	/*
+	 * jouer carte DeusEx
+	 * @param carte une variable de CarteAction
+	 */
 	private void jouerDeusEx(CarteAction carte) {
 		carte.effectuerCapaciteSpecial(this.partie);
 	}
@@ -127,7 +150,10 @@ public class JoueurVirtuel extends Joueur {
 	public void jouerApocalypse(CarteAction carte) {
 		this.jouerApocalypse();
 	}
-
+	/*
+	 * jouer carte Apocalypse
+	 * @param carte une variable de CarteAction
+	 */
 	public void jouerApocalypse() {
 		JOptionPane.showMessageDialog(null, this.nom + "a joué la carte Apocalypse!");
 		partie.setEstApocalypseAvant(-1);
@@ -184,6 +210,11 @@ public class JoueurVirtuel extends Joueur {
 	}
 
 	@Override
+	/*
+	 * choisir carte de sacrifier
+	 * @param carte une variable de Carte Action
+	 * @see com.sdz.modele.Joueur#sacrifierCarte(com.sdz.cartes.CarteAction)
+	 */
 	public void sacrifierCarte(CarteAction carte) {
 
 		// changer choisir carte

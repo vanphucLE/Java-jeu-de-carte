@@ -8,7 +8,10 @@ import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.CarteDivinite;
 import com.sdz.cartes.Croyant;
 import com.sdz.cartes.GuideSpirituel;
-
+/*
+ * contient tous les cartes en main et les utiliser
+ * @author TRAN Hoang
+ */
 public class LaMain {
 
 	private CarteDivinite carteDivinite;
@@ -28,7 +31,10 @@ public class LaMain {
 		this.listeCroyantGuidee = new LinkedList();
 		this.listeGuideSpirituelGuider = new LinkedList();
 	}
-
+	/*
+	 * prendre la liste de Carte Action dans la main
+	 * @return liste carte action
+	 */
 	public LinkedList<CarteAction> getListeCarteA() {
 		return listeCarteA;
 	}
@@ -42,11 +48,17 @@ public class LaMain {
 		this.listeGuideSpirituelGuider.add(guideSpirituel);
 		this.j.notifyLaMain();
 	}
-
+	/*
+	 * prendre la liste de Carte Divinite dans la main
+	 * @return carte divinite
+	 */
 	public CarteDivinite getCarteDivinite() {
 		return carteDivinite;
 	}
-
+	/*
+	 * reprendre la carte divinite
+	 * @param carteDivinite
+	 */
 	public void piocherDivinite(CarteDivinite carteDivinite) {
 		this.carteDivinite = carteDivinite;
 	}
@@ -62,17 +74,27 @@ public class LaMain {
 			carte.setEstSacrifie(true);
 		}
 	}
-
+	/*
+	 * prendre la liste de Carte croyant guidee dans la main
+	 * @return liste carte action
+	 */
 	public LinkedList<LinkedList<CarteAction>> getListeCroyantGuidee() {
 		return listeCroyantGuidee;
 	}
-
+	/*
+	 * prendre la liste de Carte guide sprirtuel dans la main
+	 * @return liste carte action
+	 */
 	public LinkedList<CarteAction> getListeGuideSpirituelGuider() {
 		return listeGuideSpirituelGuider;
 	}
 
 	// Un fois que le joueur se déffauser un carte, cette carte va être rétiré
 	// de la main
+	/*
+	 * defausser la carte
+	 * @param carte une variable carte action
+	 */
 	public void seDeffausserCarte(CarteAction carte) {
 		this.listeCarteA.remove(carte);
 		this.j.notifyLaMain();
