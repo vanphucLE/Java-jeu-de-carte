@@ -6,6 +6,9 @@ import com.sdz.modele.Joueur;
 import com.sdz.modele.Partie;
 
 public class Apocalypse extends CarteAction {
+	/* 
+	 *Décrire une carte Apocalypse 
+	 */
 	
 	private static final String[] origineApocalypse={"Jour","Nuit","Néant","","",""};
 	
@@ -15,7 +18,10 @@ public class Apocalypse extends CarteAction {
 		this.type="Apocalypse";
 		this.nom="Apocalypse";
 	}
-	
+	/*
+	 * effectuer une capacite d'une carte sur la partie mentione dans la parametre de ce methode
+	 * 
+	 */
 	public void effectuerCapaciteSpecial(Partie partie){
 		partie.setEstApocalypseAvant(-1);
 		int[] arPriere = new int[partie.getListeJoueurs().size() + 1];

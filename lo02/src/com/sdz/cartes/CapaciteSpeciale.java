@@ -14,7 +14,10 @@ import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.JoueurVirtuel;
 import com.sdz.modele.Partie;
 import com.sdz.modele.Stategie;
-
+/*
+ * Ce class est pour but de mettre en place des capacité special pour chaque
+ * selon son id
+ */
 public class CapaciteSpeciale {
 	// id de la carte
 	private int id;
@@ -25,7 +28,10 @@ public class CapaciteSpeciale {
 	public CapaciteSpeciale(int id) {
 		this.id = id;
 	}
-
+	/*
+	 * Ce methode pour trouver les joueurs seront empecher de sacrifier un croyant
+	 * les parametres entrées sont 2 dogmes
+	 */
 	// get liste Joueur ayant le dogme1 ou le dogme2 peut être empêché de
 	// sacrifier un croyant
 	public LinkedList<Joueur> listeJoueurPeutEtreEmpecher(String dogme1, String dogme2) {
