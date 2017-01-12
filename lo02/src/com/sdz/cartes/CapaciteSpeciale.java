@@ -14,6 +14,7 @@ import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.JoueurVirtuel;
 import com.sdz.modele.Partie;
 import com.sdz.modele.Stategie;
+
 /*
  * Ce class est pour but de mettre en place des capacité special pour chaque
  * selon son id
@@ -28,10 +29,14 @@ public class CapaciteSpeciale {
 	public CapaciteSpeciale(int id) {
 		this.id = id;
 	}
+
 	/*
-	 * Ce methode pour trouver les joueurs seront empecher de sacrifier un croyant
+	 * Ce methode pour trouver les joueurs qui peuvent être empechées de sacrifier un
+	 * croyant
+	 * 
 	 * @author TRAN Hoang, LE Van Phuc
-	 * @param dogme1, dogme2: les parametres entrées sont 2 dogmes 
+	 * 
+	 * @param dogme1, dogme2: les parametres entrées sont 2 dogmes
 	 */
 	// get liste Joueur ayant le dogme1 ou le dogme2 peut être empêché de
 	// sacrifier un croyant
@@ -62,7 +67,8 @@ public class CapaciteSpeciale {
 	// test
 	/*
 	 * ce methode est pour trouver les joueurs qui ont carte guidee
-	 * @return listeJoueurs retourner les joueurs avec la carte guidee 
+	 * 
+	 * @return listeJoueurs retourner les joueurs avec la carte guidee
 	 */
 	public LinkedList<Joueur> listeJoueurACarteGuidee() {
 		LinkedList<Joueur> listeJoueurs = new LinkedList<Joueur>();
@@ -80,9 +86,12 @@ public class CapaciteSpeciale {
 		}
 		return listeJoueurs;
 	}
+
 	/*
 	 * Choisi un joueur pour effectuer la capacite
+	 * 
 	 * @param str
+	 * 
 	 * @return id id de joueur choisi
 	 */
 	private int boxChoisiJoueur(String str) {
@@ -114,8 +123,10 @@ public class CapaciteSpeciale {
 		}
 		return idChoisi;
 	}
+
 	/*
 	 * ce methode pour creer les capaciter selon l'id de carte
+	 * 
 	 * @param partie dans laquelle on joue
 	 */
 	public void effectuerCapacite(Partie partie) {

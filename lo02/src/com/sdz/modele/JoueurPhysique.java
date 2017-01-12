@@ -136,6 +136,9 @@ public class JoueurPhysique extends Joueur {
 				if (test)
 					break;
 			}
+			if(carteA.getOrigine().equals(this.carteG.getOrigine())){
+				test=false;
+			}
 			if (test) {
 				listeCroyants.add(carteA);
 			}

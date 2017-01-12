@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import com.sdz.cartes.CarteAction;
 /*
  * Mettre en place strategie Debutant
- * @author LE Van
+ * @author LE Van Phuc
  */
 public class Expert implements Stategie {
 	/*

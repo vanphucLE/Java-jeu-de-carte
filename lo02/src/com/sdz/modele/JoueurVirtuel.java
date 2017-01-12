@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.GuideSpirituel;
 import com.sdz.vue.PanelJeu;
+
 /*
  * definir une joueurvirtuel
  * @author TRAN Hoang
@@ -31,6 +32,7 @@ public class JoueurVirtuel extends Joueur {
 	@Override
 	/*
 	 * permet de jouer les phases de jeu
+	 * 
 	 * @param partie une variable de Partie
 	 */
 	public void jouer(Partie partie) {
@@ -38,8 +40,8 @@ public class JoueurVirtuel extends Joueur {
 				+ "(Néant: " + this.ptAction_Neant + ")");
 		this.seDefausserCartesEtCompleter(partie);
 		this.choisirCarte(partie);
-		
-		//Sacrifier Carte
+
+		// Sacrifier Carte
 		int rd;
 		do {
 			rd = (int) Math.ceil(Math.random() * 2);
@@ -49,15 +51,19 @@ public class JoueurVirtuel extends Joueur {
 			this.sacrifierCroyant(this.laMain.getListeCroyantGuidee().get(0).get(0).getId(), partie);
 		}
 	}
-	public PanelJeu getPanelJeu(){
+
+	public PanelJeu getPanelJeu() {
 		return this.panelJeu;
 	}
 
 	@Override
 	/*
 	 * defausser carte et completer cartes
+	 * 
 	 * @param partie une variable de Partie
-	 * @see com.sdz.modele.Joueur#seDefausserCartesEtCompleter(com.sdz.modele.Partie)
+	 * 
+	 * @see
+	 * com.sdz.modele.Joueur#seDefausserCartesEtCompleter(com.sdz.modele.Partie)
 	 */
 	public void seDefausserCartesEtCompleter(Partie partie) {
 		JeuDeCartes jeuDeCartes = partie.getJeuDeCartes();
@@ -82,16 +88,18 @@ public class JoueurVirtuel extends Joueur {
 	@Override
 	/*
 	 * choisir la carte pour jouer
+	 * 
 	 * @param partie une variable de Partie
+	 * 
 	 * @see com.sdz.modele.Joueur#choisirCarte(com.sdz.modele.Partie)
 	 */
 	public void choisirCarte(Partie partie) {
 		CarteAction carteChoisi = this.stategie.choisirCarteJouer(this, partie);
 		if (carteChoisi.getId() != 0) {
 			System.out.println(this.nom + " a joué la carte: " + carteChoisi);
-			
+
 			this.panelJeu.dessinerPanelCarteJouee(carteChoisi);
-			
+
 			switch (carteChoisi.getType()) {
 			case "Croyant":
 				this.jouerCroyant(carteChoisi, partie.getEspaceCommun());
@@ -110,8 +118,10 @@ public class JoueurVirtuel extends Joueur {
 			this.panelJeu.supprimmerCarteJouee();
 		}
 	}
+
 	/*
 	 * jouer carte Guidespirituel
+	 * 
 	 * @param carte une variable de CarteAction
 	 */
 	private void jouerGuideSpirituel(CarteAction carte, EspaceCommun espaceCommun) {
@@ -122,10 +132,14 @@ public class JoueurVirtuel extends Joueur {
 		for (CarteAction carteA : espaceCommun.getListeCartesPret()) {
 			Boolean test = false;
 			for (String dogmeA : carteA.getDogme()) {
-				for (String dogmeD : carteG.getDogme()) {
-					if (dogmeD.equals(dogmeA)) {
-						test = true;
-						break;
+				if (carteA.getOrigine().equals(carteG.getOrigine())) {
+					test = false;
+				} else {
+					for (String dogmeD : carteG.getDogme()) {
+						if (dogmeD.equals(dogmeA)) {
+							test = true;
+							break;
+						}
 					}
 				}
 			}
@@ -138,8 +152,10 @@ public class JoueurVirtuel extends Joueur {
 		}
 		this.laMain.ajouterGuidee(listeCroyantsGuidee, carte);
 	}
+
 	/*
 	 * jouer carte DeusEx
+	 * 
 	 * @param carte une variable de CarteAction
 	 */
 	private void jouerDeusEx(CarteAction carte) {
@@ -150,8 +166,10 @@ public class JoueurVirtuel extends Joueur {
 	public void jouerApocalypse(CarteAction carte) {
 		this.jouerApocalypse();
 	}
+
 	/*
 	 * jouer carte Apocalypse
+	 * 
 	 * @param carte une variable de CarteAction
 	 */
 	public void jouerApocalypse() {
@@ -212,7 +230,9 @@ public class JoueurVirtuel extends Joueur {
 	@Override
 	/*
 	 * choisir carte de sacrifier
+	 * 
 	 * @param carte une variable de Carte Action
+	 * 
 	 * @see com.sdz.modele.Joueur#sacrifierCarte(com.sdz.cartes.CarteAction)
 	 */
 	public void sacrifierCarte(CarteAction carte) {

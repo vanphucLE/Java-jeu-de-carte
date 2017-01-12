@@ -122,7 +122,7 @@ public class Fenetre extends JFrame implements  Runnable {
 
 	public void setPanelEntree() {
 		this.setBg(new ImageIcon(strImagePathEntree));
-		ImageIcon bPlay = new ImageIcon("images/bplay.png");
+		ImageIcon bPlay = new ImageIcon("images/bplay.gif");
 		JButton button = new JButton(bPlay);
 		button.setBounds(748, 837, 418, 80);
 		getContentPane().add(button);

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 import com.sdz.modele.Partie;
+
 /*
  * Ce classe est pour creer les cartes divinite
  * @author TRAN Hoang
@@ -52,9 +53,9 @@ public class CarteDivinite extends Carte {
 	public void effectuerCapaciteSpecial(Partie partie) {
 		if (!estCapaciteSpecialUtilise) {
 			this.capacite.effectuerCapacite(partie);
-			estCapaciteSpecialUtilise=true;
-		}else{
-			if(!partie.getJoueurEncours().estBot()){
+			estCapaciteSpecialUtilise = true;
+		} else {
+			if (!partie.getJoueurEncours().estBot()) {
 				JOptionPane.showMessageDialog(null, "Vous avez utilisé cette capacité! ");
 			}
 		}

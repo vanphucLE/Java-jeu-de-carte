@@ -59,7 +59,7 @@ public class Croyant extends CarteAction {
 		this.origine = origineCroyants[id - 1];
 		this.dogme = dogmeCroyants[id - 1];
 		this.type = "Croyant";
-		this.nbCroyant=nbCroyants[id-1];
+		this.nbCroyant = nbCroyants[id - 1];
 		this.capaciteSpecial=CapaCroyant[id-1];
 		this.capacite= new CapaciteSpeciale(this.id);
 	}

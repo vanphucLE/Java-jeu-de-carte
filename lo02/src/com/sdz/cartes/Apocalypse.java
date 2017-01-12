@@ -6,26 +6,30 @@ import com.sdz.modele.Joueur;
 import com.sdz.modele.Partie;
 
 public class Apocalypse extends CarteAction {
-	/* 
-	 *Décrire une carte Apocalypse 
-	 *@author TRAN Hoang
-	 *@param id de carte
-	 */
-	
-	private static final String[] origineApocalypse={"Jour","Nuit","Néant","","",""};
-	
-	public Apocalypse(int id){
-		this.id=id;
-		this.origine=origineApocalypse[id-76];
-		this.type="Apocalypse";
-		this.nom="Apocalypse";
-	}
 	/*
-	 * effectuer une capacite d'une carte sur la partie mentione dans la 
+	 * Décrire une carte Apocalypse
+	 * 
+	 * @author TRAN Hoang
+	 * 
+	 * @param id de carte
+	 */
+
+	private static final String[] origineApocalypse = { "Jour", "Nuit", "Néant", "", "", "" };
+
+	public Apocalypse(int id) {
+		this.id = id;
+		this.origine = origineApocalypse[id - 76];
+		this.type = "Apocalypse";
+		this.nom = "Apocalypse";
+	}
+
+	/*
+	 * Class effectuerCapaciteSpecial peut effectuer une capacite d'une carte
+	 * sur la partie mentione dans la
 	 * @param partie dans laquelle on est en train de jouer
 	 * 
 	 */
-	public void effectuerCapaciteSpecial(Partie partie){
+	public void effectuerCapaciteSpecial(Partie partie) {
 		partie.setEstApocalypseAvant(-1);
 		int[] arPriere = new int[partie.getListeJoueurs().size() + 1];
 		int indice = -1;
@@ -78,7 +82,5 @@ public class Apocalypse extends CarteAction {
 			}
 		}
 	}
-	
-	
 
 }
