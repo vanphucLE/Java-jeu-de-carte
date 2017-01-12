@@ -3,9 +3,17 @@ package com.sdz.modele;
 import java.util.LinkedList;
 
 import com.sdz.cartes.CarteAction;
-
+/*
+ * Mettre en place strategie Debutant
+ * @author TRAN Hoang
+ */
 public class Debutant implements Stategie {
-
+	/*
+	 * strategie pour choisir les carte pour defausser
+	 * @param partie une variable de Partie
+	 * @return reprendre une Liste des Carte Action
+	 * @see com.sdz.modele.Stategie#choisirCartesDefausser(com.sdz.modele.Partie)
+	 */
 	public LinkedList<CarteAction> choisirCartesDefausser(Partie partie) {
 		Joueur joueurEnCours = partie.getJoueurEncours();
 		LinkedList<CarteAction> cartesRecupere = new LinkedList<CarteAction>();
@@ -21,7 +29,12 @@ public class Debutant implements Stategie {
 		}
 		return cartesRecupere;
 	}
-
+	/*
+	 * choisir id une Divinite quelconque pour mettre en place une capacite
+	 * @param partie une Variable de Partie
+	 * @return une valeur de ID d'une Divinite
+	 * @see com.sdz.modele.Stategie#choisirIdDivinite(com.sdz.modele.Partie)
+	 */
 	public int choisirIdDivinite(Partie partie) {
 		int idChoisi = 0;
 		do {
@@ -29,13 +42,24 @@ public class Debutant implements Stategie {
 		} while (idChoisi == partie.getJoueurEncours().getId() || idChoisi == 0);
 		return idChoisi;
 	}
-
+	/*
+	 * choisir une carte pour joueur
+	 * @param partie une Variable de Partie
+	 * @param jv une variable de JoueurVirtuel
+	 * @return une carte Action
+	 */
 	public CarteAction choisirCarteJouer(JoueurVirtuel jV, Partie partie) {
 		int nbCarte = (int) Math.ceil(Math.random() * 7);
 		CarteAction carteChoisi = this.carteEtPoint(jV.getLaMain().getListeCarteA().get(nbCarte - 1), jV, partie);
 		return carteChoisi;
 	}
-
+	/*
+	 * choisir la carte pour jouer et mettre a jour les point action
+	 * @param partie une Variable de Partie
+	 * @param jv une variable de JoueurVirtuel
+	 * @param carteA une variable CarteAction
+	 * @return une carte action pour jouer
+	 */
 	private CarteAction carteEtPoint(CarteAction carteA, JoueurVirtuel jV, Partie partie) {
 		CarteAction carteChoisi = new CarteAction();
 		if (carteA.getOrigine().equals("Jour") && this.testEntree(carteA, partie)) {
@@ -62,7 +86,7 @@ public class Debutant implements Stategie {
 		}
 		return carteChoisi;
 	}
-
+	
 	private Boolean testEntree(CarteAction carte, Partie partie) {
 		Boolean test = true;
 		if (carte.getType().equals("GuideSpirituel")) {

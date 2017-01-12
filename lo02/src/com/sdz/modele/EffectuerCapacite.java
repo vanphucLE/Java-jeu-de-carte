@@ -6,7 +6,9 @@ import javax.swing.JOptionPane;
 
 import com.sdz.cartes.CarteAction;
 import com.sdz.cartes.GuideSpirituel;
-
+/*
+ * Ce classe est pour effectuer la capacite des cartes
+ */
 public class EffectuerCapacite {
 	private Partie partie;
 
