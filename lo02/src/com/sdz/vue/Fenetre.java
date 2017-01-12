@@ -22,7 +22,10 @@ import com.sdz.controler.Controler;
 import com.sdz.modele.Joueur;
 import com.sdz.modele.JoueurVirtuel;
 import com.sdz.modele.Partie;
-
+/*
+ * creer l'interface de l'accueil
+ * @author LE Van Phuc
+ */
 public class Fenetre extends JFrame implements  Runnable {
 
 	public static final String strImagePathEntree = "images/fenetreEntree.PNG";
@@ -96,7 +99,7 @@ public class Fenetre extends JFrame implements  Runnable {
 		fenetreConfig = new FenetreConfig(this);
 		this.setPanelEntree();
 	}
-
+	
 	public void commencerPartie() {
 		this.thread = new Thread(this);
 		this.thread.start();
@@ -129,7 +132,7 @@ public class Fenetre extends JFrame implements  Runnable {
 			}
 		});
 	}
-
+	
 	public void setPanelJeu() {
 		this.getContentPane().removeAll();
 		// this.setBg(new ImageIcon(this.strImagePathTable));

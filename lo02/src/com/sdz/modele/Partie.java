@@ -32,7 +32,9 @@ public class Partie extends Observable implements Runnable {
 	public void setFenetre(Fenetre fenetre) {
 		this.fenetre = fenetre;
 	}
-
+	/*
+	 * inserer les index pour une partie
+	 */
 	public Partie(ArrayList<Joueur> listeJoueurs, String niveau) {
 		this.listeJoueurs = listeJoueurs;
 		this.niveau = niveau;
@@ -45,7 +47,9 @@ public class Partie extends Observable implements Runnable {
 		this.nbJoueur = this.listeJoueurs.size();
 		this.waitEntree = true;
 	}
-
+	/*
+	 * Commencer le jeu
+	 */
 	public void commencer() {
 		for (Joueur j : this.listeJoueurs) {
 			j.setPartie(this);
@@ -89,6 +93,9 @@ public class Partie extends Observable implements Runnable {
 
 	// Cette méthode est crée pour distribuer les cartes au début de la partie
 	// de jeu de carte
+	/*
+	 * Cette méthode est crée pour distribuer les cartes au début de la partie de jeu de carte
+	 */ 
 	private void commencerPartie() {
 		for (Joueur joueur : this.listeJoueurs) {
 			// Prendre une carte Divinité
@@ -100,6 +107,10 @@ public class Partie extends Observable implements Runnable {
 
 	// Déscrire les actions des joueurs dans chaque tour
 	// numCom: numéro du joueur dans listJoueurs qui commence ce tour
+	/*
+	 * Déscrire les actions des joueurs dans chaque tou
+	 * @param numcom variable de type Int
+	 */
 	private void tourDeJeu(int numCom) {
 		System.out.println(
 				"\t----------------------------------------------NOUVELLE TOUR----------------------------------------------");
@@ -176,11 +187,11 @@ public class Partie extends Observable implements Runnable {
 	}
 
 	/*
-	 * Cette clase lancerDe a objctif pour ...
+	 * ca permet de lancer le De
 	 * 
-	 * @param face
+	 * @param face est une variable de String
 	 * 
-	 * @author
+	 * 
 	 */
 	public void lancerDe(String face) {
 		if (face.equals("Jour") || face.equals("Nuit") || face.equals("Néant")) {
