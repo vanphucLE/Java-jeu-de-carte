@@ -19,6 +19,10 @@ import com.sdz.cartes.CarteAction;
 import com.sdz.modele.Joueur;
 import com.sdz.modele.JoueurVirtuel;
 
+/*
+ * Vue de joueur virtuel
+ * @author LE Van Phuc
+ */
 public abstract class PanelJV extends JPanel implements Observer {
 
 	protected JoueurVirtuel jV;

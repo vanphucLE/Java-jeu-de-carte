@@ -17,6 +17,10 @@ import javax.swing.border.Border;
 
 import com.sdz.cartes.CarteAction;
 
+/*
+ * Cette Classe est utilisé pour l'affichage la carte jouee
+ * @author LE Van Phuc
+ */
 public class PanelCarteJouee extends JPanel {
 
 	/**

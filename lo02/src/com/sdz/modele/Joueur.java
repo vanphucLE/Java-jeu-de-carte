@@ -25,7 +25,6 @@ public abstract class Joueur extends Observable {
 	protected LaMain laMain;
 	protected boolean sacrifice = true;
 	protected boolean bot;
-	// chua xu li bien setpointAction
 	protected boolean estSetPointAction = true;
 	protected String actionEnTrain;
 

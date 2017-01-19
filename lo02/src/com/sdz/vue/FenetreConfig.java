@@ -27,6 +27,11 @@ import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.JoueurVirtuel;
 import com.sdz.modele.Partie;
 
+/*
+ * Class FenetreConfig est utilisé pour créer un fenetre de configuration avant de jouer un jeu
+ * @author LE Van Phuc
+ * 
+ */
 public class FenetreConfig extends JFrame {
 	private JPanel contentPane;
 	public static JTextField txtNom;
@@ -37,6 +42,7 @@ public class FenetreConfig extends JFrame {
 	private static String niveau;
 	private Partie partie;
 	private Fenetre fenetrePrincipal;
+
 	public static String getTypeJeu() {
 		return type;
 	}
@@ -50,8 +56,8 @@ public class FenetreConfig extends JFrame {
 	}
 
 	public FenetreConfig(Fenetre fenetrePrincipal) {
-		
-		this.fenetrePrincipal=fenetrePrincipal;
+
+		this.fenetrePrincipal = fenetrePrincipal;
 
 		setIconImage(Toolkit.getDefaultToolkit().getImage("image/mt.PNG"));
 		this.setTitle("Configuration");
@@ -171,12 +177,12 @@ public class FenetreConfig extends JFrame {
 		for (int i = 0; i < nbJoueurs; i++) {
 			listeJoueurs.add(listeJoueursVirtuel.get(i));
 		}
-		//Créer nouvel jeu de carte
+		// Créer nouvel jeu de carte
 		this.partie = new Partie(listeJoueurs, niveau);
 		this.fenetrePrincipal.setCtrl(this.partie);
 		this.fenetrePrincipal.setPanelJeu();
-		
-		//Commencer le partie
+
+		// Commencer le partie
 		this.fenetrePrincipal.commencerPartie();
 	}
 

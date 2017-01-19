@@ -25,6 +25,10 @@ import com.sdz.modele.Joueur;
 import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.JoueurVirtuel;
 
+/*
+ * l'objet de cette classe va contenir tous les cartes guides spirituels et cartes Croyants lors d'un la guidee d'un carte Guide Spirituel
+ * @author LE Van Phuc
+ */
 public class FenetreGuidee extends JFrame implements Observer {
 
 	private JPanel contentPane;
@@ -75,7 +79,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 							if (!joueur.estBot()) {
 								if (action.equals("sacrifier")) {
 									ctrl.sacrifier(carte);
-								}else if (action.equals("sacrifierGuideSpirituel")) {
+								} else if (action.equals("sacrifierGuideSpirituel")) {
 									if (carte.getEstSacrifie()) {
 										ctrl.sacrifierCarte_special(joueur, carte);
 									} else {
@@ -84,7 +88,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 									}
 								} else if (action.equals("recupererGuideSpirituel")) {
 									ctrl.recupererGuideSpirituel(joueur, carte);
-								}  else if (action.equals("sacrifierGuideSpirituel")) {
+								} else if (action.equals("sacrifierGuideSpirituel")) {
 									jP.sacrifierGuideSpirit(carte.getId(), ctrl.getPartie());
 								} else if (action.equals("recupererGuideSpirituel2")) {
 									ctrl.recupererGuideSpirituel2(joueur, carte);
@@ -93,7 +97,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 								} else if (action.equals("beneficierSansSacrifier")) {
 									ctrl.beneficierSansSacrifier(carte);
 								}
-								
+
 							} else {
 								if (jP.getActionEnTrain().equals("choisirGuideSpirituelEchanger_1")) {
 									ctrl.choisirGuideSpirituelEchanger_2(carte, joueur);
@@ -101,7 +105,7 @@ public class FenetreGuidee extends JFrame implements Observer {
 									ctrl.empecherSacrifier(carte);
 								} else if (action.equals("empercherGuideSpirituelHumainSymboles")) {
 									ctrl.empecherSacrifier(carte);
-								}else if (action.equals("defausserGuideSpirituel")) {
+								} else if (action.equals("defausserGuideSpirituel")) {
 									ctrl.deffauserGuideSpirituel(joueur, carte);
 								} else if (action.equals("sacrifierGuideSpirituelCHAOS")) {
 									ctrl.sacrifierGuideSpirituelCHAOS(joueur, carte);
@@ -144,14 +148,14 @@ public class FenetreGuidee extends JFrame implements Observer {
 											JOptionPane.showMessageDialog(null,
 													"Vous ne pouvez pas sacirifier cette Carte!");
 										}
-									} 
+									}
 								} else {
 									// Panel du joueur virtuel
 									if (action.equals("empercherCroyantNatureMystique")) {
 										ctrl.empecherSacrifier(carte);
 									} else if (action.equals("empercherCroyantHumainMystique")) {
 										ctrl.empecherSacrifier(carte);
-									}else if (action.equals("beneficierCapacite")) {
+									} else if (action.equals("beneficierCapacite")) {
 										ctrl.beneficierCapacite(joueur, carte);
 									}
 								}

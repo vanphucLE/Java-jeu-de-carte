@@ -9,7 +9,6 @@ import com.sdz.modele.Partie;
  */
 public class Croyant extends CarteAction {
 	private int nbCroyant;
-	private Boolean estGuidee;
 
 	public static final String[] nomCroyants = { "Moines", "Moines", "Moines", "Moines", "Moines", "Travailleurs",
 			"Travailleurs", "Travailleurs", "Ermite", "Ermite", "Integristes", "Guerriers Saints", "Diplomates",

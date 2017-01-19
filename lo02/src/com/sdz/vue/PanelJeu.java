@@ -12,6 +12,10 @@ import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.JoueurVirtuel;
 import com.sdz.modele.Partie;
 
+/*
+ * Cette class contient tous les composant graphique d'un jeu  
+ * @author LE Van Phuc
+ */
 public class PanelJeu extends JPanel {
 	private Fenetre fenetrePc;
 	private PanelLancerDe panelLancerDe;

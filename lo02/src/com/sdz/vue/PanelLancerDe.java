@@ -23,6 +23,10 @@ import com.sdz.controler.Controler;
 import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.Partie;
 
+/*
+ * Cette classe contient le face de Dé lors d'un lacement de la dé
+ * @author LE Van Phuc
+ */
 public class PanelLancerDe extends JPanel implements Observer {
 
 	private JLabel lblDe;

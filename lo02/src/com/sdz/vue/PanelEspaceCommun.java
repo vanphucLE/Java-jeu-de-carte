@@ -26,6 +26,10 @@ import com.sdz.modele.EspaceCommun;
 import com.sdz.modele.JoueurPhysique;
 import com.sdz.modele.Partie;
 
+/*
+ * Cette Class est utilise pour afficher tous les cartes Croyant qui peut être guidé dans le tour
+ * @author LE Van Phuc
+ */
 public class PanelEspaceCommun extends JPanel implements Observer {
 
 	private EspaceCommun espaceCM;

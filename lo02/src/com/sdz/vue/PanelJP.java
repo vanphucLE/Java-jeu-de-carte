@@ -27,6 +27,10 @@ import com.sdz.controler.Controler;
 import com.sdz.modele.Joueur;
 import com.sdz.modele.JoueurPhysique;
 
+/*
+ * cette classe dessine les composants concernant au joueur physique (nom, carte obtenu,...)
+ * @author LE Van Phuc
+ */
 public class PanelJP extends JPanel implements Observer {
 
 	private JoueurPhysique jP;
@@ -34,8 +38,9 @@ public class PanelJP extends JPanel implements Observer {
 	private FenetreGuidee fenetreGuidee;
 	private LinkedList<CarteAction> listeCarteChoisi;
 
-	/**
-	 * Create the panel.
+	/*
+	 * constructeur
+	 * @author LE Van Phuc
 	 */
 	public PanelJP(JoueurPhysique jP, Controler ctrl) {
 		super();
